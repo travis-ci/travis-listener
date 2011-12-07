@@ -2,10 +2,11 @@ ENV["RAILS_ENV"] ||= 'test'
 
 require 'rack/test'
 require 'payloads'
+require 'logger'
 
 require 'travis/listener'
 
-Travis.logger = Logger.new(StringIO.new)
+Travis.logger = ::Logger.new(StringIO.new)
 
 Travis::Listener.setup
 
