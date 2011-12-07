@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe Travis::Listener::App do
   let(:app)     { subject }
-  let(:user)    { User.create!(:login => 'user').tap { |user| user.tokens.create! } }
-  let(:auth)    { ActionController::HttpAuthentication::Basic.encode_credentials(user.login, user.tokens.first.token) }
+  let(:user)    { User.create!(:login => 'user') }
+  let(:auth)    { [user.login, user.tokens.first.token] }
   let(:payload) { GITHUB_PAYLOADS['gem-release'] }
 
   before(:each) do
