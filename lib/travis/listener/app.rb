@@ -15,7 +15,7 @@ module Travis
 
       post '/:service' do
         unless service_supported?
-
+          log "#{params['service']} is not supported"
           pass
         end
         Request.create_from(request.body, token)
