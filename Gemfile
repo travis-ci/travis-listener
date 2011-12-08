@@ -29,19 +29,13 @@ gem 'silent-postgres',      '~> 0.0.8'
 gem 'unicorn',              '~> 4.1.1'
 
 group :development, :test do
-  gem 'rspec',              '~> 2.7.0'
+  gem 'rspec',                 '~> 2.7.0'
+  gem 'data_migrations',       '~> 0.0.1'
+  gem 'standalone_migrations', '~> 1.0.5'
 end
 
 group :development do
-  gem 'foreman',               '~> 0.26.1'
-  gem 'data_migrations',       '~> 0.0.1'
-  gem 'standalone_migrations', '~> 1.0.5'
-
-  unless RUBY_VERSION == '1.9.3' && RUBY_PLATFORM !~ /darwin/
-    # will need to install ruby-debug19 manually:
-    # gem install ruby-debug19 -- --with-ruby-include=$rvm_path/src/ruby-1.9.3-preview1
-    gem 'ruby-debug19', :platforms => :mri_19
-  end
+  gem 'foreman',            '~> 0.26.1'
 end
 
 group :test do
