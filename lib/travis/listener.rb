@@ -6,6 +6,7 @@ $stdout.sync = true
 module Travis
   module Listener
     def self.setup
+      Travis::Amqp.config = Travis.config.amqp
       Database.connect
     end
   end
