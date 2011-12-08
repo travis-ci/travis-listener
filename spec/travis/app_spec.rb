@@ -11,7 +11,7 @@ describe Travis::Listener::App do
   end
 
   it 'accepts payloads from github' do
-    create = lambda { post '/github', :payload => payload }
+    create = lambda { post '/github', payload }
     create.should change(Request, :count).by(1)
 
     request = Request.last
@@ -20,7 +20,7 @@ describe Travis::Listener::App do
   end
 
   it 'does not create a build record when the branch is gh_pages' do
-    create = lambda { post '/github', :payload => payload.gsub('refs/heads/master', 'refs/heads/gh_pages') }
+    create = lambda { post '/github', payload.gsub('refs/heads/master', 'refs/heads/gh_pages') }
     create.should_not change(Request, :count)
   end
 
