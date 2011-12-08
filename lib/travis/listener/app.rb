@@ -3,6 +3,8 @@ require 'sinatra'
 module Travis
   module Listener
     class App < Sinatra::Base
+      set :logging, true
+
       def service_supported?(service = params[:service])
         Request::Payload.constants.any? { |n| n.to_s.downcase == service }
       end
@@ -12,7 +14,10 @@ module Travis
       end
 
       post '/:service' do
-        pass unless service_supported?
+        unless service_supported?
+
+          pass
+        end
         Request.create_from(request.body, token)
         204
       end
