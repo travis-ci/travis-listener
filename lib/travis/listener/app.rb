@@ -13,7 +13,7 @@ module Travis
 
       post '/:service' do
         pass unless service_supported?
-        Request.create_from(request.body.read, token)
+        Request.create_from(request.body, token)
         204
       end
     end
