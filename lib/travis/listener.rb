@@ -7,6 +7,7 @@ module Travis
   module Listener
     def self.setup
       Travis::Amqp.config = Travis.config.amqp
+      Travis::Amqp.connect
       Database.connect
     end
   end

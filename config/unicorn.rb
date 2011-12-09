@@ -10,8 +10,5 @@ before_fork do |server, worker|
 end
 
 after_fork do |server, worker|
-  ActiveRecord::Base.establish_connection if defined?(ActiveRecord::Base)
-
-  require 'travis'
-  Travis::Amqp.connect
+  Travis::Listener.setup
 end
