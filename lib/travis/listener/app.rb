@@ -18,9 +18,8 @@ module Travis
           puts "#{params[:service]} is not supported"
           pass
         end
-        payload = params[:payload]
-        puts "handing ping from #{params[:service]} with payload : #{payload}"
-        ping = Request.create_from(payload, token)
+        puts "handing ping from #{params[:service]}"
+        ping = Request.create_from(params[:payload], token)
         puts "request created : #{ping.inspect}"
         204
       end
