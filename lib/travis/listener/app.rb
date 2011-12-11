@@ -15,12 +15,12 @@ module Travis
 
       post '/:service' do
         unless service_supported?
-          log "#{params[:service]} is not supported"
+          puts "#{params[:service]} is not supported"
           pass
         end
-        log "handing ping from #{params[:service]} with payload : #{request.body}"
+        puts "handing ping from #{params[:service]} with payload : #{request.body}"
         request = Request.create_from(request.body, token)
-        log "request created : #{request.inspect}"
+        puts "request created : #{request.inspect}"
         204
       end
     end
