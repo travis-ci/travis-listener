@@ -6,9 +6,9 @@ timeout 15         # restarts workers that hang for 15 seconds
 preload_app true
 
 before_fork do |server, worker|
-  ActiveRecord::Base.connection.disconnect! if defined?(ActiveRecord::Base)
+  Travis::Listener.disconnect
 end
 
 after_fork do |server, worker|
-  Travis::Listener.setup
+  Travis::Listener.connect
 end
