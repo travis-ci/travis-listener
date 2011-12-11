@@ -228,7 +228,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  amqp (~> 0.8.3)
+  amqp (~> 0.8.4)
   data_migrations (~> 0.0.1)
   database_cleaner (~> 0.6.7)
   foreman (~> 0.26.1)
