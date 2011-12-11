@@ -10,7 +10,7 @@ require 'travis/listener'
 
 Travis.logger = ::Logger.new(StringIO.new)
 
-Travis::Listener.setup
+Travis::Listener.connect
 
 
 DatabaseCleaner.strategy = :truncation
