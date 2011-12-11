@@ -9,6 +9,7 @@ module Travis
       def connect
         Travis::Amqp.config = Travis.config.amqp
         Travis::Amqp.connect
+        puts "AMQP #{Travis::Amqp.connected? ? 'connected' : 'did not connect'}"
         Database.connect
       end
 
