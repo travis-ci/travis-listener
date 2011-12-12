@@ -10,11 +10,13 @@ require 'travis/listener'
 
 Travis.logger = ::Logger.new(StringIO.new)
 
+Travis::Listener.setup
 Travis::Listener.connect
 
 
 DatabaseCleaner.strategy = :truncation
 DatabaseCleaner.clean_with :truncation
+
 
 RSpec.configure do |config|
   config.include Rack::Test::Methods
