@@ -32,7 +32,7 @@ describe Travis::Listener::App do
   it 'logs errors to airbrake if an exception is raised' do
     Request.stub(:create_from) { raise 'this error should be caught' }
     Airbrake.should_receive(:notify_or_ignore)
-    post '/github', :payload => payload
+    expect { post '/github', :payload => payload }.to raise_error
   end
 
   it 'returns 200 when checking if the app is still running' do
