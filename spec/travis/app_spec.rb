@@ -29,6 +29,12 @@ describe Travis::Listener::App do
     last_response.status.should be == 404
   end
 
+  it 'logs errors to hoptoad if an exception occurs' do
+    Request.stub(:create_from) { raise 'bang' }
+    Airbrake.should_receive(:notify_or_ignore)
+    post '/github', :payload => payload
+  end
+
   it 'returns 200 when checking if the app is still running' do
     get '/uptime'
     last_response.status.should be == 200
