@@ -10,22 +10,33 @@ describe Travis::Listener::App do
     authorize(*auth)
   end
 
-  it 'accepts payloads from github' do
-    create = lambda { post '/github', :payload => payload }
-    create.should change(Request, :count).by(1)
+  def create(opts = {})
+    lambda { post(opts[:url] || '/github', opts[:payload] || payload) }
+  end
 
+  it 'results in a 204 if the hook is accepted' do
+    create.call
+    last_response.status.should be == 204
+  end
+
+  it 'adds a new Request instance' do
+    create.should change(Request, :count).by(1)
+  end
+
+  it 'stores the payload in the new Request instance' do
+    create.call
     request = Request.last
     request.should be_created
     request.payload.should == payload
   end
 
   it 'does not create a build record when the branch is gh_pages' do
-    create = lambda { post '/github', :payload => payload.gsub('refs/heads/master', 'refs/heads/gh_pages') }
-    create.should_not change(Request, :count)
+    request = create :payload => payload.gsub('refs/heads/master', 'refs/heads/gh_pages')
+    request.should_not change(Request, :count)
   end
 
   it 'rejects payloads from unkown sites' do
-    post '/bitbucket'
+    create(:url => '/bitbucket').call
     last_response.status.should be == 404
   end
 end
