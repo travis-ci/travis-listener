@@ -21,4 +21,7 @@ DatabaseCleaner.clean_with :truncation
 RSpec.configure do |config|
   config.include Rack::Test::Methods
   config.before(:each) { DatabaseCleaner.clean }
+  config.alias_example_to :fit, :focused => true
+  config.filter_run :focused => true
+  config.run_all_when_everything_filtered = true
 end
