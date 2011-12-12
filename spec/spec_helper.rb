@@ -1,4 +1,4 @@
-ENV["RAILS_ENV"] ||= 'test'
+ENV["RACK_ENV"] ||= 'test'
 
 require 'rack/test'
 require 'payloads'
