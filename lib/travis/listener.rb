@@ -6,10 +6,9 @@ $stdout.sync = true
 module Travis
   module Listener
     class << self
-      def connect
+      def connect(amqp = false)
         Travis::Amqp.config = Travis.config.amqp
-        Travis::Amqp.connect
-        puts "AMQP #{Travis::Amqp.connected? ? 'connected' : 'did not connect'}"
+        Travis::Amqp.connect if amqp
         Database.connect
       end
 
