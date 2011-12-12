@@ -3,6 +3,8 @@ require 'sinatra'
 module Travis
   module Listener
     class App < Sinatra::Base
+      include Logging
+
       set :logging, true
 
       def service_supported?(service = params[:service])
@@ -19,12 +21,12 @@ module Travis
 
       post '/:service' do
         unless service_supported?
-          puts "#{params[:service]} is not supported"
+          info "#{params[:service]} is not supported"
           pass
         end
-        puts "handing ping from #{params[:service]}"
+        info "## Handling ping from #{params[:service]} ##"
         ping = Request.create_from(params[:payload], token)
-        puts "request created : #{ping.inspect}"
+        info "## Request created : #{ping.inspect} ##"
         204
       end
     end
