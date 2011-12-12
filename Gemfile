@@ -7,7 +7,7 @@ gem 'travis-support', :git => 'git://github.com/travis-ci/travis-support.git'
 gem 'travis-core',    :git => 'git://github.com/travis-ci/travis-core.git', :require => 'travis_core/engine'
 
 gem 'pusher',               '~> 0.8.5'
-gem 'amqp',                 '~> 0.8.3'
+gem 'amqp',                 '~> 0.8.4'
 
 # app
 # gem 'devise',             '~> 1.5.0'
