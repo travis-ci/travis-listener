@@ -12,11 +12,12 @@ module Travis
       # Airbrake error notifications
       use Airbrake::Rack
 
-
+      # Used for new relic uptime monitoring
       get '/uptime' do
         200
       end
 
+      # the main endpoint for scm services
       post '/:service' do
         unless service_supported?
           info "#{params[:service]} is not supported"
