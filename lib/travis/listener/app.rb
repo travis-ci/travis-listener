@@ -13,6 +13,10 @@ module Travis
         Rack::Auth::Basic::Request.new(env).credentials.last
       end
 
+      get '/uptime' do
+        200
+      end
+
       post '/:service' do
         unless service_supported?
           puts "#{params[:service]} is not supported"

@@ -28,4 +28,9 @@ describe Travis::Listener::App do
     post '/bitbucket'
     last_response.status.should be == 404
   end
+
+  it 'returns 200 when checking if the app is still running' do
+    get '/uptime'
+    last_response.status.should be == 200
+  end
 end
