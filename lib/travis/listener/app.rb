@@ -1,4 +1,5 @@
 require 'sinatra'
+require 'active_record'
 require 'newrelic_rpm'
 require 'airbrake'
 
