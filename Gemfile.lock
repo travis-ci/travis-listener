@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/travis-ci/travis-core.git
-  revision: 502649679cc9a71c619bb03a966300917df03ec0
+  revision: 688895ff77a553f0601a7ac56ca942919ca05ca3
   specs:
     travis-core (0.0.1)
       actionmailer_inline_css (~> 1.4.0)
@@ -12,6 +12,7 @@ GIT
       octokit (~> 0.6.5)
       omniauth
       postmark-rails (~> 0.4.1)
+      pusher (~> 0.8.5)
       rabl (~> 0.5.1)
       rails (~> 3.1.2)
       rake (~> 0.9.2.2)
@@ -103,7 +104,7 @@ GEM
     htmlentities (4.3.1)
     i18n (0.6.0)
     json (1.6.3)
-    kgio (2.6.0)
+    kgio (2.7.0)
     mail (2.3.0)
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
@@ -235,7 +236,6 @@ DEPENDENCIES
   foreman (~> 0.26.1)
   newrelic_rpm (= 3.3.1.beta2)
   pg (~> 0.11.0)
-  pusher (~> 0.8.5)
   rabl (~> 0.5.1)
   rake (~> 0.9.2.2)
   rspec (~> 2.7.0)
