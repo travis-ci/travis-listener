@@ -1,6 +1,13 @@
 GIT
+  remote: git://github.com/evanphx/puma.git
+  revision: 85440f403a39005a92f9b2a9a76e7e2dec75d103
+  specs:
+    puma (0.9.1)
+      rack (~> 1.2)
+
+GIT
   remote: git://github.com/travis-ci/travis-core.git
-  revision: 64ae60530fba13dca6e8fe7b1e7c2f423e721ea6
+  revision: 2ca91af5f4fee34aec1e7328096f9e4967c44cd8
   specs:
     travis-core (0.0.1)
       actionmailer_inline_css (~> 1.4.0)
@@ -81,7 +88,7 @@ GEM
       activerecord
       rake
     database_cleaner (0.6.7)
-    devise (1.5.2)
+    devise (1.5.3)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.0.3)
       warden (~> 1.1)
@@ -104,7 +111,6 @@ GEM
     htmlentities (4.3.1)
     i18n (0.6.0)
     json (1.6.3)
-    kgio (2.7.0)
     mail (2.3.0)
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
@@ -180,7 +186,6 @@ GEM
       rake (>= 0.8.7)
       rdoc (~> 3.4)
       thor (~> 0.14.6)
-    raindrops (0.8.0)
     rake (0.9.2.2)
     rdoc (3.12)
       json (~> 1.4)
@@ -217,10 +222,6 @@ GEM
       polyglot
       polyglot (>= 0.3.1)
     tzinfo (0.3.31)
-    unicorn (4.1.1)
-      kgio (~> 2.4)
-      rack
-      raindrops (~> 0.6)
     warden (1.1.0)
       rack (>= 1.0)
     yajl-ruby (1.1.0)
@@ -236,6 +237,7 @@ DEPENDENCIES
   foreman (~> 0.26.1)
   newrelic_rpm (= 3.3.1.beta2)
   pg (~> 0.11.0)
+  puma!
   rabl (~> 0.5.1)
   rake (~> 0.9.2.2)
   rspec (~> 2.7.0)
@@ -244,5 +246,4 @@ DEPENDENCIES
   standalone_migrations (~> 1.0.5)
   travis-core!
   travis-support!
-  unicorn (~> 4.1.1)
   yajl-ruby (~> 1.1.0)

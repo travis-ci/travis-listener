@@ -25,7 +25,7 @@ gem 'airbrake',             '~> 3.0.8'
 gem 'newrelic_rpm',         '3.3.1.beta2'
 
 # heroku
-gem 'unicorn',              '~> 4.1.1'
+gem 'puma',                 :git => 'git://github.com/evanphx/puma.git'
 
 group :development, :test do
   gem 'rspec',                 '~> 2.7.0'
