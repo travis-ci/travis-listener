@@ -9,7 +9,7 @@ module Travis
       include Logging
 
       # use Rack::CommonLogger for request logging
-      set :logging, true
+      enable :logging
 
       # Airbrake error notifications
       use Airbrake::Rack
