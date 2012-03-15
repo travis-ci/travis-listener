@@ -6,6 +6,15 @@ GIT
       rack (>= 1.2, < 2.0)
 
 GIT
+  remote: git://github.com/mattmatt/metriks.git
+  revision: 23482212ec6676bfde20dae70760f80778bf6e77
+  ref: source
+  specs:
+    metriks (0.8.0)
+      atomic (~> 1.0)
+      hitimes (~> 1.1)
+
+GIT
   remote: git://github.com/travis-ci/travis-core.git
   revision: d102cb42557cef23194290601e688a38ef5b3a61
   specs:
@@ -72,6 +81,7 @@ GEM
       amq-protocol (~> 0.8.4)
       eventmachine
     arel (3.0.2)
+    atomic (1.0.0)
     bcrypt-ruby (3.0.1)
     builder (3.0.0)
     data_migrations (0.0.1)
@@ -97,6 +107,7 @@ GEM
     hashie (1.2.0)
     hashr (0.0.19)
     hike (1.2.1)
+    hitimes (1.1.1)
     i18n (0.6.0)
     journey (1.0.3)
     json (1.6.5)
@@ -210,6 +221,7 @@ DEPENDENCIES
   data_migrations (~> 0.0.1)
   database_cleaner (~> 0.6.7)
   foreman (~> 0.26.1)
+  metriks!
   newrelic_rpm (= 3.3.1.beta2)
   pg (~> 0.11.0)
   puma!

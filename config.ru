@@ -1,4 +1,4 @@
-$LOAD_PATH.unshift 'lib'
+$:.unshift File.expand_path('../lib', __FILE__)
 
 require 'travis/listener'
 
