@@ -9,10 +9,11 @@ module Travis
       include Logging
 
       # use Rack::CommonLogger for request logging
-      enable :logging
+      enable :logging, :dump_errors
 
-      # Airbrake error notifications
-      use Airbrake::Rack
+      # wouldn't work without `enable :raise_errors`
+      # # Airbrake error notifications
+      # use Airbrake::Rack
 
       # Used for new relic uptime monitoring
       get '/uptime' do
