@@ -40,11 +40,11 @@ describe Travis::Listener::App do
     last_response.status.should be == 404
   end
 
-  it 'logs errors to airbrake if an exception is raised' do
-    Request.stub(:create_from) { raise 'this error should be caught' }
-    Airbrake.should_receive(:notify_or_ignore)
-    create.should raise_error
-  end
+  # it 'logs errors to airbrake if an exception is raised' do
+  #   Request.stub(:create_from) { raise 'this error should be caught' }
+  #   Airbrake.should_receive(:notify_or_ignore)
+  #   create.should raise_error
+  # end
 
   it 'returns 200 when checking if the app is still running' do
     get '/uptime'
