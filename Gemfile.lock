@@ -15,8 +15,9 @@ GIT
       hitimes (~> 1.1)
 
 GIT
-  remote: git://github.com/travis-ci/travis-core.git
-  revision: 8f515aadcd016fe8c2a6fc957f2570ba93203d4b
+  remote: git://github.com/travis-ci/travis-core
+  revision: 99d1e83c075a1254e6a7edae964d2f90cdfd3b23
+  ref: magnum
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.2.1)
@@ -36,8 +37,8 @@ GIT
       thor (~> 0.14.6)
 
 GIT
-  remote: git://github.com/travis-ci/travis-support.git
-  revision: a073badfd7018e532e502792a065924cf68539b0
+  remote: git://github.com/travis-ci/travis-support
+  revision: 474686c452d21a46e503b537ef052405dad76649
   specs:
     travis-support (0.0.1)
 
