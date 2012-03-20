@@ -1,4 +1,10 @@
 GIT
+  remote: git://gist.github.com/2087829.git
+  revision: c766c06b0bdbda3bd96c3f4e376249cafcbbfaaa
+  specs:
+    micro_migrations (0.0.1)
+
+GIT
   remote: git://github.com/evanphx/puma.git
   revision: dac074db6efb3c3f1402baeb8f441513a7efe39d
   specs:
@@ -199,9 +205,6 @@ GEM
       hike (~> 1.2)
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
-    standalone_migrations (1.0.8)
-      activerecord (>= 3)
-      rake
     term-ansicolor (1.0.7)
     thor (0.14.6)
     tilt (1.3.3)
@@ -223,6 +226,7 @@ DEPENDENCIES
   database_cleaner (~> 0.6.7)
   foreman (~> 0.26.1)
   metriks!
+  micro_migrations!
   newrelic_rpm (= 3.3.1.beta2)
   pg (~> 0.11.0)
   puma!
@@ -231,7 +235,6 @@ DEPENDENCIES
   rspec (~> 2.7.0)
   silent-postgres (~> 0.0.8)
   sinatra (~> 1.3.1)
-  standalone_migrations (~> 1.0.5)
   travis-core!
   travis-support!
   yajl-ruby (~> 1.1.0)
