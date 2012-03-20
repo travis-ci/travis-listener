@@ -30,9 +30,14 @@ describe Travis::Listener::App do
     request.payload.should == payload
   end
 
-  it 'does not create a build record when the branch is gh_pages' do
+  it 'creates a configure job when the payload is acceptable' do
+    request = create :payload => payload
+    request.should change(Job::Configure, :count)
+  end
+
+  it 'does not create a configure job when the branch is gh_pages' do
     request = create :payload => payload.gsub('refs/heads/master', 'refs/heads/gh_pages')
-    request.should_not change(Request, :count)
+    request.should_not change(Job::Configure, :count)
   end
 
   it 'rejects payloads from unkown sites' do
