@@ -35,8 +35,9 @@ gem 'puma',                 :git => 'git://github.com/evanphx/puma.git'
 group :development, :test do
   gem 'rspec',                 '~> 2.7.0'
   gem 'data_migrations',       '~> 0.0.1'
-  gem 'standalone_migrations', '~> 1.0.5'
+  gem 'micro_migrations', :git => 'git://gist.github.com/2087829.git'
 end
+
 
 group :development do
   gem 'foreman',            '~> 0.26.1'
