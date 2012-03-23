@@ -26,7 +26,6 @@ gem 'pg',                   '~> 0.11.0'
 gem 'silent-postgres',      '~> 0.0.8'
 
 # apis
-gem 'airbrake',             '~> 3.0.8'
 gem 'newrelic_rpm',         '3.3.1.beta2'
 
 # heroku

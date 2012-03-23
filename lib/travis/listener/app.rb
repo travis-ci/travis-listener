@@ -1,7 +1,6 @@
 require 'sinatra'
 require 'active_record'
 require 'newrelic_rpm'
-require 'airbrake'
 
 module Travis
   module Listener
@@ -10,10 +9,6 @@ module Travis
 
       # use Rack::CommonLogger for request logging
       enable :logging, :dump_errors
-
-      # wouldn't work without `enable :raise_errors`
-      # # Airbrake error notifications
-      # use Airbrake::Rack
 
       # Used for new relic uptime monitoring
       get '/uptime' do
