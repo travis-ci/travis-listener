@@ -16,22 +16,14 @@ module Travis
       end
 
       # the main endpoint for scm services
-      post '/:service' do
-        unless service_supported?
-          info "#{params[:service]} is not supported"
-          pass
-        end
-        info "## Handling ping from #{params[:service]} ##"
+      post '/' do
+        info "## Handling ping ##"
         ping = Request.create_from(params[:payload], token)
         info "## Request created : #{ping.inspect} ##"
         204
       end
 
       protected
-
-      def service_supported?(service = params[:service])
-        Request::Payload.constants.any? { |n| n.to_s.downcase == service }
-      end
 
       def token
         Rack::Auth::Basic::Request.new(env).credentials.last
