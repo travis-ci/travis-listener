@@ -17,6 +17,9 @@ gem 'amqp',                 '~> 0.9'
 # gem 'devise',             '~> 1.5.0'
 # gem 'omniauth-github',    '~> 1.0.0'
 
+# backports 2.5.0 breaks rails routes
+gem 'backports',            '2.4.0'
+
 # structures
 gem 'yajl-ruby',            '~> 1.1.0'
 gem 'rabl',                 '~> 0.5.1'

@@ -22,7 +22,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core
-  revision: f84006111eef13880328333dbc330406e3d87ae9
+  revision: 6bb867e5cff47d5adbc559157cec262a2acda2dd
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.2.1)
@@ -86,7 +86,7 @@ GEM
       eventmachine
     arel (3.0.2)
     atomic (1.0.0)
-    backports (2.3.0)
+    backports (2.4.0)
     bcrypt-ruby (3.0.1)
     builder (3.0.0)
     data_migrations (0.0.1)
@@ -119,7 +119,7 @@ GEM
     hitimes (1.1.1)
     i18n (0.6.0)
     journey (1.0.3)
-    json (1.6.5)
+    json (1.6.6)
     mail (2.4.4)
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
@@ -150,7 +150,7 @@ GEM
     omniauth (1.0.3)
       hashie (~> 1.2)
       rack
-    orm_adapter (0.0.6)
+    orm_adapter (0.0.7)
     pg (0.13.2)
     polyglot (0.3.3)
     postmark (0.9.10)
@@ -223,6 +223,7 @@ PLATFORMS
 
 DEPENDENCIES
   amqp (~> 0.9)
+  backports (= 2.4.0)
   data_migrations (~> 0.0.1)
   database_cleaner (~> 0.6.7)
   foreman (~> 0.26.1)
