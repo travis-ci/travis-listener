@@ -1,6 +1,6 @@
 source :rubygems
 
-gem 'travis-core',    git: 'git://github.com/travis-ci/travis-core', require: 'travis/engine', branch: 'add-owners'
+gem 'travis-core',    git: 'git://github.com/travis-ci/travis-core', require: 'travis/engine'
 gem 'travis-support', git: 'git://github.com/travis-ci/travis-support'
 
 gem 'metriks',        git: 'git://github.com/mattmatt/metriks.git', ref: 'source'
@@ -28,7 +28,7 @@ gem 'newrelic_rpm',         '~> 3.3.2'
 gem 'gh'
 
 # heroku
-gem 'puma',                 git: 'git://github.com/evanphx/puma.git'
+gem 'unicorn',              '~> 4.1.1'
 
 group :development, :test do
   gem 'rspec',              '~> 2.9'
