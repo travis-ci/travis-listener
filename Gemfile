@@ -8,11 +8,6 @@ gem 'metriks',        git: 'git://github.com/mattmatt/metriks.git', ref: 'source
 gem 'sinatra',              '~> 1.3.1'
 gem 'rake',                 '~> 0.9.2.2'
 gem 'amqp',                 '~> 0.9'
-gem 'rollout',              '~> 1.1.0'
-
-# app
-# gem 'devise',             '~> 1.5.0'
-# gem 'omniauth-github',    '~> 1.0.0'
 
 # backports 2.5.0 breaks rails routes
 gem 'backports',            '2.4.0'
