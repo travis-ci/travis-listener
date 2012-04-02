@@ -1,5 +1,5 @@
 require 'sinatra'
-require 'active_record'
+require 'travis/support/logging'
 require 'newrelic_rpm'
 
 module Travis
@@ -18,15 +18,23 @@ module Travis
       # the main endpoint for scm services
       post '/' do
         info "## Handling ping ##"
-        ping = Request.create_from(params[:payload], token)
-        info "## Request created : #{ping.inspect} ##"
+
+        requests.publish({ :credentials => credentials, :request => params[:payload]})
+
+        info "## Request created : #{params[:payload].inspect} ##"
+
         204
       end
 
       protected
 
-      def token
-        Rack::Auth::Basic::Request.new(env).credentials.last
+      def requests
+        @requests ||= Travis::Amqp::Publisher.builds('builds.requests')
+      end
+
+      def credentials
+        login, token = Rack::Auth::Basic::Request.new(env).credentials
+        { :login => login, :token => token }
       end
     end
   end
