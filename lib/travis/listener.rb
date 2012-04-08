@@ -18,7 +18,6 @@ module Travis
       def setup
         Travis.logger
         Travis::Amqp.config = Travis.config.amqp
-        puts "AMQP config : #{Travis::Amqp.config.inspect}"
       end
 
       def connect(amqp = false)
