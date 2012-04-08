@@ -21,7 +21,7 @@ module Travis
 
         data = MultiJson.encode({
           :credentials => credentials,
-          :request => params[:payload]
+          :request => payload
         })
 
         requests.publish(data, :type => 'request')
@@ -40,6 +40,10 @@ module Travis
       def credentials
         login, token = Rack::Auth::Basic::Request.new(env).credentials
         { :login => login, :token => token }
+      end
+
+      def payload
+        MultiJson.decode(params[:payload])
       end
     end
   end
