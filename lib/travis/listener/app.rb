@@ -24,7 +24,7 @@ module Travis
           :request => params[:payload]
         })
 
-        requests.publish(data, :properties => { :type => 'request' })
+        requests.publish(data, :type => 'request')
 
         # info "## Request created : #{params[:payload].inspect} ##"
 
