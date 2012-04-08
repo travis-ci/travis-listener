@@ -19,10 +19,10 @@ module Travis
       post '/' do
         # info "## Handling ping ##"
 
-        data = MultiJson.encode({
+        data = {
           :credentials => credentials,
           :request => payload
-        })
+        }
 
         requests.publish(data, :type => 'request')
 
