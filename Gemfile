@@ -1,6 +1,6 @@
 source :rubygems
 
-gem 'travis-support', git: 'git://github.com/travis-ci/travis-support'
+gem 'travis-support', git: 'git://github.com/travis-ci/travis-support', branch: 'bunny'
 
 gem 'metriks',        git: 'git://github.com/mattmatt/metriks', ref: 'source'
 

@@ -9,7 +9,8 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-support
-  revision: 9f18805837314321d75ac24ca90705fcdb91b855
+  revision: af87d9834c3f24d952672ec1a1c1489d60814813
+  branch: bunny
   specs:
     travis-support (0.0.1)
 
