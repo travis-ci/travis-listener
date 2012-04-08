@@ -17,7 +17,7 @@ module Travis
 
       # the main endpoint for scm services
       post '/' do
-        info "## Handling ping ##"
+        # info "## Handling ping ##"
 
         data = MultiJson.encode({
           :credentials => credentials,
@@ -26,7 +26,7 @@ module Travis
 
         requests.publish(data, :properties => { :type => 'request' })
 
-        info "## Request created : #{params[:payload].inspect} ##"
+        # info "## Request created : #{params[:payload].inspect} ##"
 
         204
       end
