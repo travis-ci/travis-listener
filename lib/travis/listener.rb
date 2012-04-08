@@ -16,6 +16,7 @@ module Travis
   module Listener
     class << self
       def setup
+        Travis.logger
         Travis::Amqp.config = Travis.config.amqp
       end
 
