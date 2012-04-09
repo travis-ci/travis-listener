@@ -17,9 +17,9 @@ module Travis
 
       # the main endpoint for scm services
       post '/' do
-        info "## Handling ping for #{credentials.inspect} ##"
+        info "Handling ping for #{credentials.inspect}"
         requests.publish(data, :type => 'request')
-        debug "## Request created : #{payload.inspect} ##"
+        debug "Request created : #{payload.inspect}"
         204
       end
 
