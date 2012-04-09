@@ -18,16 +18,19 @@ module Travis
       # the main endpoint for scm services
       post '/' do
         info "## Handling ping ##"
-        data = {
-          :credentials => credentials,
-          :request => payload
-        }
         requests.publish(data, :type => 'request')
         info "## Request created : #{params[:payload].inspect} ##"
         204
       end
 
       protected
+
+      def data
+        {
+          :credentials => credentials,
+          :request => payload
+        }
+      end
 
       def requests
         @requests ||= Travis::Amqp::Publisher.builds('builds.requests')
