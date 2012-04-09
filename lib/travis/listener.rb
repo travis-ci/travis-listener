@@ -6,8 +6,6 @@ $stdout.sync = true
 
 module Travis
   class << self
-    attr_accessor :logger
-
     def config
       @config ||= Config.new
     end
@@ -16,7 +14,6 @@ module Travis
   module Listener
     class << self
       def setup
-        Travis.logger
         Travis::Amqp.config = Travis.config.amqp
       end
 
