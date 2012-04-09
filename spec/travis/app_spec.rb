@@ -19,8 +19,7 @@ describe Travis::Listener::App do
   end
 
   it 'queues a requests job with AMQP' do
-    payload = MultiJson.encode(QUEUE_PAYLOAD)
-    Travis::Amqp::Publisher.any_instance.should_receive(:publish).with(payload, :type => 'request')
+    Travis::Amqp::Publisher.any_instance.should_receive(:publish).with(QUEUE_PAYLOAD, :type => 'request')
     create
   end
 

@@ -43,7 +43,7 @@ module Travis
       end
 
       def payload
-        MultiJson.decode(params[:payload])
+        params[:payload]
       end
     end
   end
