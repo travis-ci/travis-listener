@@ -3,7 +3,7 @@ source :rubygems
 gem 'travis-core',    git: 'git://github.com/travis-ci/travis-core', require: 'travis/engine'
 gem 'travis-support', git: 'git://github.com/travis-ci/travis-support'
 
-gem 'metriks',        git: 'git://github.com/mattmatt/metriks.git', ref: 'source'
+gem 'metriks',        git: 'git://github.com/mattmatt/metriks', ref: 'source'
 
 gem 'sinatra',              '~> 1.3.1'
 gem 'rake',                 '~> 0.9.2.2'
