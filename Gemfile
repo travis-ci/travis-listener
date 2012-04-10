@@ -7,7 +7,7 @@ gem 'metriks',        git: 'git://github.com/mattmatt/metriks', ref: 'source'
 
 gem 'sinatra',              '~> 1.3.1'
 gem 'rake',                 '~> 0.9.2.2'
-gem 'amqp',                 '~> 0.9'
+gem 'bunny',                '~> 0.7.9'
 
 # backports 2.5.0 breaks rails routes
 gem 'backports',            '2.4.0'
