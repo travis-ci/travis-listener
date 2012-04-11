@@ -1,9 +1,16 @@
-require 'travis'
+require 'travis/support'
+require 'travis/listener/config'
 require 'travis/listener/app'
 
 $stdout.sync = true
 
 module Travis
+  class << self
+    def config
+      @config ||= Config.new
+    end
+  end
+
   module Listener
     class << self
       def setup
@@ -12,11 +19,10 @@ module Travis
 
       def connect(amqp = false)
         Travis::Amqp.connect if amqp
-        Database.connect
       end
 
       def disconnect
-        ActiveRecord::Base.connection.disconnect!
+        # empty for now
       end
     end
   end
