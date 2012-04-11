@@ -2,8 +2,7 @@ require 'spec_helper'
 
 describe Travis::Listener::App do
   let(:app)     { subject }
-  let(:user)    { User.create!(:login => 'user') }
-  let(:auth)    { [user.login, user.tokens.first.token] }
+  let(:auth)    { ['user', '12345'] }
   let(:payload) { GITHUB_PAYLOADS['gem-release'] }
 
   before(:each) do
@@ -11,33 +10,17 @@ describe Travis::Listener::App do
   end
 
   def create(opts = {})
-    lambda { post(opts[:url] || '/', :payload => (opts[:payload] || payload)) }
+    post(opts[:url] || '/', :payload => (opts[:payload] || payload))
   end
 
   it 'results in a 204 if the hook is accepted' do
-    create.call
+    create
     last_response.status.should be == 204
   end
 
-  it 'adds a new Request instance' do
-    create.should change(Request, :count).by(1)
-  end
-
-  it 'stores the payload in the new Request instance' do
-    create.call
-    request = Request.last
-    request.should be_created
-    request.payload.should == payload
-  end
-
-  it 'creates a configure job when the payload is acceptable' do
-    request = create :payload => payload
-    request.should change(Job::Configure, :count)
-  end
-
-  it 'does not create a configure job when the branch is gh_pages' do
-    request = create :payload => payload.gsub('refs/heads/master', 'refs/heads/gh_pages')
-    request.should_not change(Job::Configure, :count)
+  it 'queues a requests job with AMQP' do
+    Travis::Amqp::Publisher.any_instance.should_receive(:publish).with(QUEUE_PAYLOAD, :type => 'request')
+    create
   end
 
   it 'returns 200 when checking if the app is still running' do
