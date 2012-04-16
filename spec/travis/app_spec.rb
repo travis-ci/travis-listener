@@ -10,7 +10,9 @@ describe Travis::Listener::App do
   end
 
   def create(opts = {})
-    post(opts[:url] || '/', :payload => (opts[:payload] || payload))
+    params  = { :payload => (opts[:payload] || payload) }
+    headers = { 'HTTP_X_GITHUB_EVENT' => 'push' }
+    post(opts[:url] || '/', params, headers)
   end
 
   it 'results in a 204 if the hook is accepted' do
