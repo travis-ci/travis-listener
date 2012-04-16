@@ -27,6 +27,7 @@ GITHUB_PAYLOADS = {
 }
 
 QUEUE_PAYLOAD = {
+  :type => 'push',
   :credentials => {
     :login => "user",
     :token => "12345"
