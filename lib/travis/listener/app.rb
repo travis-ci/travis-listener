@@ -27,10 +27,14 @@ module Travis
 
       def data
         {
-          :type => env['HTTP_X_GITHUB_EVENT'],
+          :type => event_type,
           :credentials => credentials,
           :request => payload
         }
+      end
+
+      def event_type
+        env['HTTP_X_GITHUB_EVENT'] || 'push'
       end
 
       def requests
