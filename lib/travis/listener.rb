@@ -21,7 +21,12 @@ module Travis
 
         if ENV['RACK_ENV'] == "production"
           puts 'Starting reporter'
-          $metriks_reporter = Metriks::Reporter::Logger.new(:logger => Logger.new($stdout))
+          formatter = lambda do |severity, date, progname, message|
+            message
+          end
+          logger = Logger.new($stdout)
+          logger.formatter = formatter
+          $metriks_reporter = Metriks::Reporter::Logger.new(:logger => logger)
         end
       end
 
