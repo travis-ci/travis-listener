@@ -26,7 +26,6 @@ module Travis
           end
           logger = Logger.new($stdout)
           logger.formatter = formatter
-          Metriks.meter('bla').mark
           $metriks_reporter = Metriks::Reporter::Logger.new(:logger => logger, :on_error => lambda{|ex| puts ex})
         end
       end
