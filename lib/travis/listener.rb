@@ -1,6 +1,7 @@
 require 'travis/support'
 require 'travis/listener/config'
 require 'travis/listener/app'
+require 'logger'
 require 'metriks'
 require 'metriks/reporter/logger'
 
@@ -20,7 +21,7 @@ module Travis
 
         if ENV['RACK_ENV'] == "production"
           puts 'Starting reporter'
-          $metriks_reporter = Metriks::Reporter::Logger.new
+          $metriks_reporter = Metriks::Reporter::Logger.new(:logger => Logger.new($stdout))
         end
       end
 
