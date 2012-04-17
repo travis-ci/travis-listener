@@ -2,8 +2,7 @@ source :rubygems
 
 gem 'travis-support', git: 'git://github.com/travis-ci/travis-support'
 
-gem 'metriks',        git: 'git://github.com/mattmatt/metriks', ref: 'source'
-
+gem 'metriks',              '~> 0.9.7.3'
 gem 'sinatra',              '~> 1.3.1'
 gem 'rake',                 '~> 0.9.2.2'
 gem 'bunny',                '~> 0.7.9'

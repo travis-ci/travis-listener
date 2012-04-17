@@ -22,11 +22,12 @@ module Travis
         if ENV['RACK_ENV'] == "production"
           puts 'Starting reporter'
           formatter = lambda do |severity, date, progname, message|
-            message
+            "#{message}\n"
           end
           logger = Logger.new($stdout)
           logger.formatter = formatter
-          $metriks_reporter = Metriks::Reporter::Logger.new(:logger => logger)
+          Metriks.meter('bla').mark
+          $metriks_reporter = Metriks::Reporter::Logger.new(:logger => logger, :on_error => lambda{|ex| puts ex})
         end
       end
 
