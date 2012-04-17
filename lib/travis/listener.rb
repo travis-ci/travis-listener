@@ -1,6 +1,8 @@
 require 'travis/support'
 require 'travis/listener/config'
 require 'travis/listener/app'
+require 'metriks'
+require 'metriks/reporter/logger'
 
 $stdout.sync = true
 
@@ -15,6 +17,11 @@ module Travis
     class << self
       def setup
         Travis::Amqp.config = Travis.config.amqp
+
+        if ENV['RACK_ENV'] == "production"
+          puts 'Starting reporter'
+          $metriks_reporter = Metriks::Reporter::Logger.new
+        end
       end
 
       def connect(amqp = false)
