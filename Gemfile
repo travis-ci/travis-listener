@@ -1,5 +1,7 @@
 source :rubygems
 
+ruby '1.9.3'
+
 gem 'travis-support', git: 'git://github.com/travis-ci/travis-support'
 
 gem 'metriks',              '~> 0.9.7.3'
