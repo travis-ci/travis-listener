@@ -32,6 +32,6 @@ QUEUE_PAYLOAD = {
     :login => "user",
     :token => "12345"
   },
-  :request => GITHUB_PAYLOADS['gem-release']
+  :payload => GITHUB_PAYLOADS['gem-release']
 }
 
