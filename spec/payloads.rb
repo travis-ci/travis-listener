@@ -32,6 +32,7 @@ QUEUE_PAYLOAD = {
     :login => "user",
     :token => "12345"
   },
-  :payload => GITHUB_PAYLOADS['gem-release']
+  :payload => GITHUB_PAYLOADS['gem-release'],
+  :uuid => Travis.uuid
 }
 

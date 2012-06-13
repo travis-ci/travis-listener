@@ -1,12 +1,12 @@
 ENV["RACK_ENV"] ||= 'test'
 
 require 'rack/test'
-require 'payloads'
 require 'logger'
 require 'webmock/rspec'
 
 require 'travis/listener'
 require 'support/webmock'
+require 'payloads'
 
 Travis.logger = ::Logger.new(StringIO.new)
 

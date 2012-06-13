@@ -29,7 +29,8 @@ module Travis
         {
           :type => event_type,
           :credentials => credentials,
-          :payload => payload
+          :payload => payload,
+          :uuid => Travis.uuid
         }
       end
 
