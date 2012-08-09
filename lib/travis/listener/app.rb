@@ -10,6 +10,9 @@ module Travis
       # use Rack::CommonLogger for request logging
       enable :logging, :dump_errors
 
+      # see https://github.com/github/github-services/blob/master/services/travis.rb#L1-2
+      set :events, %w[push pull_request]
+
       # Used for new relic uptime monitoring
       get '/uptime' do
         200
@@ -17,13 +20,17 @@ module Travis
 
       # the main endpoint for scm services
       post '/' do
-        info "Handling ping for #{credentials.inspect}"
-        requests.publish(data, :type => 'request')
-        debug "Request created : #{payload.inspect}"
+        handle_event if settings.events.include? event_type
         204
       end
 
       protected
+
+      def handle_event
+        info "Handling ping for #{credentials.inspect}"
+        requests.publish(data, :type => 'request')
+        debug "Request created: #{payload.inspect}"
+      end
 
       def data
         {
