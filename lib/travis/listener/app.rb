@@ -65,7 +65,7 @@ module Travis
       end
 
       def sidekiq_active?
-        redis.get('features:build_requests_via_sidekiq:enabled') == '1'
+        $redis.get('features:build_requests_via_sidekiq:enabled') == '1'
       end
     end
   end

@@ -46,7 +46,7 @@ describe Travis::Listener::App do
 
     it "shouldn't push the message to amqp" do
       Travis::Amqp::Publisher.any_instance.should_not_receive(:publish)
-     create 
+      create 
     end
   end
 end
