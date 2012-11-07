@@ -40,7 +40,8 @@ module Travis
             :notifications => [],
             :queues        => [],
             :ssl           => {},
-            :redis         => {:url => 'redis://localhost:6379'}
+            :redis         => {:url => 'redis://localhost:6379'},
+            :sentry        => {:dsn => ''}
 
     default :_access => [:key]
 

@@ -5,4 +5,5 @@ require 'travis/listener'
 Travis::Listener.setup
 Travis::Listener.connect
 
+use Raven::Rack
 run Travis::Listener::App

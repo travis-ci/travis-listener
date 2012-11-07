@@ -10,6 +10,7 @@ gem 'sinatra',              '~> 1.3.1'
 gem 'rake',                 '~> 0.9.2.2'
 gem 'bunny',                '~> 0.7.9'
 gem 'redis'
+gem "sentry-raven", github: "getsentry/raven-ruby"
 
 gem 'activesupport',        '~> 3.2.3'
 gem 'hashr',                '~> 0.0.19'
