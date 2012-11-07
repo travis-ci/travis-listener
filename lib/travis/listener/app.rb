@@ -2,7 +2,6 @@ require 'sinatra'
 require 'travis/support/logging'
 require 'travis/sidekiq/build_request'
 require 'newrelic_rpm'
-require 'redis'
 
 module Travis
   module Listener

@@ -1,6 +1,12 @@
 require 'spec_helper'
 
 describe Travis::Listener::App do
+  class Travis::Amqp::Publisher
+    def publish(payload, queue)
+
+    end
+  end
+
   let(:app)     { subject }
   let(:auth)    { ['user', '12345'] }
   let(:payload) { GITHUB_PAYLOADS['gem-release'] }
