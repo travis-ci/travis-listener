@@ -66,8 +66,6 @@ module Travis
 
       def sidekiq_active?
         redis.get('features:build_requests_via_sidekiq:enabled') == '1'
-      rescue 
-        true
       end
     end
   end
