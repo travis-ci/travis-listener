@@ -4,6 +4,7 @@ require 'travis/listener/app'
 require 'logger'
 require 'metriks'
 require 'metriks/reporter/logger'
+require 'sidekiq'
 
 $stdout.sync = true
 
@@ -18,6 +19,9 @@ module Travis
     class << self
       def setup
         Travis::Amqp.config = Travis.config.amqp
+        ::Sidekiq.configure_client do |config|
+          config.redis = Travis.config.redis.merge(size: 1, namespace: 'sidekiq')
+        end
 
         if ENV['RACK_ENV'] == "production"
           puts 'Starting reporter'
@@ -32,6 +36,7 @@ module Travis
 
       def connect(amqp = false)
         Travis::Amqp.connect if amqp
+        $redis = Redis.new(Travis.config.redis)
       end
 
       def disconnect

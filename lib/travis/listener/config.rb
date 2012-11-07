@@ -39,7 +39,8 @@ module Travis
             :async         => {},
             :notifications => [],
             :queues        => [],
-            :ssl           => {}
+            :ssl           => {},
+            :redis         => {:url => 'redis://localhost:6379'}
 
     default :_access => [:key]
 

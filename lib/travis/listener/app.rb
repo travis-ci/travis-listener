@@ -1,6 +1,8 @@
 require 'sinatra'
 require 'travis/support/logging'
+require 'travis/sidekiq/build_request'
 require 'newrelic_rpm'
+require 'redis'
 
 module Travis
   module Listener
@@ -28,7 +30,11 @@ module Travis
 
       def handle_event
         info "Handling ping for #{credentials.inspect}"
-        requests.publish(data, :type => 'request')
+        if sidekiq_active?
+          Travis::Sidekiq::BuildRequest.perform_async(data)
+        else
+          requests.publish(data, :type => 'request')
+        end
         debug "Request created: #{payload.inspect}"
       end
 
@@ -56,6 +62,12 @@ module Travis
 
       def payload
         params[:payload]
+      end
+
+      def sidekiq_active?
+        redis.get('features:build_requests_via_sidekiq:enabled') == '1'
+      rescue 
+        true
       end
     end
   end

@@ -4,7 +4,7 @@ describe Travis::Listener::App do
   let(:app)     { subject }
   let(:auth)    { ['user', '12345'] }
   let(:payload) { GITHUB_PAYLOADS['gem-release'] }
-
+  let(:redis)   { Redis.new }
   before(:each) do
     authorize(*auth)
   end
@@ -28,5 +28,25 @@ describe Travis::Listener::App do
   it 'returns 200 when checking if the app is still running' do
     get '/uptime'
     last_response.status.should be == 200
+  end
+
+  context "with sidekiq enabled" do
+    before do
+      redis.set('features:build_requests_via_sidekiq:enabled', '1')
+    end
+
+    after do
+      redis.set('features:build_requests_via_sidekiq:enabled', '0')
+    end
+
+    it "should push the message to sidekiq" do
+      Travis::Sidekiq::BuildRequest.should_receive(:perform_async).with(QUEUE_PAYLOAD)
+      create
+    end
+
+    it "shouldn't push the message to amqp" do
+      Travis::Amqp::Publisher.any_instance.should_not_receive(:publish)
+     create 
+    end
   end
 end
