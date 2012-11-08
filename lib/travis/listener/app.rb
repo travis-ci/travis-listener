@@ -30,8 +30,10 @@ module Travis
       def handle_event
         info "Handling ping for #{credentials.inspect}"
         if sidekiq_active?
+          puts "Queueing build via Sidekiq"
           Travis::Sidekiq::BuildRequest.perform_async(data)
         else
+          puts "Queueing build via AMQP"
           requests.publish(data, :type => 'request')
         end
         debug "Request created: #{payload.inspect}"
