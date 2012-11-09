@@ -38,11 +38,11 @@ describe Travis::Listener::App do
 
   context "with sidekiq enabled" do
     before do
-      redis.set('features:build_requests_via_sidekiq:enabled', '1')
+      redis.set('feature:build_requests_via_sidekiq:enabled', '1')
     end
 
     after do
-      redis.set('features:build_requests_via_sidekiq:enabled', '0')
+      redis.set('feature:build_requests_via_sidekiq:enabled', '0')
     end
 
     it "should push the message to sidekiq" do
