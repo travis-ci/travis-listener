@@ -1,5 +1,6 @@
 require 'sinatra'
 require 'travis/support/logging'
+require 'sidekiq'
 require 'travis/sidekiq/build_request'
 require 'newrelic_rpm'
 
