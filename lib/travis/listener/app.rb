@@ -24,13 +24,14 @@ module Travis
 
       # the main endpoint for scm services
       post '/' do
-        handle_event if handle_event?
+        handle_event
         204
       end
 
       protected
 
       def handle_event
+        return unless handle_event?
         info "Handling ping for #{slug} with credentials #{credentials.inspect}"
         Travis::Sidekiq::BuildRequest.perform_async(data)
         debug "Request created: #{payload.inspect}"
