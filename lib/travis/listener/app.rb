@@ -61,7 +61,7 @@ module Travis
       end
 
       def owner_name
-        payload['repository']['owner']['name']
+        payload['repository']['owner']
       end
 
       def repository_name
