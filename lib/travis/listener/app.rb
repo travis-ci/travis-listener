@@ -57,7 +57,7 @@ module Travis
       end
 
       def slug
-        "#{payload['owner']['name']}/#{payload['name']}"
+        "#{payload['repository']['owner']['name']}/#{payload['repository']['name']}"
       end
     end
   end
