@@ -35,13 +35,12 @@ module Travis
       end
     end
 
-    define  :amqp          => { :username => 'guest', :password => 'guest', :host => 'localhost', :prefetch => 1 },
-            :async         => {},
+    define  :async         => {},
             :notifications => [],
             :queues        => [],
             :ssl           => {},
-            :redis         => {:url => 'redis://localhost:6379'},
-            :sentry        => {:dsn => ''}
+            :redis         => { :url => 'redis://localhost:6379' },
+            :sentry        => { :dsn => '' }
 
     default :_access => [:key]
 
