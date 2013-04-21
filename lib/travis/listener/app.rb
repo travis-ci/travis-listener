@@ -3,6 +3,8 @@ require 'travis/support/logging'
 require 'sidekiq'
 require 'travis/sidekiq/build_request'
 require 'newrelic_rpm'
+require 'json'
+require 'multi_json'
 
 module Travis
   module Listener
@@ -22,22 +24,21 @@ module Travis
 
       # the main endpoint for scm services
       post '/' do
-        handle_event if settings.events.include? event_type
+        handle_event
         204
       end
 
       protected
 
       def handle_event
-        info "Handling ping for #{credentials.inspect}"
-        if sidekiq_active?
-          puts "Queueing build via Sidekiq"
-          Travis::Sidekiq::BuildRequest.perform_async(data)
-        else
-          puts "Queueing build via AMQP"
-          requests.publish(data, :type => 'request')
-        end
+        return unless handle_event?
+        info "Handling ping for #{slug} with credentials #{credentials.inspect}"
+        Travis::Sidekiq::BuildRequest.perform_async(data)
         debug "Request created: #{payload.inspect}"
+      end
+
+      def handle_event?
+        settings.events.include?(event_type)
       end
 
       def data
@@ -53,10 +54,6 @@ module Travis
         env['HTTP_X_GITHUB_EVENT'] || 'push'
       end
 
-      def requests
-        @requests ||= Travis::Amqp::Publisher.builds('builds.requests')
-      end
-
       def credentials
         login, token = Rack::Auth::Basic::Request.new(env).credentials
         { :login => login, :token => token }
@@ -66,8 +63,20 @@ module Travis
         params[:payload]
       end
 
-      def sidekiq_active?
-        $redis.get('feature:build_requests_via_sidekiq:enabled') == '1'
+      def slug
+        "#{owner_name}/#{repository_name}"
+      end
+
+      def owner_name
+        decoded_payload['repository']['owner']['name']
+      end
+
+      def repository_name
+        decoded_payload['repository']['name']
+      end
+
+      def decoded_payload
+        @decoded_payload ||= MultiJson.load(payload)
       end
     end
   end
