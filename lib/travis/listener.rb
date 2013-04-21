@@ -19,7 +19,6 @@ module Travis
   module Listener
     class << self
       def setup
-        Travis::Amqp.config = Travis.config.amqp
         ::Sidekiq.configure_client do |config|
           config.redis = Travis.config.redis.merge(size: 1, namespace: 'sidekiq')
         end
@@ -40,7 +39,6 @@ module Travis
       end
 
       def connect(amqp = false)
-        Travis::Amqp.connect if amqp
         $redis = Redis.new(Travis.config.redis)
       end
 

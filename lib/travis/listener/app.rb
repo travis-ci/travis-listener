@@ -30,13 +30,7 @@ module Travis
 
       def handle_event
         info "Handling ping for #{credentials.inspect}"
-        if sidekiq_active?
-          puts "Queueing build via Sidekiq"
-          Travis::Sidekiq::BuildRequest.perform_async(data)
-        else
-          puts "Queueing build via AMQP"
-          requests.publish(data, :type => 'request')
-        end
+        Travis::Sidekiq::BuildRequest.perform_async(data)
         debug "Request created: #{payload.inspect}"
       end
 
@@ -53,10 +47,6 @@ module Travis
         env['HTTP_X_GITHUB_EVENT'] || 'push'
       end
 
-      def requests
-        @requests ||= Travis::Amqp::Publisher.builds('builds.requests')
-      end
-
       def credentials
         login, token = Rack::Auth::Basic::Request.new(env).credentials
         { :login => login, :token => token }
@@ -64,10 +54,6 @@ module Travis
 
       def payload
         params[:payload]
-      end
-
-      def sidekiq_active?
-        $redis.get('feature:build_requests_via_sidekiq:enabled') == '1'
       end
     end
   end
