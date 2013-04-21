@@ -1,9 +1,6 @@
 # What is Travis Listener
 
-Travis Listener is a small simple sinatra app which listens for service hook notifications from GitHub and queues them on Rabbit for processing by Travis Hub.
-
-This allows us to take Travis CI offline for maintenance but still listen for builds requests.
-
+Travis Listener is a small simple Sinatra app which listens for service hook notifications from GitHub and queues them for processing by Travis Gatekeeper using Sidekiq.
 
 ## License & copyright information ##
 
