@@ -6,7 +6,7 @@ gem 'travis-support',  github: 'travis-ci/travis-support'
 gem 'travis-sidekiqs', github: 'travis-ci/travis-sidekiqs', require: nil
 
 gem 'metriks',         '~> 0.9.7.3'
-gem 'sinatra',         '~> 1.3.1'
+gem 'sinatra',         '~> 1.4.2'
 gem 'rake',            '~> 0.9.2.2'
 gem 'redis'
 
@@ -22,10 +22,10 @@ gem 'backports',       '2.4.0'
 gem 'yajl-ruby',       '~> 1.1.0'
 
 # apis
-gem 'newrelic_rpm',    '~> 3.3.2'
+gem 'newrelic_rpm',    '~> 3.6.0'
 
 # heroku
-gem 'unicorn',         '~> 4.2.1'
+gem 'unicorn',         '~> 4.6.2'
 
 group :development, :test do
   gem 'rspec',         '~> 2.9'
