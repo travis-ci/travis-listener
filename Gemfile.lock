@@ -46,7 +46,6 @@ GEM
     hashr (0.0.22)
     hitimes (1.2.1)
     i18n (0.6.1)
-    json (1.7.7)
     kgio (2.8.0)
     metriks (0.9.7.3)
       atomic (~> 1.0)
@@ -104,7 +103,6 @@ DEPENDENCIES
   backports (= 2.4.0)
   foreman (~> 0.41.0)
   hashr (~> 0.0.19)
-  json
   metriks (~> 0.9.7.3)
   multi_json
   newrelic_rpm (~> 3.6.0)
