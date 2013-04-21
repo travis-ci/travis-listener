@@ -29,7 +29,7 @@ module Travis
       protected
 
       def handle_event
-        info "Handling ping for #{credentials.inspect}"
+        info "Handling ping for #{credentials.inspect} for #{slug}"
         Travis::Sidekiq::BuildRequest.perform_async(data)
         debug "Request created: #{payload.inspect}"
       end
@@ -54,6 +54,10 @@ module Travis
 
       def payload
         params[:payload]
+      end
+
+      def slug
+        "#{payload['owner']['name']}/#{payload['name']}"
       end
     end
   end
