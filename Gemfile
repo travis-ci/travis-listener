@@ -9,6 +9,8 @@ gem 'metriks',         '~> 0.9.7.3'
 gem 'sinatra',         '~> 1.4.2'
 gem 'rake',            '~> 0.9.2.2'
 gem 'redis'
+gem 'json'
+gem 'multi_json'
 
 gem 'sentry-raven',    github: 'getsentry/raven-ruby'
 

@@ -3,6 +3,8 @@ require 'travis/support/logging'
 require 'sidekiq'
 require 'travis/sidekiq/build_request'
 require 'newrelic_rpm'
+require 'json'
+require 'multi_json'
 
 module Travis
   module Listener
@@ -57,18 +59,19 @@ module Travis
       end
 
       def slug
-        debug payload.inspect
-        debug "'repository' : #{payload['repository'].inspect}"
-        debug ":repository : #{payload[:repository].inspect}"
         "#{owner_name}/#{repository_name}"
       end
 
       def owner_name
-        payload['repository']['owner']
+        decoded_payload['repository']['owner']
       end
 
       def repository_name
-        payload['repository']['name']
+        decoded_payload['repository']['name']
+      end
+
+      def decoded_payload
+        @decoded_payload ||= MultiJson.load(payload)
       end
     end
   end
