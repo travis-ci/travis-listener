@@ -38,7 +38,7 @@ module Travis
         end
       end
 
-      def connect(amqp = false)
+      def connect
         $redis = Redis.new(Travis.config.redis)
       end
 
