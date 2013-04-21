@@ -57,6 +57,8 @@ module Travis
       end
 
       def slug
+        debug "'repository' : #{payload['repository'].inspect}"
+        debug ":repository : #{payload[:repository].inspect}"
         "#{owner_name}/#{repository_name}"
       end
 
