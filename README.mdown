@@ -9,7 +9,7 @@ Although the Travis service hook listens for several different events when activ
 
 This is the first point of entry for build events from GitHub, and over time support for responding to user sync related events is planned.
 
-
+![Travis Listener Diagram](/img/diagram.jpg)
 
 ## License & copyright information ##
 
