@@ -1,0 +1,12 @@
+production:
+  log_level: info
+  sentry:
+    dsn: https://tok:en@app.getsentry.com/app_id
+  redis:
+    url: redis://tok:en@url.com:12345
+
+staging:
+  sentry:
+    dsn: https://tok:en@app.getsentry.com/app_id
+  redis:
+    url: redis://tok:en@url.com:12345
