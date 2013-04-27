@@ -2,7 +2,7 @@ require 'hashr'
 require 'yaml'
 require 'active_support/core_ext/object/blank'
 
-# Encapsulates the configuration necessary for travis-core.
+# Encapsulates the configuration necessary for travis-listener.
 #
 # Configuration values will be read from
 #
@@ -13,8 +13,6 @@ require 'active_support/core_ext/object/blank'
 #
 # The env key can be set through various ENV variables, see Travis::Config.env.
 #
-# On top of that the database configuration can be overloaded by setting a database URL
-# to ENV['DATABASE_URL'] or ENV['SHARED_DATABASE_URL'] (which is something Heroku does).
 module Travis
   class Config < Hashr
     class << self
@@ -35,12 +33,8 @@ module Travis
       end
     end
 
-    define  :async         => {},
-            :notifications => [],
-            :queues        => [],
-            :ssl           => {},
-            :redis         => { :url => 'redis://localhost:6379' },
-            :sentry        => { :dsn => '' }
+    define  :redis   => { :url => 'redis://localhost:6379' },
+            :sentry  => { :dsn => '' }
 
     default :_access => [:key]
 
