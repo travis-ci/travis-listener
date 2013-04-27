@@ -1,6 +1,13 @@
-# What is Travis Listener
+# Travis Listener
+**************************
 
-Travis Listener is a small simple Sinatra app which listens for service hook notifications from GitHub and queues them for processing by Travis Gatekeeper using Sidekiq.
+[![Build Status](https://travis-ci.org/travis-ci/travis-listener.png)](https://travis-ci.org/travis-ci/travis-listener) [![Dependency Status](https://gemnasium.com/travis-ci/travis-listener.png)](https://gemnasium.com/travis-ci/travis-listener)
+
+Travis Listener is a small Sinatra app which receives service hook notifications from GitHub and queues them for processing by Travis Gatekeeper using Sidekiq.
+
+Although the Travis service hook listens for several different events when activated for a repository, currently Travis Listener only processes `push` and `pull_request` events and discards the rest.
+
+This is the first point of entry for build events from GitHub, and over time support for responding to user sync related events is planned.
 
 ## License & copyright information ##
 
