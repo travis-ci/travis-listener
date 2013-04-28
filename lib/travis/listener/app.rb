@@ -35,7 +35,7 @@ module Travis
 
       def handle_event
         return unless handle_event?
-        info "Handling #{event_type} ping for #{slug} with credentials #{credentials.inspect}"
+        info "Handling #{event_type} event for #{slug} with credentials #{credentials.inspect}"
         Travis::Sidekiq::BuildRequest.perform_async(data)
         debug "Request created: #{payload.inspect}"
       end
