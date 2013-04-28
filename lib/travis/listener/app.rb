@@ -16,6 +16,10 @@ module Travis
       # see https://github.com/github/github-services/blob/master/services/travis.rb#L1-2
       set :events, %w[push pull_request]
 
+      get '/' do
+        redirect "http://about.travis-ci.org"
+      end
+
       # Used for new relic uptime monitoring
       get '/uptime' do
         200
