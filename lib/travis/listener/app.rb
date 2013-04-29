@@ -71,7 +71,7 @@ module Travis
       end
 
       def owner_name
-        decoded_payload['repository']['owner']['name']
+        decoded_payload['repository']['owner']['login']
       end
 
       def repository_name
