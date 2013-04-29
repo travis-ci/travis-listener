@@ -67,11 +67,11 @@ module Travis
       end
 
       def slug
-        "#{owner_name}/#{repository_name}"
+        "#{owner_login}/#{repository_name}"
       end
 
-      def owner_name
-        decoded_payload['repository']['owner']['login']
+      def owner_login
+        decoded_payload['repository']['owner']['login'] || decoded_payload['repository']['owner']['name']
       end
 
       def repository_name
