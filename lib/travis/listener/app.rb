@@ -4,6 +4,7 @@ require 'sidekiq'
 require 'travis/sidekiq/build_request'
 require 'newrelic_rpm'
 require 'multi_json'
+require 'ipaddr'
 
 module Travis
   module Listener
@@ -27,11 +28,24 @@ module Travis
 
       # the main endpoint for scm services
       post '/' do
+        return 403 unless valid_ip?
+
         handle_event
+
         204
       end
 
       protected
+
+      def valid_ip?
+        return true if valid_ips.empty?
+
+        valid_ips.any? { |ip| IPAddr.new(ip).include? request.ip }
+      end
+
+      def valid_ips
+        (Travis.config.listener && Travis.config.listener.valid_ips) || []
+      end
 
       def handle_event
         return unless handle_event?
