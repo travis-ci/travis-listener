@@ -5,6 +5,7 @@ require 'travis/sidekiq/build_request'
 require 'newrelic_rpm'
 require 'multi_json'
 require 'ipaddr'
+require 'metriks'
 
 module Travis
   module Listener
@@ -28,11 +29,16 @@ module Travis
 
       # the main endpoint for scm services
       post '/' do
-        return 403 unless valid_ip?
+        if valid_ip?
+          Metriks.meter('listener.ip.valid').mark
+          handle_event
 
-        handle_event
-
-        204
+          204
+        else
+          logger.info "Payload to travis-listener sent from an invalid IP(#{request.ip})"
+          Metriks.meter('listener.ip.invalid').mark
+          403
+        end
       end
 
       protected
