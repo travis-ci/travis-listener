@@ -37,20 +37,35 @@ describe Travis::Listener::App do
       described_class.any_instance.stub(:valid_ips).and_return(['1.2.3.4'])
     end
 
-    it 'accepts a request from valid IP' do
-      create headers: { 'REMOTE_ADDR' => '1.2.3.4' }
-      last_response.status.should be == 204
+    context "when ip_validation is turned off" do
+      it 'accepts a request from an invalid IP' do
+        described_class.any_instance.should_receive(:report_ip_validity)
+        create headers: { 'REMOTE_ADDR' => '1.2.3.1' }
+        last_response.status.should be == 204
+      end
     end
 
-    it 'rejects a request without a valid IP' do
-      create headers: { 'REMOTE_ADDR' => '1.1.1.1' }
-      last_response.status.should be == 403
+    context "when ip_validation is turned on" do
+      before do
+        described_class.any_instance.stub(:ip_validation?).and_return(true)
+      end
+
+      it 'accepts a request from valid IP' do
+        create headers: { 'REMOTE_ADDR' => '1.2.3.4' }
+        last_response.status.should be == 204
+      end
+
+      it 'rejects a request without a valid IP' do
+        create headers: { 'REMOTE_ADDR' => '1.1.1.1' }
+        last_response.status.should be == 403
+      end
     end
   end
 
   context 'with valid_ips provided as a range' do
     before do
       described_class.any_instance.stub(:valid_ips).and_return(['1.1.1.0/30'])
+      described_class.any_instance.stub(:ip_validation?).and_return(true)
     end
 
     it 'accepts a request from valid IP' do

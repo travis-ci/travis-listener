@@ -29,19 +29,30 @@ module Travis
 
       # the main endpoint for scm services
       post '/' do
-        if valid_ip?
-          Metriks.meter('listener.ip.valid').mark
+        report_ip_validity
+        if !ip_validation? || valid_ip?
           handle_event
 
           204
         else
-          logger.info "Payload to travis-listener sent from an invalid IP(#{request.ip})"
-          Metriks.meter('listener.ip.invalid').mark
           403
         end
       end
 
       protected
+
+      def ip_validation?
+        (Travis.config.listener && Travis.config.listener.ip_validation)
+      end
+
+      def report_ip_validity
+        if valid_ip?
+          Metriks.meter('listener.ip.valid').mark
+        else
+          Metriks.meter('listener.ip.invalid').mark
+          logger.info "Payload to travis-listener sent from an invalid IP(#{request.ip})"
+        end
+      end
 
       def valid_ip?
         return true if valid_ips.empty?
