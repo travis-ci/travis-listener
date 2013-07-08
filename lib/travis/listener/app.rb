@@ -36,6 +36,7 @@ module Travis
 
             204
           else
+            Metriks.meter('listener.request.no_payload').mark
             422
           end
         else
