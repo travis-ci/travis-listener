@@ -22,6 +22,14 @@ describe Travis::Listener::App do
     last_response.status.should be == 204
   end
 
+  describe 'without a payload' do
+    let(:payload) { nil }
+    it 'does not accept a hook' do
+      create
+      last_response.status.should be == 422
+    end
+  end
+
   it 'returns 200 when checking if the app is still running' do
     get '/uptime'
     last_response.status.should be == 200

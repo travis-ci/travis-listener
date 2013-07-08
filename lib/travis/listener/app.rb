@@ -31,15 +31,23 @@ module Travis
       post '/' do
         report_ip_validity
         if !ip_validation? || valid_ip?
-          handle_event
+          if valid_request?
+            handle_event
 
-          204
+            204
+          else
+            422
+          end
         else
           403
         end
       end
 
       protected
+
+      def valid_request?
+        payload
+      end
 
       def ip_validation?
         (Travis.config.listener && Travis.config.listener.ip_validation)
