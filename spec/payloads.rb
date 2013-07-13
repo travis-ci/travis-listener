@@ -28,10 +28,6 @@ GITHUB_PAYLOADS = {
 
 QUEUE_PAYLOAD = {
   :type => 'push',
-  :credentials => {
-    :login => "user",
-    :token => "12345"
-  },
   :payload => GITHUB_PAYLOADS['gem-release'],
   :uuid => Travis.uuid
 }
