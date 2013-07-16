@@ -33,6 +33,7 @@ module Travis
         if !ip_validation? || valid_ip?
           if valid_request?
             handle_event
+
             204
           else
             Metriks.meter('listener.request.no_payload').mark
@@ -86,6 +87,7 @@ module Travis
       def data
         {
           :type => event_type,
+          :credentials => credentials,
           :payload => payload,
           :uuid => Travis.uuid
         }
@@ -93,6 +95,11 @@ module Travis
 
       def event_type
         env['HTTP_X_GITHUB_EVENT'] || 'push'
+      end
+
+      def credentials
+        login, token = Rack::Auth::Basic::Request.new(env).credentials
+        { :login => login, :token => token }
       end
 
       def payload

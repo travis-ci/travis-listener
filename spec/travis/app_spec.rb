@@ -2,8 +2,13 @@ require 'spec_helper'
 
 describe Travis::Listener::App do
   let(:app)     { subject }
+  let(:auth)    { ['user', '12345'] }
   let(:payload) { GITHUB_PAYLOADS['gem-release'] }
   let(:redis)   { Redis.new }
+
+  before(:each) do
+    authorize(*auth)
+  end
 
   def create(opts = {})
     params  = { :payload => (opts[:payload] || payload) }
