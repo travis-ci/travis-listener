@@ -4,7 +4,6 @@ require 'travis/listener/app'
 require 'logger'
 require 'metriks'
 require 'metriks/librato_metrics_reporter'
-require 'raven'
 require 'sidekiq'
 
 $stdout.sync = true
@@ -23,9 +22,12 @@ module Travis
           config.redis = Travis.config.redis.merge(size: 1, namespace: 'sidekiq')
         end
 
-        ::Raven.configure do |config|
-          config.dsn = Travis.config.sentry.dsn
-          config.excluded_exceptions = %w{Sinatra::NotFound}
+        if Travis.config.sentry.dsn
+          require 'raven'
+          ::Raven.configure do |config|
+            config.dsn = Travis.config.sentry.dsn
+            config.excluded_exceptions = %w{Sinatra::NotFound}
+          end
         end
 
         if ENV['RACK_ENV'] == "production"

@@ -5,5 +5,5 @@ require 'travis/listener'
 Travis::Listener.setup
 Travis::Listener.connect
 
-use Raven::Rack
+use Raven::Rack if Travis.config.sentry.dsn
 run Travis::Listener::App
