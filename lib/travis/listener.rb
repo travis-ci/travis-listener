@@ -30,17 +30,7 @@ module Travis
           end
         end
 
-        if ENV['RACK_ENV'] == "production"
-          if Travis.config.librato
-            puts 'Starting Librato Metriks reporter'
-            email, token = Travis.config.librato.email, Travis.config.librato.token
-            source = "#{Travis.config.librato_source}.#{ENV['DYNO']}"
-            $metriks_reporter = Metriks::LibratoMetricsReporter.new(email, token, source: source)
-            $metriks_reporter.start
-          else
-            puts 'Librato config missing, Metriks reporter not started'
-          end
-        end
+        Travis::Metrics.setup if ENV['RACK_ENV'] == "production"
       end
 
       def connect

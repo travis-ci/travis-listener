@@ -12,8 +12,8 @@ end
 after_fork do |server, worker|
   Travis::Listener.connect
 
-  if $metriks_reporter
-    $metriks_reporter.stop
-    $metriks_reporter.start
+  if reporter = Travis::Metrics.reporter
+    reporter.stop
+    reporter.start
   end
 end

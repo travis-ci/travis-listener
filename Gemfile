@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.1.2'
 
-gem 'travis-support',  github: 'travis-ci/travis-support', ref: 'master-2014-10-06'
+gem 'travis-support',  github: 'travis-ci/travis-support', branch: 'sf-te'
 gem 'travis-sidekiqs', github: 'travis-ci/travis-sidekiqs', require: nil
 
 gem 'sinatra',         '~> 1.4.2'
@@ -15,7 +15,7 @@ gem 'sentry-raven',    github: 'getsentry/raven-ruby'
 gem 'activesupport',   '~> 3.2.13'
 gem 'hashr',           '~> 0.0.19'
 
-gem 'metriks'
+gem 'metriks',         '~> 0.9.7.3'
 gem 'metriks-librato_metrics'
 
 # backports 2.5.0 breaks rails routes
