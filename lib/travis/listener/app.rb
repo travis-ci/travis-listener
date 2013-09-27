@@ -18,6 +18,10 @@ module Travis
       # see https://github.com/github/github-services/blob/master/services/travis.rb#L1-2
       set :events, %w[push pull_request]
 
+      before do
+        logger.level = 0
+      end
+
       get '/' do
         redirect "http://about.travis-ci.org"
       end
