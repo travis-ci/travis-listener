@@ -75,7 +75,7 @@ module Travis
 
       def handle_event
         return unless handle_event?
-        info "Handling #{event_type} event for #{slug}"
+        info "uuid=#{uuid} type=#{event_type} repository=#{slug} #{event_details}"
         Travis::Sidekiq::BuildRequest.perform_async(data)
         debug "Request created: #{payload.inspect}"
       end
@@ -89,12 +89,24 @@ module Travis
           :type => event_type,
           :credentials => credentials,
           :payload => payload,
-          :uuid => Travis.uuid
+          :uuid => uuid
         }
+      end
+
+      def uuid
+        @uuid ||= Travis.uuid
       end
 
       def event_type
         env['HTTP_X_GITHUB_EVENT'] || 'push'
+      end
+
+      def event_details
+        if event_type == 'pull_request'
+          "number=#{decoded_payload['number']} head=#{decoded_payload['pull_request']['sha']} ref=#{decoded_payload['pull_request']['ref']} user=#{decoded_payload['pull_request']['user']['login']}"
+        else
+          "ref=#{decoded_payload['ref']} head=#{decoded_payload['head']} commits=#{decoded_payload["commits"].map {|c| c['sha']}.join(",")}"
+        end
       end
 
       def credentials
