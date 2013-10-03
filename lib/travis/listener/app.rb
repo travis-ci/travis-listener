@@ -79,7 +79,7 @@ module Travis
 
       def handle_event
         return unless handle_event?
-        info "Handling #{event_type} event for #{slug}"
+        info "Handling #{event_type} event for #{slug}, delivery guid: #{delivery_guid}"
         Travis::Sidekiq::BuildRequest.perform_async(data)
         debug "Request created: #{payload.inspect}"
       end
@@ -93,12 +93,18 @@ module Travis
           :type => event_type,
           :credentials => credentials,
           :payload => payload,
-          :uuid => Travis.uuid
+          :uuid => Travis.uuid,
+          :github_guid => delivery_guid,
+          :github_event => event_type
         }
       end
 
       def event_type
         env['HTTP_X_GITHUB_EVENT'] || 'push'
+      end
+
+      def delivery_guid
+        env['HTTP_X_GITHUB_GUID']
       end
 
       def credentials
