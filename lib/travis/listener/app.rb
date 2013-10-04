@@ -110,11 +110,15 @@ module Travis
       def event_details
         if event_type == 'pull_request'
           "number=#{decoded_payload['number']} action=#{decoded_payload['action']} source=#{decoded_payload['pull_request']['head']['repo']['full_name']} head=#{decoded_payload['pull_request']['head']['sha'][0..6]} ref=#{decoded_payload['pull_request']['head']['ref']} user=#{decoded_payload['pull_request']['user']['login']}"
-        else
+        elsif event_type == 'push'
           "ref=#{decoded_payload['ref']} " +
-            "head=#{decoded_payload['head_commit']['id'][0..6]} " +
-            "commits=#{decoded_payload["commits"].map {|c| c['id'][0..6]}.join(",")}"
+            "head=#{push_head_commit} " +
+            "commits=#{(decoded_payload["commits"] || []).map {|c| c['id'][0..6]}.join(",")}"
         end
+      end
+
+      def push_head_commit
+        decoded_payload['head_commit'] && decoded_payload['head_commit']['id'] && decoded_payload['head_commit']['id'][0..6]
       end
 
       def delivery_guid
