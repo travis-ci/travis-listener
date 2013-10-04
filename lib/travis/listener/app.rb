@@ -18,6 +18,10 @@ module Travis
       # see https://github.com/github/github-services/blob/master/services/travis.rb#L1-2
       set :events, %w[push pull_request]
 
+      before do
+        logger.level = 1
+      end
+
       get '/' do
         redirect "http://about.travis-ci.org"
       end
@@ -75,7 +79,7 @@ module Travis
 
       def handle_event
         return unless handle_event?
-        info "uuid=#{uuid} type=#{event_type} repository=#{slug} #{event_details}"
+        info "uuid=#{uuid} delivery_guid=#{delivery_guid} type=#{event_type} repository=#{slug} #{event_details}"
         Travis::Sidekiq::BuildRequest.perform_async(data)
         debug "Request created: #{payload.inspect}"
       end
@@ -89,7 +93,9 @@ module Travis
           :type => event_type,
           :credentials => credentials,
           :payload => payload,
-          :uuid => uuid
+          :uuid => uuid,
+          :github_guid => delivery_guid,
+          :github_event => event_type
         }
       end
 
@@ -103,10 +109,14 @@ module Travis
 
       def event_details
         if event_type == 'pull_request'
-          "number=#{decoded_payload['number']} head=#{decoded_payload['pull_request']['sha']} ref=#{decoded_payload['pull_request']['ref']} user=#{decoded_payload['pull_request']['user']['login']}"
+          "number=#{decoded_payload['number']} action=#{decoded_payload['action']} head=#{decoded_payload['pull_request']['sha']} ref=#{decoded_payload['pull_request']['ref']} user=#{decoded_payload['pull_request']['user']['login']}"
         else
           "ref=#{decoded_payload['ref']} head=#{decoded_payload['head']} commits=#{decoded_payload["commits"].map {|c| c['sha']}.join(",")}"
         end
+      end
+
+      def delivery_guid
+        env['HTTP_X_GITHUB_GUID']
       end
 
       def credentials
