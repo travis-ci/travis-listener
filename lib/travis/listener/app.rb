@@ -79,9 +79,9 @@ module Travis
 
       def handle_event
         return unless handle_event?
+        debug "Request created: #{payload.inspect}"
         info "uuid=#{uuid} delivery_guid=#{delivery_guid} type=#{event_type} repository=#{slug} #{event_details}"
         Travis::Sidekiq::BuildRequest.perform_async(data)
-        debug "Request created: #{payload.inspect}"
       end
 
       def handle_event?
@@ -111,7 +111,9 @@ module Travis
         if event_type == 'pull_request'
           "number=#{decoded_payload['number']} action=#{decoded_payload['action']} source=#{decoded_payload['pull_request']['head']['repo']['full_name']} head=#{decoded_payload['pull_request']['head']['sha'][0..6]} ref=#{decoded_payload['pull_request']['head']['ref']} user=#{decoded_payload['pull_request']['user']['login']}"
         else
-          "ref=#{decoded_payload['ref'][0..6]} head=#{decoded_payload['head']} commits=#{decoded_payload["commits"].map {|c| c['sha'][0..6]}.join(",")}"
+          "ref=#{decoded_payload['ref']} " +
+            "head=#{decoded_payload['head_commit']['id']} "
+            "commits=#{decoded_payload["commits"].map {|c| c['id'][0..6]}.join(",")}"
         end
       end
 
