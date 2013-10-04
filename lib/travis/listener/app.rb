@@ -19,7 +19,7 @@ module Travis
       set :events, %w[push pull_request]
 
       before do
-        logger.level = 1
+        logger.level = 0
       end
 
       get '/' do
