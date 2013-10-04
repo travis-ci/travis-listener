@@ -109,7 +109,7 @@ module Travis
 
       def event_details
         if event_type == 'pull_request'
-          "number=#{decoded_payload['number']} action=#{decoded_payload['action']} head=#{decoded_payload['pull_request']['sha']} ref=#{decoded_payload['pull_request']['ref']} user=#{decoded_payload['pull_request']['user']['login']}"
+          "number=#{decoded_payload['number']} action=#{decoded_payload['action']} source=#{decoded_payload['pull_request']['head']['repo']['full_name']} head=#{decoded_payload['pull_request']['head']['sha']} ref=#{decoded_payload['pull_request']['head']['ref']} user=#{decoded_payload['pull_request']['user']['login']}"
         else
           "ref=#{decoded_payload['ref']} head=#{decoded_payload['head']} commits=#{decoded_payload["commits"].map {|c| c['sha']}.join(",")}"
         end
