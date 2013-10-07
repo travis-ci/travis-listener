@@ -80,7 +80,7 @@ module Travis
       def handle_event
         return unless handle_event?
         debug "Event payload for #{uuid}: #{payload.inspect}"
-        log_event(event_details, uuid: uuid, delivery_guide: delivery_guid, type: event_type, repository: slug)
+        log_event(event_details, uuid: uuid, delivery_guid: delivery_guid, type: event_type, repository: slug)
         Travis::Sidekiq::BuildRequest.perform_async(data)
       end
 
