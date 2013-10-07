@@ -90,6 +90,10 @@ module Travis
 
       def log_event(event_details, event_basics)
         info(event_details.merge(event_basics).map{|k,v| "#{k}=#{v}"}.join(" "))
+      rescue => e
+        error("Error logging payload: #{e.message}")
+        error("Payload causing error: #{decoded_payload}")
+        Raven.capture_exception(e)
       end
 
       def data
