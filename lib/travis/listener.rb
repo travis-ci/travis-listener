@@ -25,6 +25,7 @@ module Travis
 
         ::Raven.configure do |config|
           config.dsn = Travis.config.sentry.dsn
+          config.excluded_exceptions = %w{Sinatra::NotFound}
         end
 
         if ENV['RACK_ENV'] == "production"
