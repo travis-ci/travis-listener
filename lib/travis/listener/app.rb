@@ -116,7 +116,7 @@ module Travis
           {
             number: decoded_payload['number'],
             action: decoded_payload['action'],
-            source: decoded_payload['pull_request']['head']['repo']['full_name'],
+            source: decoded_payload['pull_request']['head']['repo'] && decoded_payload['pull_request']['head']['repo']['full_name'],
             head:   decoded_payload['pull_request']['head']['sha'][0..6],
             ref:    decoded_payload['pull_request']['head']['ref'],
             user:   decoded_payload['pull_request']['user']['login'],
