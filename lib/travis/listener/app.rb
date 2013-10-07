@@ -90,10 +90,6 @@ module Travis
 
       def log_event(event_details, event_basics)
         info(event_details.merge(event_basics).map{|k,v| "#{k}=#{v}"}.join(" "))
-      rescue => e
-        error("Error logging payload: #{e.message}")
-        error("Payload causing error: #{decoded_payload}")
-        Raven.capture_exception(e)
       end
 
       def data
@@ -132,6 +128,11 @@ module Travis
             commits: (decoded_payload["commits"] || []).map {|c| c['id'][0..6]}.join(",")
           }
         end
+      rescue => e
+        error("Error logging payload: #{e.message}")
+        error("Payload causing error: #{decoded_payload}")
+        Raven.capture_exception(e)
+        {}
       end
 
       def push_head_commit
