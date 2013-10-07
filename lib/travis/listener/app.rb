@@ -80,12 +80,16 @@ module Travis
       def handle_event
         return unless handle_event?
         debug "Event payload for #{uuid}: #{payload.inspect}"
-        info "uuid=#{uuid} delivery_guid=#{delivery_guid} type=#{event_type} repository=#{slug} #{event_details}"
+        log_event(event_details, uuid: uuid, delivery_guide: delivery_guid, type: event_type, repository: slug)
         Travis::Sidekiq::BuildRequest.perform_async(data)
       end
 
       def handle_event?
         settings.events.include?(event_type)
+      end
+
+      def log_event(event_details, event_basics)
+        info(event_details.merge(event_basics).map{|k,v| "#{k}=#{v}"}.join(" "))
       end
 
       def data
@@ -109,16 +113,20 @@ module Travis
 
       def event_details
         if event_type == 'pull_request'
-          "number=#{decoded_payload['number']} " +
-            "action=#{decoded_payload['action']} " +
-            "source=#{decoded_payload['pull_request']['head']['repo']['full_name']} " +
-            "head=#{decoded_payload['pull_request']['head']['sha'][0..6]} " +
-            "ref=#{decoded_payload['pull_request']['head']['ref']} " +
-            "user=#{decoded_payload['pull_request']['user']['login']}"
+          {
+            number: decoded_payload['number'],
+            action: decoded_payload['action'],
+            source: decoded_payload['pull_request']['head']['repo']['full_name'],
+            head:   decoded_payload['pull_request']['head']['sha'][0..6],
+            ref:    decoded_payload['pull_request']['head']['ref'],
+            user:   decoded_payload['pull_request']['user']['login'],
+          }
         elsif event_type == 'push'
-          "ref=#{decoded_payload['ref']} " +
-            "head=#{push_head_commit} " +
-            "commits=#{(decoded_payload["commits"] || []).map {|c| c['id'][0..6]}.join(",")}"
+          {
+            ref:     decoded_payload['ref'],
+            head:    push_head_commit,
+            commits: (decoded_payload["commits"] || []).map {|c| c['id'][0..6]}.join(",")
+          }
         end
       end
 
