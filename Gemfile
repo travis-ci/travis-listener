@@ -15,7 +15,7 @@ gem 'sentry-raven',    github: 'getsentry/raven-ruby'
 gem 'activesupport',   '~> 3.2.13'
 gem 'hashr',           '~> 0.0.19'
 
-gem 'metriks',         '~> 0.9.7.3'
+gem 'metriks'
 gem 'metriks-librato_metrics'
 
 # backports 2.5.0 breaks rails routes
