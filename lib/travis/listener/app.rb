@@ -15,7 +15,7 @@ module Travis
       # use Rack::CommonLogger for request logging
       enable :logging, :dump_errors
 
-      # see https://github.com/github/github-services/blob/master/services/travis.rb#L1-2
+      # see https://github.com/github/github-services/blob/master/lib/services/travis.rb#L1-2
       set :events, %w[push pull_request]
 
       before do
