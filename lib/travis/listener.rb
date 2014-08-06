@@ -29,13 +29,14 @@ module Travis
         end
 
         if ENV['RACK_ENV'] == "production"
-          puts 'Starting reporter'
-          formatter = lambda do |severity, date, progname, message|
-            "#{message}\n"
+          if Travis.config.librato
+            puts 'Starting Librato Metriks reporter'
+            email, token, source = Travis.config.librato.email, Travis.config.librato.token, Travis.config.librato_source
+            $metriks_reporter = Metriks::LibratoMetricsReporter.new(email, token, source: source)
+            $metriks_reporter.start
+          else
+            puts 'Librato config missing, Metriks reporter not started'
           end
-          logger = Logger.new($stdout)
-          logger.formatter = formatter
-          $metriks_reporter = Metriks::Reporter::Logger.new(:logger => logger, :on_error => lambda{|ex| puts ex})
         end
       end
 
