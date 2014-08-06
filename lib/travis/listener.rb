@@ -3,7 +3,7 @@ require 'travis/listener/config'
 require 'travis/listener/app'
 require 'logger'
 require 'metriks'
-require 'metriks/reporter/logger'
+require 'metriks/librato_metrics_reporter'
 require 'raven'
 require 'sidekiq'
 
