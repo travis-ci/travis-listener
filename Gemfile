@@ -24,9 +24,6 @@ gem 'backports',       '2.4.0'
 # structures
 gem 'yajl-ruby',       '~> 1.1.0'
 
-# apis
-gem 'newrelic_rpm',    '~> 3.6.0'
-
 # heroku
 gem 'unicorn',         '~> 4.6.2'
 
