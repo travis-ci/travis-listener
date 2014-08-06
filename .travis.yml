@@ -1,7 +1,15 @@
+language: ruby
+
+rvm: 2.1.2
+
 services:
   - redis
-rvm:
-  - 1.9.3
+
+sudo: false
+
+cache: bundler
+
 bundler_args: --without development
+
 notifications:
   irc: "irc.freenode.org#travis"
