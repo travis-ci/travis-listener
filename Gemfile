@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.1.2'
 
-gem 'travis-support',  github: 'travis-ci/travis-support'
+gem 'travis-support',  github: 'travis-ci/travis-support', ref: 'master-2014-10-06'
 gem 'travis-sidekiqs', github: 'travis-ci/travis-sidekiqs', require: nil
 
 gem 'sinatra',         '~> 1.4.2'
