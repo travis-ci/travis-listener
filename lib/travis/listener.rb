@@ -2,9 +2,6 @@ require 'travis/support'
 require 'travis/listener/config'
 require 'travis/listener/app'
 require 'logger'
-require 'metriks'
-require 'metriks/librato_metrics_reporter'
-require 'raven'
 require 'sidekiq'
 
 $stdout.sync = true
@@ -23,22 +20,15 @@ module Travis
           config.redis = Travis.config.redis.merge(size: 1, namespace: 'sidekiq')
         end
 
-        ::Raven.configure do |config|
-          config.dsn = Travis.config.sentry.dsn
-          config.excluded_exceptions = %w{Sinatra::NotFound}
-        end
-
-        if ENV['RACK_ENV'] == "production"
-          if Travis.config.librato
-            puts 'Starting Librato Metriks reporter'
-            email, token = Travis.config.librato.email, Travis.config.librato.token
-            source = "#{Travis.config.librato_source}.#{ENV['DYNO']}"
-            $metriks_reporter = Metriks::LibratoMetricsReporter.new(email, token, source: source)
-            $metriks_reporter.start
-          else
-            puts 'Librato config missing, Metriks reporter not started'
+        if Travis.config.sentry.dsn
+          require 'raven'
+          ::Raven.configure do |config|
+            config.dsn = Travis.config.sentry.dsn
+            config.excluded_exceptions = %w{Sinatra::NotFound}
           end
         end
+
+        Travis::Metrics.setup if ENV['RACK_ENV'] == "production"
       end
 
       def connect
