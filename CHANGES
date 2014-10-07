@@ -1,2 +1,0 @@
-* move config.librato_source to config.librato.source
-* make sure metrics are still properly send to librato
