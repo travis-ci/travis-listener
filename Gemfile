@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 ruby '2.1.2'
 
 gem 'travis-support',  github: 'travis-ci/travis-support'
+gem 'travis-config',  '~> 0.1.0'
 gem 'travis-sidekiqs', github: 'travis-ci/travis-sidekiqs', require: nil
 
 gem 'sinatra',         '~> 1.4.2'
@@ -13,7 +14,6 @@ gem 'multi_json'
 gem 'sentry-raven',    github: 'getsentry/raven-ruby'
 
 gem 'activesupport',   '~> 3.2.13'
-gem 'hashr',           '~> 0.0.19'
 
 gem 'metriks'
 gem 'metriks-librato_metrics'
