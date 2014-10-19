@@ -7,13 +7,6 @@ GIT
       uuidtools
 
 GIT
-  remote: git://github.com/travis-ci/travis-config.git
-  revision: e25aeb4164709d0da255cf9ef325ab45daedcbdb
-  specs:
-    travis-config (0.0.1)
-      hashr
-
-GIT
   remote: git://github.com/travis-ci/travis-sidekiqs.git
   revision: 1421a8fd46c9e8cd914f6f0c789584e133ea5f5b
   specs:
@@ -91,6 +84,8 @@ GEM
     thor (0.19.1)
     tilt (1.4.1)
     timers (1.1.0)
+    travis-config (0.1.0)
+      hashr (~> 0.0)
     unicorn (4.6.3)
       kgio (~> 2.6)
       rack
@@ -108,7 +103,6 @@ DEPENDENCIES
   activesupport (~> 3.2.13)
   backports (= 2.4.0)
   foreman (~> 0.41.0)
-  hashr (~> 0.0.19)
   metriks
   metriks-librato_metrics
   multi_json
@@ -118,7 +112,7 @@ DEPENDENCIES
   rspec (~> 2.9)
   sentry-raven!
   sinatra (~> 1.4.2)
-  travis-config!
+  travis-config (~> 0.1.0)
   travis-sidekiqs!
   travis-support!
   unicorn (~> 4.6.2)
