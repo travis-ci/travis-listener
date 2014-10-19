@@ -21,7 +21,7 @@ RSpec.configure do |c|
   c.include Rack::Test::Methods
 
   c.alias_example_to :fit, :focused => true
-  c.filter_run :focused => true
+  c.filter_run :focus => true
   c.run_all_when_everything_filtered = true
 
   c.before :all do

@@ -7,6 +7,13 @@ GIT
       uuidtools
 
 GIT
+  remote: git://github.com/travis-ci/travis-config.git
+  revision: 98b4beccd1088d20edc6bcdb94d23a0bb044c65c
+  specs:
+    travis-config (0.0.1)
+      rspec
+
+GIT
   remote: git://github.com/travis-ci/travis-sidekiqs.git
   revision: 1421a8fd46c9e8cd914f6f0c789584e133ea5f5b
   specs:
@@ -111,6 +118,7 @@ DEPENDENCIES
   rspec (~> 2.9)
   sentry-raven!
   sinatra (~> 1.4.2)
+  travis-config!
   travis-sidekiqs!
   travis-support!
   unicorn (~> 4.6.2)
