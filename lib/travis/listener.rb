@@ -9,7 +9,7 @@ $stdout.sync = true
 module Travis
   class << self
     def config
-      @config ||= Listener::Config.new
+      @config ||= Listener::Config.load
     end
   end
 
