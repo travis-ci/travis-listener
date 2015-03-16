@@ -103,7 +103,7 @@ module Travis
       end
 
       def uuid
-        @uuid ||= Travis.uuid
+        env['HTTP_X_REQUEST_ID'] || Travis.uuid
       end
 
       def event_type
