@@ -41,7 +41,7 @@ describe Travis::Listener::App do
   end
 
   it "passes the given request ID on" do
-    Travis::Sidekiq::BuildRequest.should_receive(:perform_async).with(QUEUE_PAYLOAD.merge({ "uuid" => "abc-def-ghi" }))
+    Travis::Sidekiq::BuildRequest.should_receive(:perform_async).with(QUEUE_PAYLOAD.merge({ :uuid => "abc-def-ghi" }))
     create(headers: { "HTTP_X_REQUEST_ID" => "abc-def-ghi" })
   end
 
