@@ -40,6 +40,11 @@ describe Travis::Listener::App do
     create
   end
 
+  it "passes the given request ID on" do
+    Travis::Sidekiq::BuildRequest.should_receive(:perform_async).with(QUEUE_PAYLOAD.merge({ :uuid => "abc-def-ghi" }))
+    create(headers: { "HTTP_X_REQUEST_ID" => "abc-def-ghi" })
+  end
+
   context "with valid_ips provided" do
     before do
       described_class.any_instance.stub(:valid_ips).and_return(['1.2.3.4'])
