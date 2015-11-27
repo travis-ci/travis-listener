@@ -1,14 +1,16 @@
 source 'https://rubygems.org'
 
-ruby '2.1.2' if ENV.key?('DYNO')
+ruby '2.1.6'
 
 gem 'travis-support',  github: 'travis-ci/travis-support'
-gem 'travis-config',  '~> 0.1.0'
+gem 'travis-config',  '~> 1.0.0'
 gem 'travis-sidekiqs', github: 'travis-ci/travis-sidekiqs', require: nil
+
+gem 'sidekiq',         '~> 4.0.0'
+gem 'redis-namespace'
 
 gem 'sinatra',         '~> 1.4.2'
 gem 'rake',            '~> 0.9.2.2'
-gem 'redis'
 gem 'multi_json'
 
 gem 'sentry-raven',    github: 'getsentry/raven-ruby'

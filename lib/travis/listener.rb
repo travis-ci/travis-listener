@@ -15,7 +15,7 @@ module Travis
 
   module Listener
     class Config < Travis::Config
-      define  :redis   => { :url => 'redis://localhost:6379' },
+      define  :redis   => { :url => 'redis://localhost:6379', :namespace => 'sidekiq' },
               :sentry  => { },
               :metrics => { :reporter => 'librato' }
     end
@@ -23,7 +23,7 @@ module Travis
     class << self
       def setup
         ::Sidekiq.configure_client do |config|
-          config.redis = Travis.config.redis.merge(size: 1, namespace: 'sidekiq')
+          config.redis = Travis.config.redis
         end
 
         if Travis.config.sentry.dsn
