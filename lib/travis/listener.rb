@@ -23,7 +23,7 @@ module Travis
     class << self
       def setup
         ::Sidekiq.configure_client do |config|
-          config.redis = Travis.config.redis
+          config.redis = Travis.config.redis.to_h
         end
 
         if Travis.config.sentry.dsn
