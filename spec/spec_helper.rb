@@ -8,6 +8,8 @@ require 'travis/listener'
 require 'support/webmock'
 require 'payloads'
 
+require 'sidekiq/testing'
+
 Travis.logger = ::Logger.new(StringIO.new)
 
 Travis::Listener.setup
