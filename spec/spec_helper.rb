@@ -11,7 +11,6 @@ require 'payloads'
 Travis.logger = ::Logger.new(StringIO.new)
 
 Travis::Listener.setup
-Travis::Listener.connect
 
 Support::Webmock.urls = %w(
   https://api.github.com/users/svenfuchs

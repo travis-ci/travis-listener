@@ -37,10 +37,6 @@ module Travis
         Travis::Metrics.setup if ENV['RACK_ENV'] == "production"
       end
 
-      def connect
-        $redis = Redis.new(Travis.config.redis)
-      end
-
       def disconnect
         # empty for now
       end
