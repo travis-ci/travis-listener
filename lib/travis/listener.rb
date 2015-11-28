@@ -15,7 +15,7 @@ module Travis
 
   module Listener
     class Config < Travis::Config
-      define  :redis   => { :url => 'redis://localhost:6379', :namespace => 'sidekiq' },
+      define  :redis   => { :url => 'redis://localhost:6379', :namespace => 'sidekiq', :network_timeout => 5 },
               :sentry  => { },
               :metrics => { :reporter => 'librato' }
     end
