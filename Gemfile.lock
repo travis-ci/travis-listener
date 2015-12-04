@@ -1,9 +1,15 @@
 GIT
   remote: git://github.com/getsentry/raven-ruby.git
-  revision: 8e338102938275e96484583c3cce818cc6f05f37
+  revision: 83193b503daee17a9dbdd85cb41acee8ad376e3f
   specs:
     sentry-raven (0.16.0.dev0)
       faraday (>= 0.7.6)
+
+GIT
+  remote: git://github.com/joshk/jemalloc-rb.git
+  revision: 138026b75159d8a965e7ad758eaa59080a15ae53
+  specs:
+    jemalloc (1.0.1)
 
 GIT
   remote: git://github.com/travis-ci/travis-sidekiqs.git
@@ -31,7 +37,7 @@ GEM
     backports (2.4.0)
     concurrent-ruby (1.0.0)
     connection_pool (2.2.0)
-    crack (0.4.2)
+    crack (0.4.3)
       safe_yaml (~> 1.0.0)
     diff-lcs (1.2.5)
     faraday (0.9.2)
@@ -101,6 +107,7 @@ DEPENDENCIES
   activesupport (~> 3.2.13)
   backports (= 2.4.0)
   foreman (~> 0.41.0)
+  jemalloc!
   metriks
   metriks-librato_metrics
   multi_json
