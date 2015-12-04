@@ -7,7 +7,7 @@ GIT
 
 GIT
   remote: git://github.com/joshk/jemalloc-rb.git
-  revision: bf2b2c2306c21ccbd6d4f8a802813b22e676bc49
+  revision: 95772bdce5b53cea3b31fe94c6966e02bea5e03b
   specs:
     jemalloc (1.0.1)
 
