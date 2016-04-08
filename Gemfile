@@ -2,9 +2,9 @@ source 'https://rubygems.org'
 
 ruby '2.1.6'
 
-gem 'travis-support',  github: 'travis-ci/travis-support'
-gem 'travis-config',  '~> 1.0.0'
-gem 'travis-sidekiqs', github: 'travis-ci/travis-sidekiqs', require: nil
+gem 'travis-support',   github: 'travis-ci/travis-support'
+gem 'travis-config',    '~> 1.0', '>= 1.0.6'
+gem 'travis-sidekiqs',  github: 'travis-ci/travis-sidekiqs', require: nil
 
 gem 'sidekiq',         '~> 4.0.0'
 gem 'redis-namespace'
