@@ -2,6 +2,7 @@ require 'sinatra'
 require 'travis/support/logging'
 require 'sidekiq'
 require 'travis/sidekiq/build_request'
+require 'travis/listener/helper/retrying'
 require 'multi_json'
 require 'ipaddr'
 require 'metriks'
@@ -9,7 +10,7 @@ require 'metriks'
 module Travis
   module Listener
     class App < Sinatra::Base
-      include Logging
+      include Logging, Retrying
 
       # use Rack::CommonLogger for request logging
       enable :logging, :dump_errors
@@ -78,9 +79,13 @@ module Travis
 
       def handle_event
         return unless handle_event?
+
         debug "Event payload for #{uuid}: #{payload.inspect}"
         log_event(event_details, uuid: uuid, delivery_guid: delivery_guid, type: event_type, repository: slug)
-        Travis::Sidekiq::BuildRequest.perform_async(data)
+
+        retrying do
+          Travis::Sidekiq::BuildRequest.perform_async(data)
+        end
       end
 
       def handle_event?
