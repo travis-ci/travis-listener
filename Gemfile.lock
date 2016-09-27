@@ -6,13 +6,6 @@ GIT
       faraday (>= 0.7.6)
 
 GIT
-  remote: git://github.com/travis-ci/travis-sidekiqs.git
-  revision: 21a2fee158e25252dd78f5fa31e81b4f6583be23
-  specs:
-    travis-sidekiqs (0.0.1)
-      sidekiq
-
-GIT
   remote: git://github.com/travis-ci/travis-support.git
   revision: 2cd02d2a06fdd1e2fc2f129148c168b56f7c190f
   specs:
@@ -112,11 +105,10 @@ DEPENDENCIES
   sidekiq (~> 4.0.0)
   sinatra (~> 1.4.2)
   travis-config (~> 1.0.0)
-  travis-sidekiqs!
   travis-support!
   unicorn (~> 4.6.2)
   webmock
   yajl-ruby (~> 1.1.0)
 
 BUNDLED WITH
-   1.12.5
+   1.13.1

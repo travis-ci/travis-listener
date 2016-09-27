@@ -1,3 +1,9 @@
+module Payloads
+  def self.load(path)
+    File.read(File.expand_path("../payloads/#{path}.json", __FILE__))
+  end
+end
+
 GITHUB_PAYLOADS = {
   "gem-release" => %({
     "repository": {
