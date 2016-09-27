@@ -1,7 +1,7 @@
 require 'sinatra'
 require 'travis/support/logging'
 require 'sidekiq'
-require 'travis/sidekiq/build_request'
+require 'travis/gatekeeper'
 require 'multi_json'
 require 'ipaddr'
 require 'metriks'
@@ -15,7 +15,9 @@ module Travis
       enable :logging, :dump_errors
 
       # see https://github.com/github/github-services/blob/master/lib/services/travis.rb#L1-2
-      set :events, %w[push pull_request]
+      # https://github.com/travis-ci/travis-api/blob/255640fd4f191f1de6951081f0c5848324210fb5/lib/travis/github/services/set_hook.rb#L8
+      # https://github.com/travis-ci/travis-api/blob/255640fd4f191f1de6951081f0c5848324210fb5/lib/travis/api/v3/github.rb#L41
+      set :events, %w[push pull_request create delete repository]
 
       before do
         logger.level = 1
@@ -80,7 +82,7 @@ module Travis
         return unless handle_event?
         debug "Event payload for #{uuid}: #{payload.inspect}"
         log_event(event_details, uuid: uuid, delivery_guid: delivery_guid, type: event_type, repository: slug)
-        Travis::Sidekiq::BuildRequest.perform_async(data)
+        Travis::Gatekeeper.push(Travis.config.gator.queue, data)
       end
 
       def handle_event?
@@ -88,7 +90,7 @@ module Travis
       end
 
       def log_event(event_details, event_basics)
-        info(event_details.merge(event_basics).map{|k,v| "#{k}=#{v}"}.join(" "))
+        info(event_basics.merge(event_details).map{|k,v| "#{k}=#{v}"}.join(" "))
       end
 
       def data
@@ -126,6 +128,8 @@ module Travis
             head:    push_head_commit,
             commits: (decoded_payload["commits"] || []).map {|c| c['id'][0..6]}.join(",")
           }
+        else
+          {}
         end
       rescue => e
         error("Error logging payload: #{e.message}")
@@ -156,7 +160,11 @@ module Travis
       end
 
       def owner_login
-        decoded_payload['repository']['owner']['login'] || decoded_payload['repository']['owner']['name']
+        owner['login'] || owner['name']
+      end
+
+      def owner
+        decoded_payload['repository'] && decoded_payload['repository']['owner'] || {}
       end
 
       def repository_name

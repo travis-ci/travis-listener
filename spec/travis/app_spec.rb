@@ -5,9 +5,11 @@ describe Travis::Listener::App do
   let(:auth)    { ['user', '12345'] }
   let(:payload) { GITHUB_PAYLOADS['gem-release'] }
   let(:redis)   { Redis.new }
+  let(:queue)   { Travis::Gatekeeper }
 
-  before(:each) do
+  before do
     authorize(*auth)
+    allow(queue).to receive(:push)
   end
 
   def create(opts = {})
@@ -36,13 +38,13 @@ describe Travis::Listener::App do
   end
 
   it "should push the message to sidekiq" do
-    Travis::Sidekiq::BuildRequest.should_receive(:perform_async).with(QUEUE_PAYLOAD)
     create
+    expect(queue).to have_received(:push).with('build_requests', QUEUE_PAYLOAD)
   end
 
   it "passes the given request ID on" do
-    Travis::Sidekiq::BuildRequest.should_receive(:perform_async).with(QUEUE_PAYLOAD.merge({ :uuid => "abc-def-ghi" }))
     create(headers: { "HTTP_X_REQUEST_ID" => "abc-def-ghi" })
+    expect(queue).to have_received(:push).with('build_requests', QUEUE_PAYLOAD.merge(uuid: "abc-def-ghi"))
   end
 
   context "with valid_ips provided" do
