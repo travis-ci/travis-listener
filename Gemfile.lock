@@ -1,12 +1,12 @@
 GIT
-  remote: git://github.com/getsentry/raven-ruby.git
-  revision: 8e338102938275e96484583c3cce818cc6f05f37
+  remote: https://github.com/getsentry/raven-ruby
+  revision: eafa3b5a4499b220a4dfb5e9075ee658dbb4e518
   specs:
-    sentry-raven (0.16.0.dev0)
-      faraday (>= 0.7.6)
+    sentry-raven (2.1.0)
+      faraday (>= 0.7.6, < 0.10.x)
 
 GIT
-  remote: git://github.com/travis-ci/travis-support.git
+  remote: https://github.com/travis-ci/travis-support
   revision: 2cd02d2a06fdd1e2fc2f129148c168b56f7c190f
   specs:
     travis-support (0.0.1)
@@ -111,4 +111,4 @@ DEPENDENCIES
   yajl-ruby (~> 1.1.0)
 
 BUNDLED WITH
-   1.13.1
+   1.13.5
