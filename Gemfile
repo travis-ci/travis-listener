@@ -10,7 +10,7 @@ gem 'sinatra',         '~> 1.4.2'
 gem 'rake',            '~> 0.9.2.2'
 gem 'multi_json'
 
-gem 'sentry-raven',    git: 'https://github.com/getsentry/raven-ruby'
+gem 'sentry-raven'
 
 gem 'activesupport',   '~> 3.2.13'
 
