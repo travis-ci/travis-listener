@@ -15,6 +15,7 @@ script: bundle exec rspec spec
 
 jobs:
   include:
+    - stage: "testing time"
     - stage: ":ship: it to Quay.io"
       sudo: required
       dist: trusty
