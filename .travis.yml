@@ -1,6 +1,6 @@
 language: ruby
 
-rvm: 2.1.6
+rvm: 2.3.4
 
 services:
   - redis
@@ -12,3 +12,10 @@ cache: bundler
 bundler_args: --without development --jobs 3 --retry 3 --deployment
 
 script: bundle exec rspec spec
+
+jobs:
+  include:
+    - stage: ":ship: it to Quay.io"
+      sudo: required
+      dist: trusty
+      script: ./script/docker-build-and-push
