@@ -15,4 +15,4 @@ RUN bundle install
 
 COPY . /usr/src/app
 
-CMD bundle exec je puma -I lib -p ${PORT:-4000} -t ${PUMA_MIN_THREADS:-8}:${PUMA_MAX_THREADS:-12} -w ${PUMA_WORKERS:-2}
+CMD bundle exec unicorn -p ${PORT-4000} -c ./config/unicorn.rb
