@@ -15,8 +15,8 @@ docker tag travislistener_web quay.io/travisci/travis-listener:${TRAVIS_COMMIT:0
 docker push quay.io/travisci/travis-listener:${TRAVIS_COMMIT:0:7};
 
 if [ ${TRAVIS_BRANCH} = "master" ]; then
-  docker tag travislistener_web quay.io/travisci/travis-listener:latest";
-  docker push quay.io/travisci/travis-listener:$TRAVIS_BRANCH";
+  docker tag travislistener_web quay.io/travisci/travis-listener:latest;
+  docker push quay.io/travisci/travis-listener:$TRAVIS_BRANCH;
 fi
 
 exit 0;
