@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'travis-support',  github: 'travis-ci/travis-support'
+gem 'travis-support',  git: 'https://github.com/travis-ci/travis-support'
 gem 'travis-config',  '~> 1.0.0'
 
 gem 'sidekiq',         '~> 4.0.0'
@@ -10,7 +10,7 @@ gem 'sinatra',         '~> 1.4.2'
 gem 'rake',            '~> 0.9.2.2'
 gem 'multi_json'
 
-gem 'sentry-raven',    github: 'getsentry/raven-ruby'
+gem 'sentry-raven'
 
 gem 'activesupport',   '~> 3.2.13'
 
