@@ -15,10 +15,10 @@ module Travis
 
   module Listener
     class Config < Travis::Config
-      define  redis:          { url: ENV['LISTENER_REDIS_URL'] || 'redis://localhost:6379', namespace: 'sidekiq', network_timeout: 5 },
-              gator:          { queue: ENV['SIDEKIQ_GATEKEEPER_QUEUE'] || 'build_requests' },
-              sentry:         { },
-              metrics:        { reporter: 'librato' }
+      define  redis:   { url: ENV['LISTENER_REDIS_URL'] || 'redis://localhost:6379', namespace: 'sidekiq', network_timeout: 5 },
+              gator:   { queue: ENV['SIDEKIQ_GATEKEEPER_QUEUE'] || 'build_requests' },
+              sentry:  { },
+              metrics: { reporter: 'librato' }
     end
 
     class << self
