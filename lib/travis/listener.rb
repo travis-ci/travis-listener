@@ -15,7 +15,8 @@ module Travis
 
   module Listener
     class Config < Travis::Config
-      define  redis_gatekeeper: { url: ENV['REDIS_GATEKEEPER_URL'] || 'redis://localhost:6379', namespace: 'sidekiq', network_timeout: 5 },
+      define  redis:            { url: 'redis://localhost:6379', namespace: 'sidekiq', network_timeout: 5 },
+              redis_gatekeeper: { url: ENV['REDIS_GATEKEEPER_URL'] || 'redis://localhost:6379', namespace: 'sidekiq', network_timeout: 5 },
               gator:            { queue: ENV['SIDEKIQ_GATEKEEPER_QUEUE'] || 'build_requests' },
               sentry:           { },
               metrics:          { reporter: 'librato' }
@@ -24,7 +25,11 @@ module Travis
     class << self
       def setup
         ::Sidekiq.configure_client do |config|
-          config.redis = Travis.config.redis_gatekeeper.to_h
+          if ENV['REDIS_GATEKEEPER_ENABLED'] == 'true'
+            config.redis = Travis.config.redis_gatekeeper.to_h
+          else
+            config.redis = Travis.config.redis.to_h
+          end
         end
 
         if Travis.config.sentry.dsn
