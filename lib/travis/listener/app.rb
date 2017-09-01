@@ -96,7 +96,6 @@ module Travis
       def data
         {
           :type => event_type,
-          :credentials => credentials,
           :payload => payload,
           :uuid => uuid,
           :github_guid => delivery_guid,
@@ -144,11 +143,6 @@ module Travis
 
       def delivery_guid
         env['HTTP_X_GITHUB_GUID']
-      end
-
-      def credentials
-        login, token = Rack::Auth::Basic::Request.new(env).credentials
-        { :login => login, :token => token }
       end
 
       def payload
