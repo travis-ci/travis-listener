@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.3.4'
+ruby '2.3.5'
 
 gem 'travis-support',  git: 'https://github.com/travis-ci/travis-support'
 gem 'travis-config',  '~> 1.0.0'
