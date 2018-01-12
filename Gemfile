@@ -14,7 +14,7 @@ gem 'multi_json'
 
 gem 'sentry-raven'
 
-gem 'activesupport',   '~> 3.2.13'
+gem 'activesupport',   '~> 4.1.11'
 
 gem 'metriks'
 gem 'metriks-librato_metrics'
