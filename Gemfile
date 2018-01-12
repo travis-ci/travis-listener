@@ -23,7 +23,7 @@ gem 'metriks-librato_metrics'
 gem 'backports',       '2.4.0'
 
 # structures
-gem 'yajl-ruby',       '~> 1.1.0'
+gem 'yajl-ruby',       '~> 1.3.1'
 
 # heroku
 gem 'unicorn',         '~> 4.6.2'
