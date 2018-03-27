@@ -1,7 +1,7 @@
 require 'sinatra'
 require 'travis/support/logging'
 require 'sidekiq'
-require 'travis/gatekeeper'
+require 'travis/sidekiq'
 require 'multi_json'
 require 'ipaddr'
 require 'metriks'
@@ -17,7 +17,7 @@ module Travis
       # see https://github.com/github/github-services/blob/master/lib/services/travis.rb#L1-2
       # https://github.com/travis-ci/travis-api/blob/255640fd4f191f1de6951081f0c5848324210fb5/lib/travis/github/services/set_hook.rb#L8
       # https://github.com/travis-ci/travis-api/blob/255640fd4f191f1de6951081f0c5848324210fb5/lib/travis/api/v3/github.rb#L41
-      set :events, %w[push pull_request create delete repository]
+      set :events, %w[push pull_request create delete repository installation installation_repositories]
 
       before do
         logger.level = 1
@@ -82,7 +82,7 @@ module Travis
         return unless handle_event?
         debug "Event payload for #{uuid}: #{payload.inspect}"
         log_event(event_details, uuid: uuid, delivery_guid: delivery_guid, type: event_type, repository: slug)
-        Travis::Gatekeeper.push(Travis.config.gator.queue, data)
+        Travis::Sidekiq::Gatekeeper.push(Travis.config.gator.queue, data)
       end
 
       def handle_event?

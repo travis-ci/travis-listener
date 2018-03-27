@@ -2,7 +2,6 @@ require 'travis/config'
 require 'travis/support'
 require 'travis/listener/app'
 require 'logger'
-require 'sidekiq'
 
 $stdout.sync = true
 
@@ -24,14 +23,6 @@ module Travis
 
     class << self
       def setup
-        ::Sidekiq.configure_client do |config|
-          if ENV['REDIS_GATEKEEPER_ENABLED'] == 'true'
-            config.redis = Travis.config.redis_gatekeeper.to_h
-          else
-            config.redis = Travis.config.redis.to_h
-          end
-        end
-
         if Travis.config.sentry.dsn
           require 'raven'
           ::Raven.configure do |config|
