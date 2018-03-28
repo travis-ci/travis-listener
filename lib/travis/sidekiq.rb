@@ -1,4 +1,3 @@
-require 'connection_pool'
 require 'redis'
 require 'sidekiq'
 
@@ -7,7 +6,7 @@ module Travis
     class Gatekeeper
       def self.client
         @@client ||= ::Sidekiq::Client.new(
-          ConnectionPool.new { Redis.new(Travis.config.redis_gatekeeper.to_h) }
+          ::Sidekiq::RedisConnection.create(Travis.config.redis_gatekeeper.to_h)
         )
       end
 
@@ -23,7 +22,7 @@ module Travis
     class GithubSync
       def self.client
         @@client ||= ::Sidekiq::Client.new(
-          ConnectionPool.new { Redis.new(Travis.config.redis.to_h) }
+          ::Sidekiq::RedisConnection.create(Travis.config.redis.to_h)
         )
       end
 
