@@ -20,16 +20,24 @@ module Travis
     end
 
     class GithubSync
+      def self.gh_app_install(data)
+        push('sync.gh_apps', :gh_app_install, data)
+      end
+
+      def self.gh_app_repos(data)
+        push('sync.gh_apps', :gh_app_repos, data)
+      end
+
       def self.client
         @@client ||= ::Sidekiq::Client.new(
           ::Sidekiq::RedisConnection.create(Travis.config.redis.to_h)
         )
       end
 
-      def self.push(*args)
+      def self.push(queue, *args)
         client.push(
           'queue' => queue,
-          'class' => 'Travis::Github::Sync::Worker',
+          'class' => 'Travis::GithubSync::Worker',
           'args' => args
         )
       end

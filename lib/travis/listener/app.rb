@@ -37,7 +37,7 @@ module Travis
         report_ip_validity
         if !ip_validation? || valid_ip?
           if valid_request?
-            handle_event
+            dispatch_event
 
             204
           else
@@ -78,11 +78,24 @@ module Travis
         (Travis.config.listener && Travis.config.listener.valid_ips) || []
       end
 
-      def handle_event
+      def dispatch_event
         return unless handle_event?
         debug "Event payload for #{uuid}: #{payload.inspect}"
+
+        case event_type
+        when 'push', 'pull_request', 'create', 'delete', 'repository' then gatekeeper_event
+        when 'installation', 'installation_repositories'              then sync_event
+        end
+      end
+
+      def gatekeeper_event
         log_event(event_details, uuid: uuid, delivery_guid: delivery_guid, type: event_type, repository: slug)
         Travis::Sidekiq::Gatekeeper.push(Travis.config.gator.queue, data)
+      end
+
+      def sync_event
+        log_event(event_details, uuid: uuid, delivery_guid: delivery_guid, type: event_type)
+        Travis::Sidekiq::GithubSync.push(data)
       end
 
       def handle_event?
