@@ -2,7 +2,6 @@ require 'travis/config'
 require 'travis/support'
 require 'travis/listener/app'
 require 'logger'
-require 'sidekiq'
 
 $stdout.sync = true
 
@@ -15,23 +14,16 @@ module Travis
 
   module Listener
     class Config < Travis::Config
-      define  redis:            { url: 'redis://localhost:6379', namespace: 'sidekiq', network_timeout: 5 },
-              redis_gatekeeper: { url: ENV['REDIS_GATEKEEPER_URL'] || 'redis://localhost:6379', namespace: 'sidekiq', network_timeout: 5 },
-              gator:            { queue: ENV['SIDEKIQ_GATEKEEPER_QUEUE'] || 'build_requests' },
+      define  redis:            { url: ENV.fetch('REDIS_URL', 'redis://localhost:6379'), namespace: 'sidekiq', network_timeout: 5 },
+              redis_gatekeeper: { url: ENV.fetch('REDIS_GATEKEEPER_URL', 'redis://localhost:6379'), namespace: 'sidekiq', network_timeout: 5 },
+              gator:            { queue: ENV.fetch('SIDEKIQ_GATEKEEPER_QUEUE', 'build_requests') },
+              sync:             { queue: ENV.fetch('SIDEKIQ_SYNC_QUEUE', 'sync.gh_apps') },
               sentry:           { },
               metrics:          { reporter: 'librato' }
     end
 
     class << self
       def setup
-        ::Sidekiq.configure_client do |config|
-          if ENV['REDIS_GATEKEEPER_ENABLED'] == 'true'
-            config.redis = Travis.config.redis_gatekeeper.to_h
-          else
-            config.redis = Travis.config.redis.to_h
-          end
-        end
-
         if Travis.config.sentry.dsn
           require 'raven'
           ::Raven.configure do |config|

@@ -5,7 +5,7 @@ describe Travis::Listener::App do
   let(:auth)    { ['user', '12345'] }
   let(:payload) { GITHUB_PAYLOADS['gem-release'] }
   let(:redis)   { Redis.new }
-  let(:queue)   { Travis::Gatekeeper }
+  let(:queue)   { Travis::Sidekiq::Gatekeeper }
 
   before do
     authorize(*auth)
