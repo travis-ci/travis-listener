@@ -95,7 +95,7 @@ module Travis
 
       def sync_event
         log_event(event_details, uuid: uuid, delivery_guid: delivery_guid, type: event_type)
-        Travis::Sidekiq::GithubSync.push(data)
+        Travis::Sidekiq::GithubSync.push(Travis.config.sync.queue, data)
       end
 
       def handle_event?

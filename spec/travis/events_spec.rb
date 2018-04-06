@@ -25,7 +25,9 @@ describe Travis::Listener::App do
   end
 
   shared_examples_for 'queues gh sync event' do |&block|
-    it { expect(gh_sync_queue).to have_received(:push).with(hash_including(type: event)) }
+    it { expect(gh_sync_queue)
+      .to have_received(:push)
+      .with('sync.gh_apps', hash_including(type: event)) }
   end
 
   describe 'a push event' do
