@@ -45,8 +45,6 @@ module Travis
         report_ip_validity
         if !ip_validation? || valid_ip?
           if valid_request?
-            logger.info("204 for params: #{params} data: #{data} event_type: #{event_type}")
-
             dispatch_event
 
             204
