@@ -93,10 +93,28 @@ module Travis
         return unless handle_event?
         debug "Event payload for #{uuid}: #{payload.inspect}"
 
-        case event_type
-        when 'push', 'pull_request', 'create', 'delete', 'repository' then gatekeeper_event
-        when 'integration_installation', 'installation_repositories'  then sync_event
+        if github_pr_event?
+          gatekeeper_event
+        elsif github_apps_event?
+          sync_event
         end
+      end
+
+      def github_pr_event?
+        [
+          'push',
+          'pull_request',
+          'create',
+          'delete',
+          'repository',
+        ].include? event_type
+      end
+
+      def github_apps_event?
+        [
+          'integration_installation',
+          'installation_repositories',
+        ].include? event_type
       end
 
       def gatekeeper_event
@@ -170,14 +188,9 @@ module Travis
       end
 
       def payload
-        # If it has "payload" as a key, then we're dealing with form data
-        #
-
-        if params.has_key?("payload") || params.has_key?(:payload)
+        if github_pr_event?
           params[:payload]
-        else
-          # Otherwise, treat it like JSON and attempt to parse
-          #
+        elsif github_apps_event?
           begin
             @_parsed_json ||= JSON.parse(request.body.read)
           rescue JSON::ParserError
