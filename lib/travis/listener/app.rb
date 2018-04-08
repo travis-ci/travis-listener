@@ -17,7 +17,15 @@ module Travis
       # see https://github.com/github/github-services/blob/master/lib/services/travis.rb#L1-2
       # https://github.com/travis-ci/travis-api/blob/255640fd4f191f1de6951081f0c5848324210fb5/lib/travis/github/services/set_hook.rb#L8
       # https://github.com/travis-ci/travis-api/blob/255640fd4f191f1de6951081f0c5848324210fb5/lib/travis/api/v3/github.rb#L41
-      set :events, %w[push pull_request create delete repository installation installation_repositories]
+      set :events, %w[
+        push
+        pull_request
+        create
+        delete
+        repository
+        integration_installation
+        installation_repositories
+      ]
 
       before do
         logger.level = 1
@@ -84,7 +92,7 @@ module Travis
 
         case event_type
         when 'push', 'pull_request', 'create', 'delete', 'repository' then gatekeeper_event
-        when 'installation', 'installation_repositories'              then sync_event
+        when 'integration_installation', 'installation_repositories'  then sync_event
         end
       end
 

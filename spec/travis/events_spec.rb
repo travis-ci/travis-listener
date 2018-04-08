@@ -90,9 +90,9 @@ describe Travis::Listener::App do
     include_examples 'queues gatekeeper event'
   end
 
-  describe 'an installation event' do
-    let(:type)  { 'installation' }
-    let(:event) { 'installation' }
+  describe 'an integration_installation event' do
+    let(:type)  { 'integration_installation' }
+    let(:event) { 'integration_installation' }
     include_examples 'queues gh sync event'
   end
 
