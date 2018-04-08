@@ -170,7 +170,20 @@ module Travis
       end
 
       def payload
-        params[:payload]
+        # If it has "payload" as a key, then we're dealing with form data
+        #
+
+        if params.has_key?("payload") || params.has_key?(:payload)
+          params[:payload]
+        else
+          # Otherwise, treat it like JSON and attempt to parse
+          #
+          begin
+            @_parsed_json ||= JSON.parse(request.body.read)
+          rescue JSON::ParserError
+            nil
+          end
+        end
       end
 
       def slug
