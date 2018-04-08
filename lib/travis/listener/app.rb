@@ -119,11 +119,11 @@ module Travis
 
       def data
         {
-          :type => event_type,
-          :payload => payload,
-          :uuid => uuid,
-          :github_guid => delivery_guid,
-          :github_event => event_type
+          :type         => event_type,
+          :payload      => payload,
+          :uuid         => uuid,
+          :github_guid  => delivery_guid,
+          :github_event => event_type,
         }
       end
 
