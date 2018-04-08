@@ -50,6 +50,9 @@ module Travis
             204
           else
             Metriks.meter('listener.request.no_payload').mark
+
+            logger.info("422 for ip: #{request.ip} ip_valid: #{valid_ip?} params: #{params} request: #{request.body.read} data: #{data}")
+
             422
           end
         else
