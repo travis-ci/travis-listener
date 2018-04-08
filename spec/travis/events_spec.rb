@@ -14,9 +14,15 @@ describe Travis::Listener::App do
   before { create }
 
   def create(opts = {})
-    params  = { :payload => (opts[:payload] || payload) }
+    if ["integration_installation", "installation_repositories"].include? type
+      params = payload
+    else
+      params = { :payload => (opts[:payload] || payload) }
+    end
+
     headers = { 'HTTP_X_GITHUB_EVENT' => event, 'HTTP_X_GITHUB_GUID' => 'abc123' }
     headers.merge!(opts.delete(:headers) || {})
+
     post(opts[:url] || '/', params, headers)
   end
 
