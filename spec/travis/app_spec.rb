@@ -16,6 +16,7 @@ describe Travis::Listener::App do
     params  = { :payload => (opts[:payload] || payload) }
     headers = { 'HTTP_X_GITHUB_EVENT' => 'push', 'HTTP_X_GITHUB_GUID' => 'abc123' }
     headers.merge!(opts.delete(:headers) || {})
+
     post(opts[:url] || '/', params, headers)
   end
 

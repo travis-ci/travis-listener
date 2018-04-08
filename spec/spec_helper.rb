@@ -10,6 +10,8 @@ require 'payloads'
 
 require 'sidekiq/testing'
 
+require 'pry'
+
 Travis.logger = ::Logger.new(StringIO.new)
 
 Travis::Listener.setup
