@@ -45,13 +45,13 @@ module Travis
         report_ip_validity
         if !ip_validation? || valid_ip?
           if valid_request?
+            logger.info("204 for params: #{params} data: #{data} event_type: #{event_type}")
+
             dispatch_event
 
             204
           else
             Metriks.meter('listener.request.no_payload').mark
-
-            logger.info("422 for ip: #{request.ip} ip_valid: #{valid_ip?} params: #{params} request: #{request.body.read} data: #{data}")
 
             422
           end
