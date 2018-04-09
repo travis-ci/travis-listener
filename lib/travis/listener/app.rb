@@ -124,6 +124,8 @@ module Travis
           repository:    slug
         )
 
+        Metriks.meter("listener.event.webhook_#{event_type}").mark
+
         Travis::Sidekiq::Gatekeeper.push(Travis.config.gator.queue, data)
       end
 
