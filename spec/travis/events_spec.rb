@@ -30,12 +30,6 @@ describe Travis::Listener::App do
     it { expect(gatekeeper_queue).to have_received(:push).with('build_requests', hash_including(type: event)) }
   end
 
-  shared_examples_for 'queues gh sync event' do |&block|
-    it { expect(gh_sync_queue)
-      .to have_received(:push)
-      .with('sync.gh_apps', hash_including(type: event)) }
-  end
-
   describe 'a push event' do
     let(:type)  { 'push' }
     let(:event) { 'push' }
@@ -99,12 +93,18 @@ describe Travis::Listener::App do
   describe 'an integration_installation event' do
     let(:type)  { 'integration_installation' }
     let(:event) { 'integration_installation' }
-    include_examples 'queues gh sync event'
+
+    it { expect(gh_sync_queue)
+      .to have_received(:push)
+      .with('sync.gh_apps', :gh_app_install, hash_including(type: event)) }
   end
 
   describe 'an installation_repositories event' do
     let(:type)  { 'installation_repositories' }
     let(:event) { 'installation_repositories' }
-    include_examples 'queues gh sync event'
+
+    it { expect(gh_sync_queue)
+      .to have_received(:push)
+      .with('sync.gh_apps', :gh_app_repos, hash_including(type: event)) }
   end
 end

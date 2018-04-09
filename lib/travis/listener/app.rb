@@ -135,7 +135,15 @@ module Travis
           type:          event_type
         )
 
-        Travis::Sidekiq::GithubSync.push(Travis.config.sync.queue, data)
+        case event_type
+        when 'integration_installation'
+          Travis::Sidekiq::GithubSync.gh_app_install(data)
+        when 'installation_repositories'
+          Travis::Sidekiq::GithubSync.gh_app_repos(data)
+        else
+          logger.info "Unable to find a sync event for event_type: #{event_type}"
+          false
+        end
       end
 
       def handle_event?
