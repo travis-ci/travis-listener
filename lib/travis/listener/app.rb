@@ -17,7 +17,15 @@ module Travis
       # see https://github.com/github/github-services/blob/master/lib/services/travis.rb#L1-2
       # https://github.com/travis-ci/travis-api/blob/255640fd4f191f1de6951081f0c5848324210fb5/lib/travis/github/services/set_hook.rb#L8
       # https://github.com/travis-ci/travis-api/blob/255640fd4f191f1de6951081f0c5848324210fb5/lib/travis/api/v3/github.rb#L41
-      set :events, %w[push pull_request create delete repository installation installation_repositories]
+      set :events, %w[
+        push
+        pull_request
+        create
+        delete
+        repository
+        integration_installation
+        installation_repositories
+      ]
 
       before do
         logger.level = 1
@@ -42,6 +50,7 @@ module Travis
             204
           else
             Metriks.meter('listener.request.no_payload').mark
+
             422
           end
         else
@@ -82,20 +91,61 @@ module Travis
         return unless handle_event?
         debug "Event payload for #{uuid}: #{payload.inspect}"
 
-        case event_type
-        when 'push', 'pull_request', 'create', 'delete', 'repository' then gatekeeper_event
-        when 'installation', 'installation_repositories'              then sync_event
+        if github_pr_event?
+          gatekeeper_event
+        elsif github_apps_event?
+          sync_event
         end
       end
 
+      def github_pr_event?
+        [
+          'push',
+          'pull_request',
+          'create',
+          'delete',
+          'repository',
+        ].include? event_type
+      end
+
+      def github_apps_event?
+        [
+          'integration_installation',
+          'installation_repositories',
+        ].include? event_type
+      end
+
       def gatekeeper_event
-        log_event(event_details, uuid: uuid, delivery_guid: delivery_guid, type: event_type, repository: slug)
+        log_event(
+          event_details,
+          uuid:          uuid,
+          delivery_guid: delivery_guid,
+          type:          event_type,
+          repository:    slug
+        )
+
+        Metriks.meter("listener.event.webhook_#{event_type}").mark
+
         Travis::Sidekiq::Gatekeeper.push(Travis.config.gator.queue, data)
       end
 
       def sync_event
-        log_event(event_details, uuid: uuid, delivery_guid: delivery_guid, type: event_type)
-        Travis::Sidekiq::GithubSync.push(data)
+        log_event(
+          event_details,
+          uuid:          uuid,
+          delivery_guid: delivery_guid,
+          type:          event_type
+        )
+
+        case event_type
+        when 'integration_installation'
+          Travis::Sidekiq::GithubSync.gh_app_install(data)
+        when 'installation_repositories'
+          Travis::Sidekiq::GithubSync.gh_app_repos(data)
+        else
+          logger.info "Unable to find a sync event for event_type: #{event_type}"
+          false
+        end
       end
 
       def handle_event?
@@ -108,11 +158,11 @@ module Travis
 
       def data
         {
-          :type => event_type,
-          :payload => payload,
-          :uuid => uuid,
-          :github_guid => delivery_guid,
-          :github_event => event_type
+          :type         => event_type,
+          :payload      => payload,
+          :uuid         => uuid,
+          :github_guid  => delivery_guid,
+          :github_event => event_type,
         }
       end
 
@@ -159,7 +209,15 @@ module Travis
       end
 
       def payload
-        params[:payload]
+        if github_pr_event?
+          params[:payload]
+        elsif github_apps_event?
+          begin
+            @_parsed_json ||= JSON.parse(request.body.read)
+          rescue JSON::ParserError
+            nil
+          end
+        end
       end
 
       def slug

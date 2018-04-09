@@ -14,17 +14,21 @@ module Travis
         client.push(
           'queue' => queue,
           'class' => 'Travis::Gatekeeper::Worker',
-          'args' => args
+          'args'  => args
         )
       end
     end
 
     class GithubSync
       def self.gh_app_install(data)
+        Metriks.meter('listener.event.gh_apps_install').mark
+
         push('sync.gh_apps', :gh_app_install, data)
       end
 
       def self.gh_app_repos(data)
+        Metriks.meter('listener.event.gh_apps_repos').mark
+
         push('sync.gh_apps', :gh_app_repos, data)
       end
 
@@ -38,7 +42,7 @@ module Travis
         client.push(
           'queue' => queue,
           'class' => 'Travis::GithubSync::Worker',
-          'args' => args
+          'args'  => args
         )
       end
     end

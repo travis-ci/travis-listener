@@ -29,6 +29,7 @@ gem 'yajl-ruby',       '~> 1.3.1'
 gem 'unicorn',         '~> 4.6.2'
 
 group :development, :test do
+  gem 'pry'
   gem 'rspec',         '~> 2.9'
 end
 
