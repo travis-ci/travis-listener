@@ -116,12 +116,25 @@ module Travis
       end
 
       def gatekeeper_event
-        log_event(event_details, uuid: uuid, delivery_guid: delivery_guid, type: event_type, repository: slug)
+        log_event(
+          event_details,
+          uuid:          uuid,
+          delivery_guid: delivery_guid,
+          type:          event_type,
+          repository:    slug
+        )
+
         Travis::Sidekiq::Gatekeeper.push(Travis.config.gator.queue, data)
       end
 
       def sync_event
-        log_event(event_details, uuid: uuid, delivery_guid: delivery_guid, type: event_type)
+        log_event(
+          event_details,
+          uuid:          uuid,
+          delivery_guid: delivery_guid,
+          type:          event_type
+        )
+
         Travis::Sidekiq::GithubSync.push(Travis.config.sync.queue, data)
       end
 
