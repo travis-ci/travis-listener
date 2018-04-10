@@ -14,7 +14,7 @@ describe Travis::Listener::App do
   before { create }
 
   def create(opts = {})
-    if ["integration_installation", "installation_repositories"].include? type
+    if ["installation", "installation_repositories"].include? type
       params = payload
     else
       params = { :payload => (opts[:payload] || payload) }
@@ -90,9 +90,9 @@ describe Travis::Listener::App do
     include_examples 'queues gatekeeper event'
   end
 
-  describe 'an integration_installation event' do
-    let(:type)  { 'integration_installation' }
-    let(:event) { 'integration_installation' }
+  describe 'an installation event' do
+    let(:type)  { 'installation' }
+    let(:event) { 'installation' }
 
     it { expect(gh_sync_queue)
       .to have_received(:push)
