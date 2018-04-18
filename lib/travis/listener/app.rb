@@ -23,7 +23,7 @@ module Travis
         create
         delete
         repository
-        integration_installation
+        installation
         installation_repositories
       ]
 
@@ -110,7 +110,7 @@ module Travis
 
       def github_apps_event?
         [
-          'integration_installation',
+          'installation',
           'installation_repositories',
         ].include? event_type
       end
@@ -138,7 +138,7 @@ module Travis
         )
 
         case event_type
-        when 'integration_installation'
+        when 'installation'
           Travis::Sidekiq::GithubSync.gh_app_install(data)
         when 'installation_repositories'
           Travis::Sidekiq::GithubSync.gh_app_repos(data)
