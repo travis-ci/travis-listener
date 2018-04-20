@@ -205,7 +205,7 @@ module Travis
       end
 
       def delivery_guid
-        env['HTTP_X_GITHUB_GUID']
+        env['HTTP_X_GITHUB_GUID'] || env['HTTP_X_GITHUB_DELIVERY']
       end
 
       def payload
