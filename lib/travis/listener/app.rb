@@ -32,7 +32,7 @@ module Travis
       end
 
       get '/' do
-        redirect "http://about.travis-ci.org"
+        redirect "http://travis-ci.com"
       end
 
       # Used for new relic uptime monitoring
@@ -209,9 +209,9 @@ module Travis
       end
 
       def payload
-        if github_pr_event?
+        unless params[:payload].empty?
           params[:payload]
-        elsif github_apps_event?
+        else
           begin
             @_parsed_json ||= JSON.parse(request.body.read)
           rescue JSON::ParserError
