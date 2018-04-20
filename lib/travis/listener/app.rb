@@ -209,7 +209,7 @@ module Travis
       end
 
       def payload
-        unless params[:payload].empty?
+        if params[:payload]
           params[:payload]
         else
           begin
