@@ -212,11 +212,7 @@ module Travis
         if params[:payload]
           params[:payload]
         else
-          begin
-            @_parsed_json ||= JSON.parse(request.body.read)
-          rescue JSON::ParserError
-            nil
-          end
+          @_request_body ||= request.body.read
         end
       end
 
