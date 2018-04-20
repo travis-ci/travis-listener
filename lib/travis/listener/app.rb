@@ -235,7 +235,7 @@ module Travis
       end
 
       def decoded_payload
-        @decoded_payload ||= MultiJson.load(payload)
+        @decoded_payload ||= (payload ? MultiJson.load(payload) : nil)
       end
     end
   end
