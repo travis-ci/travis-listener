@@ -211,8 +211,10 @@ module Travis
       def payload
         if params[:payload]
           params[:payload]
+        elsif @_request_body ||= request.body.read
+          @_request_body
         else
-          @_request_body ||= request.body.read
+          nil
         end
       end
 
