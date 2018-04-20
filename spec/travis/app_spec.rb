@@ -13,7 +13,12 @@ describe Travis::Listener::App do
   end
 
   def create(opts = {})
-    params  = { :payload => (opts[:payload] || payload) }
+    params  = {}
+
+    if params_payload = (opts[:payload] || payload)
+      params[:payload] = params_payload
+    end
+
     headers = { 'HTTP_X_GITHUB_EVENT' => 'push', 'HTTP_X_GITHUB_GUID' => 'abc123' }
     headers.merge!(opts.delete(:headers) || {})
 

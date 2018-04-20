@@ -209,13 +209,17 @@ module Travis
       end
 
       def payload
-        if params[:payload]
+        if !params[:payload].blank?
           params[:payload]
-        elsif @_request_body ||= request.body.read
-          @_request_body
+        elsif !request_body.blank?
+          request_body
         else
           nil
         end
+      end
+
+      def request_body
+        @_request_body ||= request.body.read
       end
 
       def slug
@@ -235,7 +239,7 @@ module Travis
       end
 
       def decoded_payload
-        @decoded_payload ||= (payload.nil? ? nil : MultiJson.load(payload))
+        @decoded_payload ||= MultiJson.load(payload)
       end
     end
   end
