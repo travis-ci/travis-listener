@@ -32,7 +32,7 @@ module Travis
       end
 
       get '/' do
-        redirect "http://about.travis-ci.org"
+        redirect "http://travis-ci.com"
       end
 
       # Used for new relic uptime monitoring
@@ -205,19 +205,21 @@ module Travis
       end
 
       def delivery_guid
-        env['HTTP_X_GITHUB_GUID']
+        env['HTTP_X_GITHUB_GUID'] || env['HTTP_X_GITHUB_DELIVERY']
       end
 
       def payload
-        if github_pr_event?
+        if !params[:payload].blank?
           params[:payload]
-        elsif github_apps_event?
-          begin
-            @_parsed_json ||= JSON.parse(request.body.read)
-          rescue JSON::ParserError
-            nil
-          end
+        elsif !request_body.blank?
+          request_body
+        else
+          nil
         end
+      end
+
+      def request_body
+        @_request_body ||= request.body.read
       end
 
       def slug
