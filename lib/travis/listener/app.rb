@@ -221,7 +221,7 @@ module Travis
       def request_body
         @_request_body ||= begin
           request.body.rewind
-          request.body.read
+          request.body.read.force_encoding("utf-8")
         end
       end
 
