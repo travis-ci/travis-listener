@@ -219,7 +219,10 @@ module Travis
       end
 
       def request_body
-        @_request_body ||= request.body.read
+        @_request_body ||= begin
+          request.body.rewind
+          request.body.read
+        end
       end
 
       def slug
