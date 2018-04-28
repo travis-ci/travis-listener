@@ -182,7 +182,7 @@ module Travis
       end
 
       def integration_type
-        if !!request_body
+        if !request_body.blank?
           "github_apps"
         else
           "webhook"
