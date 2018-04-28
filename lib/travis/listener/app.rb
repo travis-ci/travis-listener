@@ -88,7 +88,16 @@ module Travis
       end
 
       def dispatch_event
-        return unless handle_event?
+        Metriks.meter("listener.event.#{event_type}").mark
+        Metriks.meter("listener.integration.#{integration_type}").mark
+
+        if handle_event?
+          Metriks.meter("listener.handle.accept").mark
+        else
+          Metriks.meter("listener.handle.reject").mark
+          return
+        end
+
         debug "Event payload for #{uuid}: #{payload.inspect}"
 
         if github_pr_event?
@@ -123,8 +132,6 @@ module Travis
           type:          event_type,
           repository:    slug
         )
-
-        Metriks.meter("listener.event.webhook_#{event_type}").mark
 
         Travis::Sidekiq::Gatekeeper.push(Travis.config.gator.queue, data)
       end
@@ -172,6 +179,14 @@ module Travis
 
       def event_type
         env['HTTP_X_GITHUB_EVENT'] || 'push'
+      end
+
+      def integration_type
+        if !!request_body
+          "github_apps"
+        else
+          "webhook"
+        end
       end
 
       def event_details
