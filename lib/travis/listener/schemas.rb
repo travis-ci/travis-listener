@@ -108,7 +108,7 @@ module Travis
           {
             repository: payload["repository"]["full_name"],
             ref:        payload['ref'],
-            head:       payload['head_commit']['id'][0..6],
+            head:       payload['head_commit'] && payload['head_commit']['id'][0..6],
             commits:   (payload["commits"] || []).map {|c| c['id'][0..6]}.join(","),
             sender:     payload['sender']['login']
           }
