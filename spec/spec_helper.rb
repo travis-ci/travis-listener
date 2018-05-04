@@ -6,7 +6,6 @@ require 'webmock/rspec'
 
 require 'travis/listener'
 require 'support/webmock'
-require 'payloads'
 
 require 'sidekiq/testing'
 
@@ -31,3 +30,16 @@ RSpec.configure do |c|
     Support::Webmock.mock!
   end
 end
+
+module Payloads
+  def self.load(path)
+    File.read(File.expand_path("../payloads/#{path}.json", __FILE__))
+  end
+end
+
+QUEUE_PAYLOAD = {
+  :type => 'push',
+  :uuid => Travis.uuid,
+  :github_guid => 'abc123',
+  :github_event => 'push'
+}

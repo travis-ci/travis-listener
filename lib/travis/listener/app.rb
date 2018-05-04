@@ -1,8 +1,9 @@
+require 'travis/listener/schemas'
 require 'sinatra'
 require 'travis/support/logging'
 require 'sidekiq'
 require 'travis/sidekiq'
-require 'multi_json'
+require 'yajl'
 require 'ipaddr'
 require 'metriks'
 
@@ -14,9 +15,7 @@ module Travis
       # use Rack::CommonLogger for request logging
       enable :logging, :dump_errors
 
-      # see https://github.com/github/github-services/blob/master/lib/services/travis.rb#L1-2
-      # https://github.com/travis-ci/travis-api/blob/255640fd4f191f1de6951081f0c5848324210fb5/lib/travis/github/services/set_hook.rb#L8
-      # https://github.com/travis-ci/travis-api/blob/255640fd4f191f1de6951081f0c5848324210fb5/lib/travis/api/v3/github.rb#L41
+      # https://developer.github.com/v3/activity/events/types
       set :events, %w[
         push
         pull_request
@@ -91,58 +90,11 @@ module Travis
         Metriks.meter("listener.event.#{event_type}").mark
         Metriks.meter("listener.integration.#{integration_type}").mark
 
-        if handle_event?
-          Metriks.meter("listener.handle.accept").mark
-        else
-          Metriks.meter("listener.handle.reject").mark
-          return
-        end
+        return unless handle_event?
 
         debug "Event payload for #{uuid}: #{payload.inspect}"
 
-        if github_pr_event?
-          gatekeeper_event
-        elsif github_apps_event?
-          sync_event
-        end
-      end
-
-      def github_pr_event?
-        [
-          'push',
-          'pull_request',
-          'create',
-          'delete',
-          'repository',
-        ].include? event_type
-      end
-
-      def github_apps_event?
-        [
-          'installation',
-          'installation_repositories',
-        ].include? event_type
-      end
-
-      def gatekeeper_event
-        log_event(
-          event_details,
-          uuid:          uuid,
-          delivery_guid: delivery_guid,
-          type:          event_type,
-          repository:    slug
-        )
-
-        Travis::Sidekiq::Gatekeeper.push(Travis.config.gator.queue, data)
-      end
-
-      def sync_event
-        log_event(
-          event_details,
-          uuid:          uuid,
-          delivery_guid: delivery_guid,
-          type:          event_type
-        )
+        log_event
 
         case event_type
         when 'installation'
@@ -150,17 +102,28 @@ module Travis
         when 'installation_repositories'
           Travis::Sidekiq::GithubSync.gh_app_repos(data)
         else
-          logger.info "Unable to find a sync event for event_type: #{event_type}"
-          false
+          Travis::Sidekiq::Gatekeeper.push(Travis.config.gator.queue, data)
         end
       end
 
       def handle_event?
-        settings.events.include?(event_type)
+        if settings.events.include?(event_type)
+          Metriks.meter("listener.handle.accept").mark
+          true
+        else
+          Metriks.meter("listener.handle.reject").mark
+          false
+        end
       end
 
-      def log_event(event_details, event_basics)
-        info(event_basics.merge(event_details).map{|k,v| "#{k}=#{v}"}.join(" "))
+      def log_event
+        details = {
+          uuid:          uuid,
+          delivery_guid: delivery_guid,
+          type:          event_type
+        }
+
+        info(details.merge(event_details).map{|k,v| "#{k}=#{v}"}.join(" "))
       end
 
       def data
@@ -181,6 +144,10 @@ module Travis
         env['HTTP_X_GITHUB_EVENT'] || 'push'
       end
 
+      def delivery_guid
+        env['HTTP_X_GITHUB_DELIVERY'] || env['HTTP_X_GITHUB_GUID']
+      end
+
       def integration_type
         if !params[:payload].blank?
           "webhook"
@@ -190,24 +157,7 @@ module Travis
       end
 
       def event_details
-        if event_type == 'pull_request'
-          {
-            number: decoded_payload['number'],
-            action: decoded_payload['action'],
-            source: decoded_payload['pull_request']['head']['repo'] && decoded_payload['pull_request']['head']['repo']['full_name'],
-            head:   decoded_payload['pull_request']['head']['sha'][0..6],
-            ref:    decoded_payload['pull_request']['head']['ref'],
-            user:   decoded_payload['pull_request']['user']['login'],
-          }
-        elsif event_type == 'push'
-          {
-            ref:     decoded_payload['ref'],
-            head:    push_head_commit,
-            commits: (decoded_payload["commits"] || []).map {|c| c['id'][0..6]}.join(",")
-          }
-        else
-          {}
-        end
+        Schemas.event_details(event_type, decoded_payload)
       rescue => e
         error("Error logging payload: #{e.message}")
         error("Payload causing error: #{decoded_payload}")
@@ -215,12 +165,25 @@ module Travis
         {}
       end
 
-      def push_head_commit
-        decoded_payload['head_commit'] && decoded_payload['head_commit']['id'] && decoded_payload['head_commit']['id'][0..6]
-      end
+      def decoded_payload
+        @decoded_payload ||= begin
+          schema = 
+            case event_type
+            when 'push'
+              Schemas::PUSH
+            when 'pull_request'
+              Schemas::PULL_REQUEST
+            when 'installation'
+              Schemas::INSTALLATION
+            when 'installation_repositories'
+              Schemas::INSTALLATION
+            else
+              Schemas::FALLBACK
+            end
 
-      def delivery_guid
-        env['HTTP_X_GITHUB_GUID'] || env['HTTP_X_GITHUB_DELIVERY']
+          stream = StringIO.new(payload)
+          Yajl::Projector.new(stream).project(schema)
+        end
       end
 
       def payload
@@ -238,26 +201,6 @@ module Travis
           request.body.rewind
           request.body.read.force_encoding("utf-8")
         end
-      end
-
-      def slug
-        "#{owner_login}/#{repository_name}"
-      end
-
-      def owner_login
-        owner['login'] || owner['name']
-      end
-
-      def owner
-        decoded_payload['repository'] && decoded_payload['repository']['owner'] || {}
-      end
-
-      def repository_name
-        decoded_payload['repository']['name']
-      end
-
-      def decoded_payload
-        @decoded_payload ||= MultiJson.load(payload)
       end
     end
   end

@@ -10,7 +10,6 @@ gem 'redis-namespace'
 
 gem 'sinatra',         '~> 1.4.2'
 gem 'rake',            '~> 0.9.2.2'
-gem 'multi_json'
 
 gem 'sentry-raven'
 
@@ -23,7 +22,7 @@ gem 'metriks-librato_metrics'
 gem 'backports',       '2.4.0'
 
 # structures
-gem 'yajl-ruby',       '~> 1.3.1'
+gem 'yajl-ruby',       '~> 1.4.0'
 
 # heroku
 gem 'unicorn',         '~> 4.6.2'
