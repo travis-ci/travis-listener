@@ -90,6 +90,20 @@ describe Travis::Listener::App do
     include_examples 'queues gatekeeper event'
   end
 
+  describe 'a create_run event' do
+    let(:type)  { 'rerequested_check_run' }
+    let(:event) { 'check_run' }
+
+    include_examples 'queues gatekeeper event'
+  end
+
+  describe 'a create_suite event' do
+    let(:type)  { 'rerequested_check_suite' }
+    let(:event) { 'check_suite' }
+
+    include_examples 'queues gatekeeper event'
+  end
+
   describe 'an installation event' do
     let(:type)  { 'installation' }
     let(:event) { 'installation' }

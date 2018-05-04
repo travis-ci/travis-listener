@@ -114,13 +114,12 @@ module Travis
             commits:   (payload["commits"] || []).map {|c| c['id'][0..6]}.join(","),
             sender:     payload['sender']['login']
           }
-        when 'create', 'delete', 'repository'
+        when 'create', 'delete', 'repository', 'check_run', 'check_suite'
           {
             action:     payload['action'],
             repository: payload["repository"]["full_name"],
             sender:     payload['sender']['login']
           }
-        
         when 'installation', 'installation_repositories'
           {
             action:       payload['action'],

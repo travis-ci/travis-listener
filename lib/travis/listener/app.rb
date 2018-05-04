@@ -24,6 +24,8 @@ module Travis
         repository
         installation
         installation_repositories
+        check_run
+        check_suite
       ]
 
       before do
@@ -107,13 +109,18 @@ module Travis
       end
 
       def handle_event?
-        if settings.events.include?(event_type)
+        if rerequested_check? || settings.events.include?(event_type)
           Metriks.meter("listener.handle.accept").mark
           true
         else
           Metriks.meter("listener.handle.reject").mark
           false
         end
+      end
+
+      def rerequested_check?
+        ['check_run', 'check_suite'].include?(event_type) &&
+          decoded_payload['action'] == 'rerequested'
       end
 
       def log_event
@@ -175,7 +182,7 @@ module Travis
               Schemas::PULL_REQUEST
             when 'installation', 'installation_repositories'
               Schemas::INSTALLATION
-            when 'create', 'delete', 'repository'
+            when 'create', 'delete', 'repository', 'check_run', 'check_suite'
               Schemas::REPOSITORY
             else
               Schemas::FALLBACK
