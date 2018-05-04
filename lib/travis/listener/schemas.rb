@@ -98,7 +98,7 @@ module Travis
             repository: payload["repository"]["full_name"],
             number:     payload['number'],
             action:     payload['action'],
-            source:     payload['pull_request']['head']['repo']['full_name'],
+            source:     payload['pull_request']['head']['repo'] && payload['pull_request']['head']['repo']['full_name'],
             head:       payload['pull_request']['head']['sha'][0..6],
             ref:        payload['pull_request']['head']['ref'],
             user:       payload['pull_request']['head']['user']['login'],
