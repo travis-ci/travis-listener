@@ -173,10 +173,10 @@ module Travis
               Schemas::PUSH
             when 'pull_request'
               Schemas::PULL_REQUEST
-            when 'installation'
+            when 'installation', 'installation_repositories'
               Schemas::INSTALLATION
-            when 'installation_repositories'
-              Schemas::INSTALLATION
+            when 'create', 'delete', 'repository'
+              Schemas::REPOSITORY
             else
               Schemas::FALLBACK
             end

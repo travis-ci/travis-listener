@@ -2,6 +2,7 @@ module Travis
   module Listener
     module Schemas
       PUSH = {
+        "action" => nil,
         "ref" => nil,
         "head_commit" => {
           "id" => nil
@@ -67,6 +68,23 @@ module Travis
         }
       }
 
+      REPOSITORY = {
+        "action" => nil,
+        "repository" => {
+          "id" => nil,
+          "name" => nil,
+          "full_name" => nil,
+          "owner" => {
+            "login" => nil
+          },
+          "private" => nil
+        },
+        "sender" => {
+          "id" => nil,
+          "login" => nil
+        }
+      }
+
       FALLBACK = {
         "sender" => {
           "id" => nil,
@@ -89,19 +107,23 @@ module Travis
           }
         when 'push'
           {
+            action:     payload['action'],
             repository: payload["repository"]["full_name"],
             ref:        payload['ref'],
             head:       payload['head_commit']['id'][0..6],
             commits:   (payload["commits"] || []).map {|c| c['id'][0..6]}.join(","),
             sender:     payload['sender']['login']
           }
-        when 'installation'
+        when 'create', 'delete', 'repository'
           {
-            installation: payload["installation"]["account"]["login"],
-            sender:       payload['sender']['login']
+            action:     payload['action'],
+            repository: payload["repository"]["full_name"],
+            sender:     payload['sender']['login']
           }
-        when 'installation_repositories'
+        
+        when 'installation', 'installation_repositories'
           {
+            action:       payload['action'],
             installation: payload["installation"]["account"]["login"],
             sender:       payload['sender']['login']
           }
