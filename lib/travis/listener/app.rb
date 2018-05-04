@@ -43,6 +43,7 @@ module Travis
 
       # the main endpoint for scm services
       post '/' do
+        report_memory_usage
         report_ip_validity
         if !ip_validation? || valid_ip?
           if valid_request?
@@ -215,6 +216,10 @@ module Travis
           request.body.rewind
           request.body.read.force_encoding("utf-8")
         end
+      end
+
+      def report_memory_usage
+        Metriks.gauge("listener.gc.total_allocated_objects").set(GC.stat[:total_allocated_objects])
       end
     end
   end

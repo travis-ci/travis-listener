@@ -27,6 +27,8 @@ gem 'yajl-ruby',       '~> 1.4.0'
 # heroku
 gem 'unicorn',         '~> 4.6.2'
 
+gem 'jemalloc',        git: 'https://github.com/joshk/jemalloc-rb'
+
 group :development, :test do
   gem 'pry'
   gem 'rspec',         '~> 2.9'

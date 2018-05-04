@@ -1,4 +1,10 @@
 GIT
+  remote: https://github.com/joshk/jemalloc-rb
+  revision: 8c9dbef98f6bd4f96b371ec336b7e0c4fdc02d49
+  specs:
+    jemalloc (1.4.5)
+
+GIT
   remote: https://github.com/travis-ci/travis-support
   revision: 113cff17fe383bb72fcfae3a97a8ce98c228342f
   ref: 113cff17fe383bb72fcfae3a97a8ce98c228342f
@@ -92,6 +98,7 @@ DEPENDENCIES
   activesupport (~> 4.1.11)
   backports (= 2.4.0)
   foreman (~> 0.41.0)
+  jemalloc!
   metriks
   metriks-librato_metrics
   pry
