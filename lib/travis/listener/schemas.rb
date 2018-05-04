@@ -2,7 +2,6 @@ module Travis
   module Listener
     module Schemas
       PUSH = {
-        "action" => nil,
         "ref" => nil,
         "head_commit" => {
           "id" => nil
@@ -107,7 +106,6 @@ module Travis
           }
         when 'push'
           {
-            action:     payload['action'],
             repository: payload["repository"]["full_name"],
             ref:        payload['ref'],
             head:       payload['head_commit']['id'][0..6],
