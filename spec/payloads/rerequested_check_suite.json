@@ -1,5 +1,5 @@
 {
-    "action": "requested",
+    "action": "rerequested",
     "check_suite": {
       "id": 55,
       "branch": "master",

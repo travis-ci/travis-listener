@@ -109,7 +109,7 @@ module Travis
       end
 
       def handle_event?
-        if rerequested_check? || settings.events.include?(event_type)
+        if accepted_event_excluding_checks? || rerequested_check?
           Metriks.meter("listener.handle.accept").mark
           true
         else
@@ -118,9 +118,16 @@ module Travis
         end
       end
 
+      def accepted_event_excluding_checks?
+        settings.events.include?(event_type) && !checks_event?
+      end
+
       def rerequested_check?
-        ['check_run', 'check_suite'].include?(event_type) &&
-          decoded_payload['action'] == 'rerequested'
+        checks_event? && decoded_payload['action'] == 'rerequested'
+      end
+
+      def checks_event?
+        ['check_run', 'check_suite'].include?(event_type)
       end
 
       def log_event
