@@ -20,7 +20,7 @@ describe Travis::Listener::App do
       params = { :payload => (opts[:payload] || payload) }
     end
 
-    headers = { 'HTTP_X_GITHUB_EVENT' => event, 'HTTP_X_GITHUB_GUID' => 'abc123' }
+    headers = { 'HTTP_X_GITHUB_EVENT' => event, 'HTTP_X_GITHUB_DELIVERY' => 'abc123' }
     headers.merge!(opts.delete(:headers) || {})
 
     post(opts[:url] || '/', params, headers)
@@ -87,6 +87,20 @@ describe Travis::Listener::App do
   describe 'a repo_publicized event' do
     let(:type)  { 'repo_publicized' }
     let(:event) { 'repository' }
+    include_examples 'queues gatekeeper event'
+  end
+
+  describe 'a create_run event' do
+    let(:type)  { 'rerequested_check_run' }
+    let(:event) { 'check_run' }
+
+    include_examples 'queues gatekeeper event'
+  end
+
+  describe 'a create_suite event' do
+    let(:type)  { 'rerequested_check_suite' }
+    let(:event) { 'check_suite' }
+
     include_examples 'queues gatekeeper event'
   end
 

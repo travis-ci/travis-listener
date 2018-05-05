@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Travis::Listener::App do
   let(:app)     { subject }
   let(:auth)    { ['user', '12345'] }
-  let(:payload) { GITHUB_PAYLOADS['gem-release'] }
+  let(:payload) { Payloads.load('push') }
   let(:redis)   { Redis.new }
   let(:queue)   { Travis::Sidekiq::Gatekeeper }
 
@@ -45,12 +45,12 @@ describe Travis::Listener::App do
 
   it "should push the message to sidekiq" do
     create
-    expect(queue).to have_received(:push).with('build_requests', QUEUE_PAYLOAD)
+    expect(queue).to have_received(:push).with('build_requests', QUEUE_PAYLOAD.merge(payload: Payloads.load('push')))
   end
 
   it "passes the given request ID on" do
     create(headers: { "HTTP_X_REQUEST_ID" => "abc-def-ghi" })
-    expect(queue).to have_received(:push).with('build_requests', QUEUE_PAYLOAD.merge(uuid: "abc-def-ghi"))
+    expect(queue).to have_received(:push).with('build_requests', QUEUE_PAYLOAD.merge(payload: Payloads.load('push'), uuid: "abc-def-ghi"))
   end
 
   context "with valid_ips provided" do
