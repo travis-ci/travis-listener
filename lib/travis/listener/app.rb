@@ -219,7 +219,7 @@ module Travis
       end
 
       def report_memory_usage
-        Metriks.gauge("listener.gc.total_allocated_objects").set(GC.stat[:total_allocated_objects])
+        Metriks.gauge("listener.gc.heap_live_slots").set(GC.stat[:heap_live_slots])
       end
     end
   end
