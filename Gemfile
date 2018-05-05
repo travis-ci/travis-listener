@@ -8,7 +8,7 @@ gem 'travis-config',  '~> 1.0.0'
 gem 'sidekiq',         '~> 4.0.0'
 gem 'redis-namespace'
 
-gem 'sinatra',         '~> 1.4.2'
+gem 'sinatra',         '~> 2.0.0'
 gem 'rake',            '~> 0.9.2.2'
 
 gem 'sentry-raven'
@@ -17,9 +17,6 @@ gem 'activesupport',   '~> 4.1.11'
 
 gem 'metriks'
 gem 'metriks-librato_metrics'
-
-# backports 2.5.0 breaks rails routes
-gem 'backports',       '2.4.0'
 
 # structures
 gem 'yajl-ruby',       '~> 1.4.0'
