@@ -115,7 +115,7 @@ DEPENDENCIES
   yajl-ruby (~> 1.4.0)
 
 RUBY VERSION
-   ruby 2.3.6p384
+   ruby 2.4.4p296
 
 BUNDLED WITH
    1.16.1
