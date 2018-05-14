@@ -1,13 +1,14 @@
 source 'https://rubygems.org'
 
-ruby '2.3.6'
+ruby '2.5.1'
 
 gem 'travis-support',  git: 'https://github.com/travis-ci/travis-support', ref: '113cff17fe383bb72fcfae3a97a8ce98c228342f'
-gem 'travis-config',  '~> 1.0.0'
+gem 'travis-config',   '~> 1.0.0'
 
 gem 'sidekiq',         '~> 4.0.0'
 gem 'redis-namespace'
 
+gem 'puma'
 gem 'sinatra',         '~> 2.0.0'
 gem 'rake',            '~> 0.9.2.2'
 
@@ -18,11 +19,7 @@ gem 'activesupport',   '~> 4.1.11'
 gem 'metriks'
 gem 'metriks-librato_metrics'
 
-# structures
 gem 'yajl-ruby',       '~> 1.4.0'
-
-# heroku
-gem 'unicorn',         '~> 4.6.2'
 
 gem 'jemalloc',        git: 'https://github.com/joshk/jemalloc-rb'
 
