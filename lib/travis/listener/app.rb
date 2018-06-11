@@ -17,15 +17,16 @@ module Travis
 
       # https://developer.github.com/v3/activity/events/types
       set :events, %w[
-        push
-        pull_request
-        create
-        delete
-        repository
-        installation
-        installation_repositories
         check_run
         check_suite
+        create
+        delete
+        installation
+        installation_repositories
+        member
+        pull_request
+        push
+        repository
       ]
 
       before do
@@ -104,6 +105,8 @@ module Travis
           Travis::Sidekiq::GithubSync.gh_app_install(data)
         when 'installation_repositories'
           Travis::Sidekiq::GithubSync.gh_app_repos(data)
+        when 'member'
+          Travis::Sidekiq::GithubSync.gh_app_member(data)
         else
           Travis::Sidekiq::Gatekeeper.push(Travis.config.gator.queue, data)
         end
@@ -182,7 +185,7 @@ module Travis
 
       def decoded_payload
         @decoded_payload ||= begin
-          schema = 
+          schema =
             case event_type
             when 'push'
               Schemas::PUSH
