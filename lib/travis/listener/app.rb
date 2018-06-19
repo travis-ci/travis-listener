@@ -195,6 +195,8 @@ module Travis
               Schemas::INSTALLATION
             when 'create', 'delete', 'repository', 'check_run', 'check_suite'
               Schemas::REPOSITORY
+            when 'member'
+              Schemas::MEMBER
             else
               Schemas::FALLBACK
             end

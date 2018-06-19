@@ -84,6 +84,27 @@ module Travis
         }
       }
 
+      # For MemberEvents
+      # (https://developer.github.com/v3/activity/events/types/#memberevent)
+      #
+      MEMBER = {
+        "action"     => nil,
+        "member"     => {
+          "login" => nil,
+          "id"    => nil,
+        },
+        "changes" => {
+          "permission" => {
+            "from" => nil,
+          }
+        },
+        "repository" => {
+          "id"        => nil,
+          "name"      => nil,
+          "full_name" => nil,
+        },
+      }
+
       FALLBACK = {
         "sender" => {
           "id" => nil,
