@@ -59,7 +59,7 @@ module Travis
         "installation" => {
           "id" => nil,
           "account" => {
-            "login" => nil 
+            "login" => nil
           }
         },
         "sender" => {
