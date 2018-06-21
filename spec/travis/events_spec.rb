@@ -121,4 +121,13 @@ describe Travis::Listener::App do
       .to have_received(:push)
       .with('sync.gh_apps', :gh_app_repos, hash_including(type: event)) }
   end
+
+  describe 'a member event' do
+    let(:type)  { 'member' }
+    let(:event) { 'member' }
+
+    it { expect(gh_sync_queue)
+      .to have_received(:push)
+      .with('sync.gh_apps', :gh_app_member, hash_including(type: event)) }
+  end
 end
