@@ -128,6 +128,6 @@ describe Travis::Listener::App do
 
     it { expect(gh_sync_queue)
       .to have_received(:push)
-      .with('sync.gh_apps', :gh_app_member, hash_including(type: event)) }
+      .with('sync', :gh_app_member, hash_including(type: event)) }
   end
 end
