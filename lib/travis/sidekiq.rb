@@ -35,7 +35,7 @@ module Travis
       def self.gh_app_member(data)
         Metriks.meter('listener.event.gh_apps_member').mark
 
-        push('sync.gh_apps', :gh_app_member, data)
+        push('sync', :gh_app_member, data)
       end
 
       def self.client
