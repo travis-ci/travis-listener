@@ -16,4 +16,4 @@ RUN bundle install
 
 COPY . /usr/src/app
 
-CMD bundle exec unicorn -p ${PORT-8080} -c ./config/unicorn.rb
+CMD bundle exec puma -C config/puma.rb
