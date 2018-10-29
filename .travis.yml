@@ -5,7 +5,7 @@ rvm: 2.5.1
 services:
   - redis
 
-sudo: false
+sudo: required
 
 cache: bundler
 
@@ -14,3 +14,6 @@ bundler_args: --without development --jobs 3 --retry 3 --deployment
 before_install: gem install bundler
 
 script: bundle exec rspec spec
+
+after_success: ./script/docker-build-and-push
+
