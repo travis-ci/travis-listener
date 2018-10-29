@@ -2,7 +2,7 @@
 
 set -ev
 
-quay_image=quay.io/travisci/travis-build
+quay_image=quay.io/travisci/travis-listener
 tag_name=$(echo "$TRAVIS_BRANCH" | sed -e "s/\\//-/g")
 
 docker build -t "${quay_image}:${tag_name}" .
