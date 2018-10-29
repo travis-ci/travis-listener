@@ -13,7 +13,5 @@ bundler_args: --without development --jobs 3 --retry 3 --deployment
 
 before_install: gem install bundler
 
-script: bundle exec rspec spec
-
-after_success: ./script/docker-build-and-push
+script: bundle exec rspec spec && ./script/docker-build-and-push
 
