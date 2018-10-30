@@ -5,7 +5,7 @@ set -ev
 quay_image=quay.io/travisci/travis-listener
 tag_name=$(echo "$TRAVIS_BRANCH" | sed -e "s/\\//-/g")
 
-docker build -t "${quay_image}:${tag_name}" .
+docker build --squash -t "${quay_image}:${tag_name}" .
 
 docker login -u=$QUAY_ROBOT_HANDLE -p=$QUAY_ROBOT_TOKEN quay.io;
 
