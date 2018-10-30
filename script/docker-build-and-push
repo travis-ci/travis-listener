@@ -5,6 +5,7 @@ set -ev
 quay_image=quay.io/travisci/travis-listener
 tag_name=$(echo "$TRAVIS_BRANCH" | sed -e "s/\\//-/g")
 
+source ~/virtualenv/python2.7/bin/activate
 pip install docker-squash
 
 docker build --squash -t "${quay_image}:${tag_name}" .
