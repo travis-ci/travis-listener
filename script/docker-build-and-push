@@ -10,7 +10,7 @@ pip install docker-squash
 
 docker build -t "${quay_image}:${tag_name}" .
 
-docker-squash "${quay_image}:${tag_name}"
+docker-squash -t "${quay_image}:${tag_name}" "${quay_image}:${tag_name}"
 
 docker login -u=$QUAY_ROBOT_HANDLE -p=$QUAY_ROBOT_TOKEN quay.io;
 
