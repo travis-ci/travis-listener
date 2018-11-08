@@ -37,7 +37,8 @@ module Travis
             "user" => {
               "login" => nil
             }
-          }
+          },
+          "title" => nil
         },
         "repository" => {
           "id" => nil,
@@ -123,6 +124,7 @@ module Travis
             head:       payload['pull_request']['head']['sha'][0..6],
             ref:        payload['pull_request']['head']['ref'],
             user:       payload['pull_request']['head']['user']['login'],
+            title:      payload['pull_request']['title'],
             sender:     payload['sender']['login']
           }
         when 'push'
