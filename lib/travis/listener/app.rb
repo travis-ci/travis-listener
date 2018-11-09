@@ -126,12 +126,24 @@ module Travis
         settings.events.include?(event_type) && !checks_event?
       end
 
+      # there are two types of rerequested events
+      # 1. for branches
+      # 2. for tags (when tags are created)
+      # we ignore the tag events because we also receive individual
+      # tag created events.
       def rerequested_check?
-        checks_event? && decoded_payload['action'] == 'rerequested'
+        checks_event? && 
+          decoded_payload['action'] == 'rerequested' &&
+          !tag_created_check_suite?
       end
 
       def checks_event?
         ['check_run', 'check_suite'].include?(event_type)
+      end
+
+      def tag_created_check_suite?
+        event_type == 'check_suite' &&
+          decoded_payload['check_suite']['ref_type'] == 'tag'
       end
 
       def log_event
@@ -193,6 +205,8 @@ module Travis
               Schemas::PULL_REQUEST
             when 'installation', 'installation_repositories'
               Schemas::INSTALLATION
+            when 'check_suite'
+              Schemas::CHECK_SUITE
             when 'create', 'delete', 'repository', 'check_run', 'check_suite'
               Schemas::REPOSITORY
             when 'member'

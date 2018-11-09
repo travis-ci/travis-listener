@@ -30,6 +30,10 @@ describe Travis::Listener::App do
     it { expect(gatekeeper_queue).to have_received(:push).with('build_requests', hash_including(type: event)) }
   end
 
+  shared_examples_for 'does not queue gatekeeper event' do |&block|
+    it { expect(gatekeeper_queue).not_to have_received(:push).with('build_requests', hash_including(type: event)) }
+  end
+
   describe 'a push event' do
     let(:type)  { 'push' }
     let(:event) { 'push' }
@@ -97,11 +101,18 @@ describe Travis::Listener::App do
     include_examples 'queues gatekeeper event'
   end
 
-  describe 'a create_suite event' do
+  describe 'a create_suite event : ref_type branch' do
     let(:type)  { 'rerequested_check_suite' }
     let(:event) { 'check_suite' }
 
     include_examples 'queues gatekeeper event'
+  end
+
+  describe 'a create_suite tag : ref_type event' do
+    let(:type)  { 'rerequested_check_suite_tag_ref_type' }
+    let(:event) { 'check_suite' }
+
+    include_examples 'does not queue gatekeeper event'
   end
 
   describe 'an installation event' do

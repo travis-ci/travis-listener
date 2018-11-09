@@ -67,6 +67,26 @@ module Travis
         }
       }
 
+      CHECK_SUITE = {
+        "action" => nil,
+        "check_suite" => {
+          "ref_type" => nil
+        },
+        "repository" => {
+          "id" => nil,
+          "name" => nil,
+          "full_name" => nil,
+          "owner" => {
+            "login" => nil
+          },
+          "private" => nil
+        },
+        "sender" => {
+          "id" => nil,
+          "login" => nil
+        }
+      }
+
       REPOSITORY = {
         "action" => nil,
         "repository" => {
@@ -133,7 +153,14 @@ module Travis
             commits:   (payload["commits"] || []).map {|c| c['id'][0..6]}.join(","),
             sender:     payload['sender']['login']
           }
-        when 'create', 'delete', 'repository', 'check_run', 'check_suite'
+        when 'check_suite'
+          {
+            action:     payload['action'],
+            ref_type:   payload['check_suite']['ref_type'],
+            repository: payload["repository"]["full_name"],
+            sender:     payload['sender']['login']
+          }
+        when 'create', 'delete', 'repository', 'check_run'
           {
             action:     payload['action'],
             repository: payload["repository"]["full_name"],
