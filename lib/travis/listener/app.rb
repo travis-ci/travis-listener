@@ -99,6 +99,7 @@ module Travis
         debug "Event payload for #{uuid}: #{payload.inspect}"
 
         log_event
+        handle_service_hook
 
         case event_type
         when 'installation'
@@ -110,6 +111,10 @@ module Travis
         else
           Travis::Sidekiq::Gatekeeper.push(Travis.config.gator.queue, data)
         end
+      end
+
+      def handle_service_hook
+        Travis::Sidekiq::GithubSync.update_hook(data) if came_from_service_hook?
       end
 
       def handle_event?
@@ -176,6 +181,10 @@ module Travis
 
       def delivery_guid
         env['HTTP_X_GITHUB_DELIVERY'] || env['HTTP_X_GITHUB_GUID']
+      end
+
+      def came_from_service_hook?
+        env.has_key?('HTTP_X_GITHUB_GUID')
       end
 
       def integration_type
