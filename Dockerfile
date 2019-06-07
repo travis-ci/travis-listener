@@ -2,6 +2,13 @@ FROM ruby:2.5.1
 
 LABEL maintainer Travis CI GmbH <support+travis-app-docker-images@travis-ci.com>
 
+# required for envsubst tool
+RUN ( \
+   apt-get update ; \
+   apt-get install -y --no-install-recommends  gettext-base; \
+   rm -rf /var/lib/apt/lists/* \
+)
+
 # throw errors if Gemfile has been modified since Gemfile.lock
 RUN bundle config --global frozen 1
 
