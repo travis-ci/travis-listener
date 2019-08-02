@@ -36,8 +36,4 @@ docker-push:
 	$(DOCKER) push $(QUAY_IMAGE):$(VERSION_VALUE)
 
 .PHONY: ship
-ship: docker-build
-
-ifeq ($(TRAVIS_BRANCH),master)
-ship: docker-push
-endif
+ship: docker-build docker-push
