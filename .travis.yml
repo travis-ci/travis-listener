@@ -6,15 +6,11 @@ rvm: 2.6.3
 services:
   - redis
 
-sudo: false
-
 cache: bundler
 
 bundler_args: --without development --jobs 3 --retry 3 --deployment
 
 before_install: gem install bundler
-
-script: bundle exec rspec spec
 
 jobs:
   include:
