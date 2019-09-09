@@ -1,6 +1,6 @@
 SHELL := bash
 
-VERSION_VALUE ?= $(shell git describe --always --dirty --tags 2>/dev/null)
+VERSION_VALUE ?= $(shell git rev-parse --short HEAD 2>/dev/null)
 DOCKER_IMAGE_REPO ?= travisci/travis-listener
 DOCKER_DEST ?= $(DOCKER_IMAGE_REPO):$(VERSION_VALUE)
 QUAY ?= quay.io
