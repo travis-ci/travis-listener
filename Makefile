@@ -28,5 +28,14 @@ docker-push:
 	$(DOCKER) tag $(DOCKER_DEST) $(QUAY_IMAGE):$(VERSION_VALUE)
 	$(DOCKER) push $(QUAY_IMAGE):$(VERSION_VALUE)
 
+.PHONY: docker-latest
+docker-latest:
+	$(DOCKER) tag $(DOCKER_DEST) $(QUAY_IMAGE):latest
+	$(DOCKER) push $(QUAY_IMAGE):latest
+
 .PHONY: ship
 ship: docker-build docker-push
+
+ifeq ($(TRAVIS_BRANCH),master)
+ship: docker-latest
+endif
