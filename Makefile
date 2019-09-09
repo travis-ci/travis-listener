@@ -18,13 +18,6 @@ endif
 
 DOCKER ?= docker
 
-.PHONY: %
-%:
-	./script/$@
-
-.PHONY: all
-all: clean test
-
 .PHONY: docker-build
 docker-build:
 	$(DOCKER) build -t $(DOCKER_DEST) .
