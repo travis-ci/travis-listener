@@ -24,6 +24,9 @@ ifneq ($(TRAVIS_BRANCH),master)
 	BRANCH := $(shell echo "$(TRAVIS_BRANCH)" | sed 's/\//_/')
 	VERSION_VALUE := $(VERSION_VALUE)-$(BRANCH)
 endif
+ifdef $$TRAVIS_PULL_REQUEST
+	TRAVIS_PULL_REQUEST := $$TRAVIS_PULL_REQUEST
+endif
 
 DOCKER ?= docker
 
@@ -51,5 +54,7 @@ docker-latest:
 ship: docker-build docker-push
 
 ifeq ($(TRAVIS_BRANCH),master)
+ifeq ($(TRAVIS_PULL_REQUEST),false)
 ship: docker-latest
+endif
 endif
