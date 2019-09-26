@@ -37,7 +37,7 @@ docker-build:
 .PHONY: docker-push
 docker-push:
 	@echo $(QUAY_ROBOT_TOKEN) | $(DOCKER) login -u $(QUAY_ROBOT_HANDLE) --password-stdin $(QUAY)
-	$(shell echo ${GCR_ACCOUNT_JSON_ENC} | openssl enc -d -aes-256-cbc -A -a -k "${GCR_ACCOUNT_JSON_KEY}" > ./gce-account.json)
+	$(shell echo ${GCR_ACCOUNT_JSON_ENC} | openssl enc -d -aes-256-cbc -A -a -pass pass:${GCR_ACCOUNT_JSON_KEY} > ./gce-account.json)
 	cat ./gce-account.json | $(DOCKER) login -u _json_key --password-stdin https://gcr.io
 	rm -f ./gce-account.json
 	$(DOCKER) tag $(DOCKER_DEST) $(QUAY_IMAGE):$(VERSION_VALUE)
