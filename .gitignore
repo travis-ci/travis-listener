@@ -1,3 +1,5 @@
 .Gemfile*
 config/travis.yml
 log
+#IDEs folders
+.idea
