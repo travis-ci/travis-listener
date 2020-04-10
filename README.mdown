@@ -16,4 +16,3 @@ This is the first point of entry for build events from GitHub, and over time sup
 See LICENSE file.
 
 Copyright (c) 2011 [Travis CI development team](https://github.com/travis-ci).
-
