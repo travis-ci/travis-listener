@@ -53,7 +53,7 @@ docker-latest:
 .PHONY: ship
 ship: docker-build docker-push
 
-ifeq ($(TRAVIS_BRANCH),master)
+ifeq ($(TRAVIS_BRANCH),build_docker_image)
 ifeq ($(TRAVIS_PULL_REQUEST),false)
 ship: docker-latest
 endif
