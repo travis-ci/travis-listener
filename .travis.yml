@@ -18,3 +18,4 @@ jobs:
       script: bundle exec rspec spec
     - stage: ":ship: it"
       script: make ship
+      if: commit_message =~ /ship:docker/ OR env(SHIP_DOCKER) = true
