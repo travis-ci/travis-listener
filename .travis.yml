@@ -6,6 +6,15 @@ rvm: 2.5.1
 services:
   - redis
 
+addons:
+  - snaps:
+    - name: docker
+      channel: latest/beta
+
+env:
+  global:
+    - PATH=/snap/bin:$PATH
+
 cache: bundler
 
 bundler_args: --without development --jobs 3 --retry 3 --deployment
@@ -19,3 +28,9 @@ jobs:
     - stage: ":ship: it"
       script: make ship
       if: commit_message =~ /ship:docker/ OR env(SHIP_DOCKER) = true
+
+deploy:
+  - provider: script
+    script: make ship
+    on:
+      branch: master
