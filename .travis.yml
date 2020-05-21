@@ -7,9 +7,9 @@ services:
   - redis
 
 addons:
-  - snaps:
-    - name: docker
-      channel: latest/beta
+  snaps:
+  - name: docker
+    channel: latest/beta
 
 env:
   global:
@@ -27,10 +27,4 @@ jobs:
       script: bundle exec rspec spec
     - stage: ":ship: it"
       script: make ship
-      if: commit_message =~ /ship:docker/ OR env(SHIP_DOCKER) = true
-
-deploy:
-  - provider: script
-    script: make ship
-    on:
-      branch: master
+      if: (branch = master and type = push ) OR commit_message =~ /ship:docker/ OR env(SHIP_DOCKER) = true
