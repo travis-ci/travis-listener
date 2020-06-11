@@ -1,20 +1,27 @@
 language: ruby
 dist: bionic
 
-rvm: 2.5.1
+rvm: 2.5.8
 
 services:
   - redis
 
+env:
+  global:
+    - PATH=/snap/bin:$PATH
+
 cache: bundler
 
 bundler_args: --without development --jobs 3 --retry 3 --deployment
-
-before_install: gem install bundler
 
 jobs:
   include:
     - stage: "rspec"
       script: bundle exec rspec spec
     - stage: ":ship: it"
+      addons:
+        snaps:
+        - name: docker
+          channel: latest/beta
       script: make ship
+      if: (branch = master and type = push ) OR commit_message =~ /ship:docker/ OR env(SHIP_DOCKER) = true
