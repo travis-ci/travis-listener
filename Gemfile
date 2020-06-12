@@ -10,7 +10,7 @@ gem 'redis-namespace'
 
 gem 'puma'
 gem 'sinatra',         '~> 2.0.3'
-gem 'rake',            '~> 0.9.2.2'
+gem 'rake',            '~> 12.3.3'
 
 gem 'sentry-raven'
 
