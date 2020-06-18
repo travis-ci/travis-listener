@@ -38,6 +38,12 @@ module Travis
         push('sync', :gh_app_member, data)
       end
 
+      def self.update_hook(data)
+        Metriks.meter('listener.event.update_hook').mark
+
+        push('sync', :update_hook, data)
+      end
+
       def self.client
         @@client ||= ::Sidekiq::Client.new(
           ::Sidekiq::RedisConnection.create(Travis.config.redis.to_h)

@@ -6,10 +6,12 @@ describe Travis::Listener::App do
   let(:payload) { Payloads.load('push') }
   let(:redis)   { Redis.new }
   let(:queue)   { Travis::Sidekiq::Gatekeeper }
+  let(:sync_queue) { Travis::Sidekiq::GithubSync }
 
   before do
     authorize(*auth)
     allow(queue).to receive(:push)
+    allow(sync_queue).to receive(:update_hook)
   end
 
   def create(opts = {})
@@ -21,6 +23,7 @@ describe Travis::Listener::App do
 
     headers = { 'HTTP_X_GITHUB_EVENT' => 'push', 'HTTP_X_GITHUB_GUID' => 'abc123' }
     headers.merge!(opts.delete(:headers) || {})
+    headers = headers.delete_if { |k, v| v == nil } # allows removal for testing purposes
 
     post(opts[:url] || '/', params, headers)
   end
@@ -109,6 +112,18 @@ describe Travis::Listener::App do
 
       create headers: { 'REMOTE_ADDR' => '1.1.1.10' }
       last_response.status.should be == 403
+    end
+  end
+
+  context 'service hook' do
+    it 'enqueues update_hook if service hook detected' do
+      create
+      expect(sync_queue).to have_received(:update_hook).once
+    end
+
+    it 'does not if no service hook detected' do
+      create headers: { 'HTTP_X_GITHUB_GUID' => nil, 'HTTP_X_GITHUB_DELIVERY' => 'abc123' }
+      expect(sync_queue).not_to have_received(:update_hook)
     end
   end
 end
