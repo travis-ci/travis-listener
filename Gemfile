@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
-ruby '2.3.6'
+ruby '2.4.2'
 
-gem 'travis-support',  git: 'https://github.com/travis-ci/travis-support'
+gem 'travis-support',  git: 'https://github.com/travis-ci/travis-support', ref: '113cff17fe383bb72fcfae3a97a8ce98c228342f'
 gem 'travis-config',  '~> 1.0.0'
 
 gem 'sidekiq',         '~> 4.0.0'
@@ -14,7 +14,7 @@ gem 'multi_json'
 
 gem 'sentry-raven'
 
-gem 'activesupport',   '~> 4.1.11'
+gem 'activesupport',   '~> 5.2.4.3'
 
 gem 'metriks'
 gem 'metriks-librato_metrics'
