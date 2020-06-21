@@ -18,6 +18,9 @@ module Travis
           },
           "private" => nil
         },
+        "pusher" => {
+          "name" => nil,
+        },
         "sender" => {
           "id" => nil,
           "login" => nil
@@ -48,6 +51,9 @@ module Travis
           },
           "private" => nil
         },
+        "pusher" => {
+          "name" => nil,
+        },
         "sender" => {
           "id" => nil,
           "login" => nil
@@ -61,6 +67,9 @@ module Travis
           "account" => {
             "login" => nil
           }
+        },
+        "pusher" => {
+          "name" => nil,
         },
         "sender" => {
           "login" => nil
@@ -98,6 +107,9 @@ module Travis
           },
           "private" => nil
         },
+        "pusher" => {
+          "name" => nil,
+        },
         "sender" => {
           "id" => nil,
           "login" => nil
@@ -126,6 +138,9 @@ module Travis
       }
 
       FALLBACK = {
+        "pusher" => {
+          "name" => nil,
+        },
         "sender" => {
           "id" => nil,
           "login" => nil
@@ -143,15 +158,15 @@ module Travis
             head:       payload['pull_request']['head']['sha'][0..6],
             ref:        payload['pull_request']['head']['ref'],
             user:       payload['pull_request']['head']['user']['login'],
-            sender:     payload['sender']['login']
+            sender:     parse_sender_from(payload)
           }
         when 'push'
           {
             repository: payload["repository"]["full_name"],
             ref:        payload['ref'],
             head:       payload['head_commit'] && payload['head_commit']['id'][0..6],
-            commits:   (payload["commits"] || []).map {|c| c['id'][0..6]}.join(","),
-            sender:     payload['sender']['login']
+            commits:    (payload["commits"] || []).map {|c| c['id'][0..6]}.join(","),
+            sender:     parse_sender_from(payload)
           }
         when 'check_suite'
           {
@@ -164,16 +179,28 @@ module Travis
           {
             action:     payload['action'],
             repository: payload["repository"]["full_name"],
-            sender:     payload['sender']['login']
+            sender:     parse_sender_from(payload)
           }
         when 'installation', 'installation_repositories'
           {
             action:       payload['action'],
             installation: payload["installation"]["account"]["login"],
-            sender:       payload['sender']['login']
+            sender:       parse_sender_from(payload)
           }
         else
           { }
+        end
+      end
+
+      # Some payloads come in that are missing a `sender` field for one reason
+      #   or another, but they do seem to have a `pusher` field, which has a
+      #   `name` field that is the same as the ['sender']['login'] value.
+      #
+      def self.parse_sender_from(payload)
+        if payload['sender']
+          payload['sender']['login']
+        else
+          payload['pusher']['name']
         end
       end
     end

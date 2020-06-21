@@ -40,6 +40,12 @@ describe Travis::Listener::App do
     include_examples 'queues gatekeeper event'
   end
 
+  describe 'a push event missing the `sender` field in the payload' do
+    let(:type)  { 'push_without_sender' }
+    let(:event) { 'push' }
+    include_examples 'queues gatekeeper event'
+  end
+
   describe 'a pull_request event' do
     let(:type)  { 'pull_request' }
     let(:event) { 'pull_request' }

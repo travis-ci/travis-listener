@@ -191,6 +191,7 @@ module Travis
       rescue => e
         error("Error logging payload: #{e.message}")
         error("Payload causing error: #{decoded_payload}")
+        error("Original payload causing error: #{payload}")
         Raven.capture_exception(e)
         {}
       end
