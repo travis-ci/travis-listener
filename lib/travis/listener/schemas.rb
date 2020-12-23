@@ -143,7 +143,8 @@ module Travis
             head:       payload['pull_request']['head']['sha'][0..6],
             ref:        payload['pull_request']['head']['ref'],
             user:       payload['pull_request']['head']['user']['login'],
-            sender:     payload['sender']['login']
+            sender:     payload['sender']['login'],
+            sender_type:     payload['sender']['type']
           }
         when 'push'
           {
@@ -151,7 +152,8 @@ module Travis
             ref:        payload['ref'],
             head:       payload['head_commit'] && payload['head_commit']['id'][0..6],
             commits:   (payload["commits"] || []).map {|c| c['id'][0..6]}.join(","),
-            sender:     payload['sender']['login']
+            sender:     payload['sender']['login'],
+            sender_type:     payload['sender']['type']
           }
         when 'check_suite'
           {

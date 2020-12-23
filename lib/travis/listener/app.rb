@@ -64,11 +64,17 @@ module Travis
       protected
 
       def valid_request?
+        # payload && sender_valid?
         payload
       end
 
       def ip_validation?
         (Travis.config.listener && Travis.config.listener.ip_validation)
+      end
+
+      def sender_valid?
+        sender = payload.fetch('sender', 'login')
+        sender ? sender != 'github-actions[bot]' : true
       end
 
       def report_ip_validity
@@ -132,7 +138,7 @@ module Travis
       # we ignore the tag events because we also receive individual
       # tag created events.
       def rerequested_check?
-        checks_event? && 
+        checks_event? &&
           decoded_payload['action'] == 'rerequested' &&
           !tag_created_check_suite?
       end
