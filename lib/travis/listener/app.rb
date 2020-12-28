@@ -74,7 +74,7 @@ module Travis
       end
 
       def replace_bot_sender
-        return unless decoded_payload.dig('sender', 'type')&.downcase == 'bot'
+        return unless payload && decoded_payload.dig('sender', 'type')&.downcase == 'bot'
 
         payload_data = JSON.parse(payload)
         payload_data['sender']= {
