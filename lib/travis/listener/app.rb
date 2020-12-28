@@ -46,6 +46,8 @@ module Travis
       post '/' do
         report_memory_usage
         report_ip_validity
+        replace_bot_sender
+
         if !ip_validation? || valid_ip?
           if valid_request?
             dispatch_event
@@ -64,7 +66,6 @@ module Travis
       protected
 
       def valid_request?
-        # payload && sender_valid?
         payload
       end
 
@@ -72,9 +73,17 @@ module Travis
         (Travis.config.listener && Travis.config.listener.ip_validation)
       end
 
-      def sender_valid?
-        sender = payload.fetch('sender', 'login')
-        sender ? sender != 'github-actions[bot]' : true
+      def replace_bot_sender
+        return unless decoded_payload.dig('sender', 'type')&.downcase == 'bot'
+
+        payload_data = JSON.parse(payload)
+        payload_data['sender']= {
+          type: 'User',
+          github_id: 0,
+          vcs_id: '_boot_user',
+          login: 'bot'
+        }
+        params[:payload] = JSON.dump(payload_data)
       end
 
       def report_ip_validity
