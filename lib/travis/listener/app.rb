@@ -80,7 +80,7 @@ module Travis
         payload_data['sender']= {
           type: 'User',
           github_id: 0,
-          vcs_id: '_boot_user',
+          vcs_id: '0',
           login: 'bot'
         }
         params[:payload] = JSON.dump(payload_data)
