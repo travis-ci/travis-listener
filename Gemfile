@@ -14,8 +14,9 @@ gem 'rake',            '~> 12.3.3'
 
 gem 'sentry-raven'
 
-gem 'activesupport',   '~> 4.1.11'
+gem 'activesupport',   '~> 5'
 
+gem 'json'
 gem 'metriks'
 gem 'metriks-librato_metrics'
 

@@ -14,17 +14,16 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (4.1.16)
-      i18n (~> 0.6, >= 0.6.9)
-      json (~> 1.7, >= 1.7.7)
+    activesupport (5.2.5)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
+      i18n (>= 0.7, < 2)
       minitest (~> 5.1)
-      thread_safe (~> 0.1)
       tzinfo (~> 1.1)
     atomic (1.1.99)
     avl_tree (1.2.1)
       atomic (~> 1.1)
     coderay (1.1.2)
-    concurrent-ruby (1.0.5)
+    concurrent-ruby (1.1.8)
     connection_pool (2.2.1)
     diff-lcs (1.3)
     faraday (0.15.0)
@@ -33,9 +32,9 @@ GEM
       thor (>= 0.13.6)
     hashr (2.0.1)
     hitimes (1.2.6)
-    i18n (0.9.5)
+    i18n (1.8.10)
       concurrent-ruby (~> 1.0)
-    json (1.8.6)
+    json (2.5.1)
     method_source (0.9.0)
     metriks (0.9.9.8)
       atomic (~> 1.0)
@@ -43,14 +42,14 @@ GEM
       hitimes (~> 1.1)
     metriks-librato_metrics (1.0.6)
       metriks (>= 0.9.9.6)
-    minitest (5.11.3)
+    minitest (5.14.4)
     multipart-post (2.0.0)
     mustermann (1.0.3)
     pry (0.11.3)
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
     puma (3.12.6)
-    rack (2.0.8)
+    rack (2.2.3)
     rack-protection (2.0.3)
       rack
     rack-test (1.0.0)
@@ -83,7 +82,7 @@ GEM
     tilt (2.0.8)
     travis-config (1.0.13)
       hashr (~> 2.0.0)
-    tzinfo (1.2.5)
+    tzinfo (1.2.9)
       thread_safe (~> 0.1)
     yajl-ruby (1.4.0)
 
@@ -91,9 +90,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activesupport (~> 4.1.11)
+  activesupport (~> 5)
   foreman (~> 0.41.0)
   jemalloc!
+  json
   metriks
   metriks-librato_metrics
   pry
