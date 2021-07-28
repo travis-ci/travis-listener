@@ -45,10 +45,12 @@ GEM
     minitest (5.14.4)
     multipart-post (2.0.0)
     mustermann (1.0.3)
+    nio4r (2.5.7)
     pry (0.11.3)
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
-    puma (3.12.6)
+    puma (4.3.8)
+      nio4r (~> 2.0)
     rack (2.2.3)
     rack-protection (2.0.3)
       rack
@@ -97,7 +99,7 @@ DEPENDENCIES
   metriks
   metriks-librato_metrics
   pry
-  puma
+  puma (~> 4)
   rack-test
   rake (~> 12.3.3)
   redis-namespace

@@ -8,7 +8,7 @@ gem 'travis-config',   '~> 1.0.0'
 gem 'sidekiq',         '~> 4.0.0'
 gem 'redis-namespace'
 
-gem 'puma'
+gem 'puma',            '~> 4'
 gem 'sinatra',         '~> 2.0.3'
 gem 'rake',            '~> 12.3.3'
 
