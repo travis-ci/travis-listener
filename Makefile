@@ -44,7 +44,7 @@ docker-push:
 	$(DOCKER) tag $(DOCKER_DEST) $(GCR_IMAGE):$(VERSION_VALUE)
 	$(DOCKER) push $(QUAY_IMAGE):$(VERSION_VALUE)
 	$(DOCKER) push $(GCR_IMAGE):$(VERSION_VALUE)
-	$(DOCKER) run --rm -v /tmp:/root/.cache/ aquasec/trivy --ignore-unfixed $(QUAY_IMAGE):$(VERSION_VALUE)-$(BRANCH)
+	$(DOCKER) run --rm -v /tmp:/root/.cache/ aquasec/trivy --ignore-unfixed $(QUAY_IMAGE):$(VERSION_VALUE)
 
 .PHONY: docker-latest
 docker-latest:
