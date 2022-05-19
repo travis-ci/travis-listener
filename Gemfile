@@ -9,7 +9,7 @@ gem 'sidekiq',         '~> 6.4.0'
 gem 'redis-namespace'
 
 gem 'puma',            '~> 4'
-gem 'sinatra',         '~> 2.0.3'
+gem 'sinatra',         '~> 2.2'
 gem 'rake',            '~> 12.3.3'
 
 gem 'sentry-raven'
@@ -20,7 +20,7 @@ gem 'json'
 gem 'metriks'
 gem 'metriks-librato_metrics'
 
-gem 'yajl-ruby',       '~> 1.4.0'
+gem 'yajl-ruby',       '~> 1.4.1'
 
 gem 'jemalloc',        git: 'https://github.com/joshk/jemalloc-rb'
 
