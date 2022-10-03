@@ -178,6 +178,7 @@ module Travis
           :uuid         => uuid,
           :github_guid  => delivery_guid,
           :github_event => event_type,
+          :received_at  => Time.now,
         }
       end
 
