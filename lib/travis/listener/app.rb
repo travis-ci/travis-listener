@@ -111,6 +111,10 @@ module Travis
 
         return unless handle_event?
 
+        # According to GitHub every webhook payload should have this
+        # If it is not present, assume payload is malformed
+        return unless payload['sender']
+
         debug "Event payload for #{uuid}: #{payload.inspect}"
 
         log_event
