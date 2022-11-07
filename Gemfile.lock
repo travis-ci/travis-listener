@@ -86,7 +86,7 @@ GEM
     timecop (0.9.1)
     travis-config (1.0.13)
       hashr (~> 2.0.0)
-    tzinfo (1.2.5)
+    tzinfo (1.2.10)
       thread_safe (~> 0.1)
     yajl-ruby (1.4.0)
 
