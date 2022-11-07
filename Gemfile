@@ -9,7 +9,7 @@ gem 'sidekiq',         '~> 4.0.0'
 gem 'redis-namespace'
 
 gem 'puma'
-gem 'sinatra',         '~> 2.0.3'
+gem 'sinatra',         '~> 2.2.0'
 gem 'rake',            '~> 12.3.3'
 
 gem 'sentry-raven'
