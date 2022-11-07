@@ -18,6 +18,9 @@ RSpec.configure do |c|
   c.run_all_when_everything_filtered = true
 end
 
+require 'timecop'
+Timecop.freeze('2022-01-01 00:02:00 +0200')
+
 module Payloads
   def self.load(path)
     File.read(File.expand_path("../payloads/#{path}.json", __FILE__))
@@ -28,5 +31,6 @@ QUEUE_PAYLOAD = {
   :type => 'push',
   :uuid => Travis.uuid,
   :github_guid => 'abc123',
-  :github_event => 'push'
+  :github_event => 'push',
+  :received_at => Time.now
 }
