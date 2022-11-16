@@ -32,9 +32,7 @@ DOCKER ?= docker
 
 .PHONY: docker-build
 docker-build:
-	echo -en 'travis_fold:start:build\\r${ANSI_CLEAR}'
 	$(DOCKER) build -t $(DOCKER_DEST) .
-	echo -en 'travis_fold:end:build\\r${ANSI_CLEAR}'
 
 .PHONY: docker-push
 docker-push:
@@ -46,9 +44,7 @@ docker-push:
 	$(DOCKER) tag $(DOCKER_DEST) $(GCR_IMAGE):$(VERSION_VALUE)
 	$(DOCKER) push $(QUAY_IMAGE):$(VERSION_VALUE)
 	$(DOCKER) push $(GCR_IMAGE):$(VERSION_VALUE)
-	echo -en 'travis_fold:start:scan\\r${ANSI_CLEAR}'
 	$(DOCKER) run --rm -v /tmp:/root/.cache/ aquasec/trivy i --ignore-unfixed $(QUAY_IMAGE):$(VERSION_VALUE)
-	echo -en 'travis_fold:end:scan\\r${ANSI_CLEAR}'
 
 .PHONY: docker-latest
 docker-latest:
