@@ -84,6 +84,7 @@ GEM
     thor (0.20.0)
     thread_safe (0.3.6)
     tilt (2.0.10)
+    timecop (0.9.5)
     travis-config (1.0.13)
       hashr (~> 2.0.0)
     tzinfo (1.2.10)
@@ -109,6 +110,7 @@ DEPENDENCIES
   sentry-raven
   sidekiq (~> 6.4.0)
   sinatra (~> 2.2)
+  timecop
   travis-config (~> 1.0.0)
   travis-support!
   yajl-ruby (~> 1.4.1)
