@@ -46,6 +46,8 @@ module Travis
       post '/' do
         report_memory_usage
         report_ip_validity
+        replace_bot_sender
+
         if !ip_validation? || valid_ip?
           if valid_request?
             dispatch_event
@@ -69,6 +71,19 @@ module Travis
 
       def ip_validation?
         (Travis.config.listener && Travis.config.listener.ip_validation)
+      end
+
+      def replace_bot_sender
+        return unless payload && decoded_payload.dig('sender', 'type')&.downcase == 'bot'
+
+        payload_data = JSON.parse(payload)
+        payload_data['sender']= {
+          type: 'User',
+          github_id: 0,
+          vcs_id: '0',
+          login: 'bot'
+        }
+        params[:payload] = JSON.dump(payload_data)
       end
 
       def report_ip_validity
@@ -95,6 +110,10 @@ module Travis
         Metriks.meter("listener.integration.#{integration_type}").mark
 
         return unless handle_event?
+
+        # According to GitHub every webhook payload should have this
+        # If it is not present, assume payload is malformed
+        return unless payload['sender']
 
         debug "Event payload for #{uuid}: #{payload.inspect}"
 
@@ -132,7 +151,7 @@ module Travis
       # we ignore the tag events because we also receive individual
       # tag created events.
       def rerequested_check?
-        checks_event? && 
+        checks_event? &&
           decoded_payload['action'] == 'rerequested' &&
           !tag_created_check_suite?
       end
@@ -163,6 +182,7 @@ module Travis
           :uuid         => uuid,
           :github_guid  => delivery_guid,
           :github_event => event_type,
+          :received_at  => Time.now,
         }
       end
 

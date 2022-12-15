@@ -141,4 +141,10 @@ describe Travis::Listener::App do
       .to have_received(:push)
       .with('sync', :gh_app_member, hash_including(type: event)) }
   end
+
+  describe 'a bot push' do
+    let(:type)  { 'bot_push' }
+    let(:event) { 'push' }
+    include_examples 'queues gatekeeper event'
+  end
 end
