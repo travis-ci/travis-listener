@@ -6,7 +6,8 @@ threads threads_count, threads_count
 
 preload_app!
 
-rackup      DefaultRackup
+Puma::Configuration::DEFAULTS[:rackup]
+
 port        ENV.fetch('PORT', nil)     || 3000
 environment ENV.fetch('RACK_ENV', nil) || 'development'
 
