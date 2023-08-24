@@ -25,7 +25,7 @@ gem 'jemalloc',        git: 'https://github.com/travis-ci/jemalloc-rb', branch: 
 
 group :development, :test do
   gem 'pry'
-  gem 'rspec',         '~> 2.9'
+  gem 'rspec'
 end
 
 group :development do
