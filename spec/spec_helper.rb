@@ -24,7 +24,7 @@ require 'travis/listener'
 require 'sidekiq/testing'
 require 'pry'
 
-Travis.logger = ::Logger.new(StringIO.new)
+Travis.logger = Logger.new(StringIO.new)
 
 Travis::Listener.setup
 
