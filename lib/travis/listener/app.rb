@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'travis/listener/schemas'
 require 'sinatra'
 require 'travis/support/logging'
@@ -34,7 +36,7 @@ module Travis
       end
 
       get '/' do
-        redirect "http://travis-ci.com"
+        redirect 'http://travis-ci.com'
       end
 
       # Used for new relic uptime monitoring
@@ -70,14 +72,14 @@ module Travis
       end
 
       def ip_validation?
-        (Travis.config.listener && Travis.config.listener.ip_validation)
+        Travis.config.listener&.ip_validation
       end
 
       def replace_bot_sender
         return unless payload && decoded_payload.dig('sender', 'type')&.downcase == 'bot'
 
         payload_data = JSON.parse(payload)
-        payload_data['sender']= {
+        payload_data['sender'] = {
           type: 'User',
           github_id: 0,
           vcs_id: '0',
@@ -102,7 +104,7 @@ module Travis
       end
 
       def valid_ips
-        (Travis.config.listener && Travis.config.listener.valid_ips) || []
+        Travis.config.listener&.valid_ips || []
       end
 
       def dispatch_event
@@ -133,10 +135,10 @@ module Travis
 
       def handle_event?
         if accepted_event_excluding_checks? || rerequested_check?
-          Metriks.meter("listener.handle.accept").mark
+          Metriks.meter('listener.handle.accept').mark
           true
         else
-          Metriks.meter("listener.handle.reject").mark
+          Metriks.meter('listener.handle.reject').mark
           false
         end
       end
@@ -157,7 +159,7 @@ module Travis
       end
 
       def checks_event?
-        ['check_run', 'check_suite'].include?(event_type)
+        %w[check_run check_suite].include?(event_type)
       end
 
       def tag_created_check_suite?
@@ -167,22 +169,22 @@ module Travis
 
       def log_event
         details = {
-          uuid:          uuid,
+          uuid: uuid,
           delivery_guid: delivery_guid,
-          type:          event_type
+          type: event_type
         }
 
-        info(details.merge(event_details).map{|k,v| "#{k}=#{v}"}.join(" "))
+        info(details.merge(event_details).map { |k, v| "#{k}=#{v}" }.join(' '))
       end
 
       def data
         {
-          :type         => event_type,
-          :payload      => payload,
-          :uuid         => uuid,
-          :github_guid  => delivery_guid,
-          :github_event => event_type,
-          :received_at  => Time.now,
+          type: event_type,
+          payload: payload,
+          uuid: uuid,
+          github_guid: delivery_guid,
+          github_event: event_type,
+          received_at: Time.now
         }
       end
 
@@ -199,16 +201,16 @@ module Travis
       end
 
       def integration_type
-        if !params[:payload].blank?
-          "webhook"
+        if params[:payload].blank?
+          'github_apps'
         else
-          "github_apps"
+          'webhook'
         end
       end
 
       def event_details
         Schemas.event_details(event_type, decoded_payload)
-      rescue => e
+      rescue StandardError => e
         error("Error logging payload: #{e.message}")
         error("Payload causing error: #{decoded_payload}")
         Raven.capture_exception(e)
@@ -227,7 +229,7 @@ module Travis
               Schemas::INSTALLATION
             when 'check_suite'
               Schemas::CHECK_SUITE
-            when 'create', 'delete', 'repository', 'check_run', 'check_suite'
+            when 'create', 'delete', 'repository', 'check_run'
               Schemas::REPOSITORY
             when 'member'
               Schemas::MEMBER
@@ -245,20 +247,18 @@ module Travis
           params[:payload]
         elsif !request_body.blank?
           request_body
-        else
-          nil
         end
       end
 
       def request_body
-        @_request_body ||= begin
+        @request_body ||= begin
           request.body.rewind
-          request.body.read.force_encoding("utf-8")
+          request.body.read.force_encoding('utf-8')
         end
       end
 
       def report_memory_usage
-        Metriks.gauge("listener.gc.heap_live_slots").set(GC.stat[:heap_live_slots])
+        Metriks.gauge('listener.gc.heap_live_slots').set(GC.stat[:heap_live_slots])
       end
     end
   end

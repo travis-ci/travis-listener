@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'travis/config'
 require 'travis/support'
 require 'travis/listener/app'
@@ -14,12 +16,14 @@ module Travis
 
   module Listener
     class Config < Travis::Config
-      define  redis:            { url: ENV.fetch('REDIS_URL', 'redis://localhost:6379'), namespace: 'sidekiq', network_timeout: 5 },
-              redis_gatekeeper: { url: ENV.fetch('REDIS_GATEKEEPER_URL', 'redis://localhost:6379'), namespace: 'sidekiq', network_timeout: 5 },
-              gator:            { queue: ENV.fetch('SIDEKIQ_GATEKEEPER_QUEUE', 'build_requests') },
-              sync:             { queue: ENV.fetch('SIDEKIQ_SYNC_QUEUE', 'sync.gh_apps') },
-              sentry:           { },
-              metrics:          { reporter: 'librato' }
+      define redis: { url: ENV.fetch('REDIS_URL', 'redis://localhost:6379'),
+                      namespace: 'sidekiq', network_timeout: 5 },
+             redis_gatekeeper: { url: ENV.fetch('REDIS_GATEKEEPER_URL', 'redis://localhost:6379'),
+                                 namespace: 'sidekiq', network_timeout: 5 },
+             gator: { queue: ENV.fetch('SIDEKIQ_GATEKEEPER_QUEUE', 'build_requests') },
+             sync: { queue: ENV.fetch('SIDEKIQ_SYNC_QUEUE', 'sync.gh_apps') },
+             sentry: {},
+             metrics: { reporter: 'librato' }
     end
 
     class << self
@@ -28,11 +32,11 @@ module Travis
           require 'raven'
           ::Raven.configure do |config|
             config.dsn = Travis.config.sentry.dsn
-            config.excluded_exceptions = %w{Sinatra::NotFound}
+            config.excluded_exceptions = %w[Sinatra::NotFound]
           end
         end
 
-        Travis::Metrics.setup if ENV['RACK_ENV'] == "production"
+        Travis::Metrics.setup if ENV.fetch('RACK_ENV', nil) == 'production'
       end
 
       def disconnect
