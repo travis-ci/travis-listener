@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'travis/config'
 require 'travis/support'
 require 'travis/listener/app'
@@ -25,14 +27,15 @@ module Travis
     class << self
       def setup
         if Travis.config.sentry.dsn
-          require 'raven'
-          ::Raven.configure do |config|
+          require 'sentry-ruby'
+
+          ::Sentry.configure do |config|
             config.dsn = Travis.config.sentry.dsn
-            config.excluded_exceptions = %w{Sinatra::NotFound}
+            config.excluded_exceptions = %w[Sinatra::NotFound]
           end
         end
 
-        Travis::Metrics.setup if ENV['RACK_ENV'] == "production"
+        Travis::Metrics.setup if ENV.fetch('RACK_ENV', nil) == 'production'
       end
 
       def disconnect

@@ -1,4 +1,22 @@
-ENV["RACK_ENV"] ||= 'test'
+# frozen_string_literal: true
+
+require 'simplecov'
+require 'simplecov-console'
+
+SimpleCov.formatters = SimpleCov::Formatter::MultiFormatter.new(
+  [
+    SimpleCov::Formatter::Console,
+    SimpleCov::Formatter::HTMLFormatter
+  ]
+)
+
+# Code Coverage check
+SimpleCov.start do
+  add_filter 'spec'
+  add_filter 'vendor/'
+end
+
+ENV['RACK_ENV'] ||= 'test'
 
 require 'rack/test'
 require 'logger'
@@ -13,8 +31,8 @@ Travis::Listener.setup
 RSpec.configure do |c|
   c.include Rack::Test::Methods
 
-  c.alias_example_to :fit, :focused => true
-  c.filter_run :focus => true
+  c.alias_example_to :fit, focused: true
+  c.filter_run focus: true
   c.run_all_when_everything_filtered = true
 end
 
@@ -28,9 +46,9 @@ module Payloads
 end
 
 QUEUE_PAYLOAD = {
-  :type => 'push',
-  :uuid => Travis.uuid,
-  :github_guid => 'abc123',
-  :github_event => 'push',
-  :received_at => Time.now
-}
+  type: 'push',
+  uuid: Travis.uuid,
+  github_guid: 'abc123',
+  github_event: 'push',
+  received_at: Time.now
+}.freeze

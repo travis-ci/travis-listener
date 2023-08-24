@@ -1,8 +1,10 @@
-$:.unshift File.expand_path('../lib', __FILE__)
+# frozen_string_literal: true
+
+$LOAD_PATH.unshift File.expand_path('lib', __dir__)
 
 require 'travis/listener'
 
 Travis::Listener.setup
 
-use Raven::Rack if Travis.config.sentry.dsn
+use Sentry::Rack if Travis.config.sentry.dsn
 run Travis::Listener::App
