@@ -213,7 +213,7 @@ module Travis
       rescue StandardError => e
         error("Error logging payload: #{e.message}")
         error("Payload causing error: #{decoded_payload}")
-        Raven.capture_exception(e)
+        Sentry.capture_exception(e)
         {}
       end
 

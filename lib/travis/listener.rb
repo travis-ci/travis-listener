@@ -29,8 +29,9 @@ module Travis
     class << self
       def setup
         if Travis.config.sentry.dsn
-          require 'raven'
-          ::Raven.configure do |config|
+          require 'sentry-ruby'
+
+          ::Sentry.configure do |config|
             config.dsn = Travis.config.sentry.dsn
             config.excluded_exceptions = %w[Sinatra::NotFound]
           end
