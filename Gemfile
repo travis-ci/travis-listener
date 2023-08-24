@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.5.8'
+ruby '2.5.9'
 
 gem 'travis-support',  git: 'https://github.com/travis-ci/travis-support', ref: '113cff17fe383bb72fcfae3a97a8ce98c228342f'
 gem 'travis-config',   '~> 1.0.0'
@@ -21,7 +21,7 @@ gem 'metriks-librato_metrics'
 
 gem 'yajl-ruby',       '~> 1.4.0'
 
-gem 'jemalloc',        git: 'https://github.com/joshk/jemalloc-rb'
+gem 'jemalloc',        git: 'https://github.com/travis-ci/jemalloc-rb', branch: 'jemalloc-5.0'
 
 group :development, :test do
   gem 'pry'

@@ -1,8 +1,9 @@
 GIT
-  remote: https://github.com/joshk/jemalloc-rb
-  revision: 8c9dbef98f6bd4f96b371ec336b7e0c4fdc02d49
+  remote: https://github.com/travis-ci/jemalloc-rb
+  revision: e9528e26aff663efa2c124cdeca47700e389097d
+  branch: jemalloc-5.0
   specs:
-    jemalloc (1.4.5)
+    jemalloc (1.0.2)
 
 GIT
   remote: https://github.com/travis-ci/travis-support
@@ -114,7 +115,7 @@ DEPENDENCIES
   yajl-ruby (~> 1.4.0)
 
 RUBY VERSION
-   ruby 2.5.8p224
+   ruby 2.5.9p229
 
 BUNDLED WITH
-   1.17.3
+   2.3.26
