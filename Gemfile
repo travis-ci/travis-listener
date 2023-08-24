@@ -1,35 +1,33 @@
 source 'https://rubygems.org'
 
-ruby '2.5.8'
+ruby '3.2.2'
 
-gem 'travis-support',  git: 'https://github.com/travis-ci/travis-support', ref: '113cff17fe383bb72fcfae3a97a8ce98c228342f'
-gem 'travis-config',   '~> 1.0.0'
+gem 'travis-support',  git: 'https://github.com/travis-ci/travis-support', branch: 'prd-ruby-upgrade-dev'
+gem 'travis-config',   git: 'https://github.com/travis-ci/travis-config', branch: 'prd-ruby-upgrade-dev'
 
-gem 'sidekiq',         '~> 4.0.0'
-gem 'redis-namespace'
+gem 'sidekiq',         '~> 7'
 
 gem 'puma'
-gem 'sinatra',         '~> 2.0.3'
-gem 'rake',            '~> 12.3.3'
+gem 'sinatra',         '~> 3'
+gem 'rake',            '~> 13'
 
-gem 'sentry-raven'
+gem 'sentry-ruby'
 
-gem 'activesupport',   '~> 4.1.11'
+gem 'activesupport',   '~> 7'
+gem 'redis'
 
 gem 'metriks'
 gem 'metriks-librato_metrics'
 
-gem 'yajl-ruby',       '~> 1.4.0'
-
-gem 'jemalloc',        git: 'https://github.com/joshk/jemalloc-rb'
+gem 'yajl-ruby',       '~> 1.4'
 
 group :development, :test do
   gem 'pry'
-  gem 'rspec',         '~> 2.9'
+  gem 'rspec',         '~> 3'
 end
 
 group :development do
-  gem 'foreman',       '~> 0.41.0'
+  gem 'foreman',       '~> 0.87'
 end
 
 group :test do
