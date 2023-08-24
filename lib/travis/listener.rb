@@ -29,7 +29,7 @@ module Travis
         if Travis.config.sentry.dsn
           require 'sentry-ruby'
 
-          ::Sentry.configure do |config|
+          ::Sentry.init do |config|
             config.dsn = Travis.config.sentry.dsn
             config.excluded_exceptions = %w[Sinatra::NotFound]
           end
