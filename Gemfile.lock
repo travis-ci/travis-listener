@@ -66,8 +66,6 @@ GEM
     rainbow (3.1.1)
     rake (12.3.3)
     redis (3.3.5)
-    redis-namespace (1.6.0)
-      redis (>= 3.0.4)
     regexp_parser (2.8.1)
     rexml (3.2.6)
     rspec (3.12.0)
@@ -149,7 +147,7 @@ DEPENDENCIES
   puma
   rack-test
   rake (~> 12.3.3)
-  redis-namespace
+  redis
   rspec
   rubocop
   rubocop-performance
