@@ -1,4 +1,4 @@
-FROM ruby:2.5.9-slim
+FROM ruby:3.2.2-slim
 
 LABEL maintainer Travis CI GmbH <support+travis-listener-docker-images@travis-ci.com>
 
@@ -9,18 +9,22 @@ RUN ( \
    && rm -rf /var/lib/apt/lists/* \
 )
 
-RUN mkdir -p /app
 WORKDIR /app
 
-COPY Gemfile      /app
-COPY Gemfile.lock /app
+RUN gem update --system 3.4.19 > /dev/null 2>&1
 
-RUN gem update --system 3.3.26 > /dev/null 2>&1
-# throw errors if Gemfile has been modified since Gemfile.lock
-RUN bundle config --global frozen 1
-RUN bundle install --verbose --retry=3 --deployment --without development test
-RUN gem install --user-install executable-hooks
+# Bundle config
+RUN bundle config set --global no-cache 'true' && \
+    bundle config set --global frozen 'true' && \
+    bundle config set --global jobs `expr $(cat /proc/cpuinfo | grep -c 'cpu cores')` && \
+    bundle config set --global retry 3 && \
+    bundle config set --local deployment 'true' && \
+    bundle config set --local without 'development test'
 
-COPY . /app
+COPY Gemfile Gemfile.lock ./
+
+RUN bundle install
+
+COPY . ./
 
 CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]

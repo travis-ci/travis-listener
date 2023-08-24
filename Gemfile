@@ -1,38 +1,37 @@
 # frozen_string_literal: true
 
 source 'https://rubygems.org'
+git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.5.9'
+ruby '3.2.2'
 
-gem 'travis-support', git: 'https://github.com/travis-ci/travis-support',
-                      ref: '113cff17fe383bb72fcfae3a97a8ce98c228342f'
-gem 'travis-config',   '~> 1.0.0'
-
-gem 'redis'
-gem 'sidekiq',         '~> 4.0.0'
-
+gem 'activesupport',   '~> 7'
+gem 'sinatra',         '~> 3'
+gem 'rake',            '~> 13'
 gem 'puma'
-gem 'sinatra',         '~> 2.0.3'
-gem 'rake',            '~> 12.3.3'
+
+gem 'travis-support',  github: 'travis-ci/travis-support', branch: 'prd-ruby-upgrade-dev-o'
+gem 'travis-config',   github: 'travis-ci/travis-config', branch: 'prd-ruby-upgrade-dev'
+gem 'travis-metrics',  github: 'travis-ci/travis-metrics', branch: 'prd-ruby-upgrade-dev'
+
+gem 'sidekiq',         '~> 7'
 
 gem 'sentry-ruby'
 
-gem 'activesupport', '~> 4.1.11'
+gem 'metriks', github: 'travis-ci/metriks', branch: 'prd-ruby-upgrade-dev'
+gem 'metriks-librato_metrics', github: 'travis-ci/metriks-librato_metrics', branch: 'prd-ruby-upgrade-dev'
 
-gem 'metriks'
-gem 'metriks-librato_metrics'
+gem 'yajl-ruby',        '~> 1.4'
 
-gem 'yajl-ruby',       '~> 1.4.0'
-
-gem 'jemalloc',        git: 'https://github.com/travis-ci/jemalloc-rb', branch: 'jemalloc-5.0'
+gem 'jemalloc', github: 'travis-ci/jemalloc-rb', branch: 'jemalloc-5.0'
 
 group :development, :test do
   gem 'pry'
-  gem 'rspec'
+  gem 'rspec',          '~> 3'
 end
 
 group :development do
-  gem 'foreman', '~> 0.41.0'
+  gem 'foreman',        '~> 0.87'
   gem 'rubocop', require: false
   gem 'rubocop-performance', require: false
   gem 'rubocop-rake', require: false

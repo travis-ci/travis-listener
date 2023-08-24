@@ -2,6 +2,7 @@
 
 require 'travis/config'
 require 'travis/support'
+require 'travis/metrics'
 require 'travis/listener/app'
 require 'logger'
 
@@ -35,7 +36,9 @@ module Travis
           end
         end
 
-        Travis::Metrics.setup if ENV.fetch('RACK_ENV', nil) == 'production'
+        return unless ENV.fetch('RACK_ENV', nil) == 'production'
+
+        Travis::Metrics.setup(Travis.config.metrics, Travis::Logger.new($stdout))
       end
 
       def disconnect

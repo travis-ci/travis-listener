@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'redis'
 require 'sidekiq'
 
 module Travis
