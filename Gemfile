@@ -15,7 +15,7 @@ gem 'puma'
 gem 'sinatra',         '~> 2.0.3'
 gem 'rake',            '~> 12.3.3'
 
-gem 'sentry-raven'
+gem 'sentry-ruby'
 
 gem 'activesupport', '~> 4.1.11'
 
