@@ -1,0 +1,56 @@
+require:
+  - rubocop-performance
+  - rubocop-rake
+  - rubocop-rspec
+
+AllCops:
+  NewCops: enable
+  Exclude:
+    - vendor/**/*
+  TargetRubyVersion: 2.5
+
+Layout/LineLength:
+  Enabled: true
+  Max: 160
+
+Metrics/ModuleLength:
+  Enabled: false
+
+Metrics/ClassLength:
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false
+
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/ClassVars:
+  Enabled: false
+
+Bundler/OrderedGems:
+  Enabled: false
+
+RSpec/FilePath:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Enabled: false
+
+RSpec/AnyInstance:
+  Enabled: false

@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Travis::Listener::App do
   let(:app)     { subject }
-  let(:auth)    { ['user', '12345'] }
+  let(:auth)    { %w[user 12345] }
   let(:payload) { Payloads.load('push') }
   let(:redis)   { Redis.new }
   let(:queue)   { Travis::Sidekiq::Gatekeeper }
@@ -13,9 +15,9 @@ describe Travis::Listener::App do
   end
 
   def create(opts = {})
-    params  = {}
+    params = {}
 
-    if params_payload = (opts[:payload] || payload)
+    if (params_payload = (opts[:payload] || payload))
       params[:payload] = params_payload
     end
 
@@ -32,6 +34,7 @@ describe Travis::Listener::App do
 
   describe 'without a payload' do
     let(:payload) { nil }
+
     it 'does not accept a hook' do
       create
       expect(last_response.status).to be(422)
@@ -43,22 +46,23 @@ describe Travis::Listener::App do
     expect(last_response.status).to be(200)
   end
 
-  it "should push the message to sidekiq" do
+  it 'pushes the message to sidekiq' do
     create
     expect(queue).to have_received(:push).with('build_requests', QUEUE_PAYLOAD.merge(payload: Payloads.load('push')))
   end
 
-  it "passes the given request ID on" do
-    create(headers: { "HTTP_X_REQUEST_ID" => "abc-def-ghi" })
-    expect(queue).to have_received(:push).with('build_requests', QUEUE_PAYLOAD.merge(payload: Payloads.load('push'), uuid: "abc-def-ghi"))
+  it 'passes the given request ID on' do
+    create(headers: { 'HTTP_X_REQUEST_ID' => 'abc-def-ghi' })
+    expect(queue).to have_received(:push).with('build_requests',
+                                               QUEUE_PAYLOAD.merge(payload: Payloads.load('push'), uuid: 'abc-def-ghi'))
   end
 
-  context "with valid_ips provided" do
+  context 'with valid_ips provided' do
     before do
       allow_any_instance_of(described_class).to receive(:valid_ips).and_return(['1.2.3.4'])
     end
 
-    context "when ip_validation is turned off" do
+    context 'when ip_validation is turned off' do
       it 'accepts a request from an invalid IP' do
         expect_any_instance_of(described_class).to receive(:report_ip_validity)
         create headers: { 'REMOTE_ADDR' => '1.2.3.1' }
@@ -66,7 +70,7 @@ describe Travis::Listener::App do
       end
     end
 
-    context "when ip_validation is turned on" do
+    context 'when ip_validation is turned on' do
       before do
         allow_any_instance_of(described_class).to receive(:ip_validation?).and_return(true)
       end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'redis'
 require 'sidekiq'
 
@@ -14,7 +16,7 @@ module Travis
         client.push(
           'queue' => queue,
           'class' => 'Travis::Gatekeeper::Worker',
-          'args'  => args
+          'args' => args
         )
       end
     end
@@ -48,7 +50,7 @@ module Travis
         client.push(
           'queue' => queue,
           'class' => 'Travis::GithubSync::Worker',
-          'args'  => args
+          'args' => args
         )
       end
     end
