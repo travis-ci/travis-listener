@@ -6,5 +6,5 @@ require 'travis/listener'
 
 Travis::Listener.setup
 
-use Sentry::Rack if Travis.config.sentry.dsn
+use Sentry::Rack::CaptureExceptions if Travis.config.sentry.dsn
 run Travis::Listener::App
