@@ -6,7 +6,6 @@ describe Travis::Listener::App do
   let(:app)     { subject }
   let(:auth)    { %w[user 12345] }
   let(:payload) { Payloads.load('push') }
-  let(:redis)   { Redis.new }
   let(:queue)   { Travis::Sidekiq::Gatekeeper }
 
   before do

@@ -1,5 +1,30 @@
 GIT
-  remote: https://github.com/travis-ci/travis-config
+  remote: https://github.com/travis-ci/jemalloc-rb.git
+  revision: e9528e26aff663efa2c124cdeca47700e389097d
+  branch: jemalloc-5.0
+  specs:
+    jemalloc (1.0.2)
+
+GIT
+  remote: https://github.com/travis-ci/metriks-librato_metrics.git
+  revision: 41aca2ed2ab40ecdc1dbebabf70e35a38377d101
+  branch: prd-ruby-upgrade-dev
+  specs:
+    metriks-librato_metrics (1.0.6)
+
+GIT
+  remote: https://github.com/travis-ci/metriks.git
+  revision: 6292ce11b8d22888bd9947b9f38d104834268fa7
+  branch: prd-ruby-upgrade-dev
+  specs:
+    metriks (0.9.9.8)
+      HDRHistogram (~> 0.1)
+      atomic (~> 1.0)
+      avl_tree (~> 1.2)
+      hitimes (~> 1.3)
+
+GIT
+  remote: https://github.com/travis-ci/travis-config.git
   revision: d6b678fb17b242508fa4e061ff7b01cae3b08996
   branch: prd-ruby-upgrade-dev
   specs:
@@ -7,15 +32,24 @@ GIT
       hashr (~> 2.0)
 
 GIT
-  remote: https://github.com/travis-ci/travis-support
-  revision: 77f8dad236002e6103cfdb796308e1a11d8d441e
+  remote: https://github.com/travis-ci/travis-metrics.git
+  revision: c776366d7182829da5abf9e48b42c416249a0043
   branch: prd-ruby-upgrade-dev
+  specs:
+    travis-metrics (2.0.0)
+      metriks-librato_metrics (~> 1.0)
+
+GIT
+  remote: https://github.com/travis-ci/travis-support.git
+  revision: 1c6764e4387d0a33c64dda66f9d3b15e6a05c7d2
+  branch: prd-ruby-upgrade-dev-o
   specs:
     travis-support (0.0.1)
 
 GEM
   remote: https://rubygems.org/
   specs:
+    HDRHistogram (0.1.11)
     activesupport (7.0.7.2)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 1.6, < 2)
@@ -40,12 +74,6 @@ GEM
     json (2.6.3)
     language_server-protocol (3.17.0.3)
     method_source (1.0.0)
-    metriks (0.9.9.8)
-      atomic (~> 1.0)
-      avl_tree (~> 1.2.0)
-      hitimes (~> 1.1)
-    metriks-librato_metrics (1.0.6)
-      metriks (>= 0.9.9.6)
     minitest (5.19.0)
     mustermann (3.0.0)
       ruby2_keywords (~> 0.0.1)
@@ -67,8 +95,6 @@ GEM
       rack (>= 1.3)
     rainbow (3.1.1)
     rake (13.0.6)
-    redis (5.0.7)
-      redis-client (>= 0.9.0)
     redis-client (0.16.0)
       connection_pool
     regexp_parser (2.8.1)
@@ -147,18 +173,18 @@ GEM
     yajl-ruby (1.4.3)
 
 PLATFORMS
-  x86_64-linux
+  ruby
 
 DEPENDENCIES
   activesupport (~> 7)
   foreman (~> 0.87)
-  metriks
-  metriks-librato_metrics
+  jemalloc!
+  metriks!
+  metriks-librato_metrics!
   pry
   puma
   rack-test
   rake (~> 13)
-  redis
   rspec (~> 3)
   rubocop
   rubocop-performance
@@ -171,6 +197,7 @@ DEPENDENCIES
   sinatra (~> 3)
   timecop
   travis-config!
+  travis-metrics!
   travis-support!
   yajl-ruby (~> 1.4)
 
@@ -178,4 +205,4 @@ RUBY VERSION
    ruby 3.2.2p53
 
 BUNDLED WITH
-   2.4.17
+   2.4.19

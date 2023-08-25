@@ -169,8 +169,8 @@ module Travis
 
       def log_event
         details = {
-          uuid: uuid,
-          delivery_guid: delivery_guid,
+          uuid:,
+          delivery_guid:,
           type: event_type
         }
 
@@ -180,8 +180,8 @@ module Travis
       def data
         {
           type: event_type,
-          payload: payload,
-          uuid: uuid,
+          payload:,
+          uuid:,
           github_guid: delivery_guid,
           github_event: event_type,
           received_at: Time.now

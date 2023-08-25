@@ -6,7 +6,6 @@ describe Travis::Listener::App do
   let(:app)                { subject }
   let(:auth)               { %w[user 12345] }
   let(:payload)            { Payloads.load(type) }
-  let(:redis)              { Redis.new }
   let(:gatekeeper_queue)   { Travis::Sidekiq::Gatekeeper }
   let(:gh_sync_queue)      { Travis::Sidekiq::GithubSync }
 
