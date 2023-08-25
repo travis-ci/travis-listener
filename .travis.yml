@@ -21,10 +21,3 @@ jobs:
   include:
     - stage: "rspec"
       script: bundle exec rspec spec
-    - stage: ":ship: it"
-      addons:
-        snaps:
-        - name: docker
-          channel: latest/beta
-      script: make ship
-      if: (branch = master and type = push ) OR commit_message =~ /ship:docker/ OR env(SHIP_DOCKER) = true
