@@ -13,6 +13,7 @@ env:
 cache: bundler
 
 before_install:
+  - gem install rubygems-update -v 3.4.22
   - gem update --system 3.3.26 > /dev/null 2>&1
 
 bundler_args: --without development --jobs 3 --retry 3 --deployment
