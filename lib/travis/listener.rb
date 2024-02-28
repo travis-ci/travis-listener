@@ -2,6 +2,7 @@
 
 require 'travis/config'
 require 'travis/support'
+require 'travis/metrics'
 require 'travis/listener/app'
 require 'logger'
 
@@ -16,10 +17,8 @@ module Travis
 
   module Listener
     class Config < Travis::Config
-      define redis: { url: ENV.fetch('REDIS_URL', 'redis://localhost:6379'),
-                      namespace: 'sidekiq', network_timeout: 5 },
-             redis_gatekeeper: { url: ENV.fetch('REDIS_GATEKEEPER_URL', 'redis://localhost:6379'),
-                                 namespace: 'sidekiq', network_timeout: 5 },
+      define redis: { url: ENV.fetch('REDIS_URL', 'redis://localhost:6379'), network_timeout: 5 },
+             redis_gatekeeper: { url: ENV.fetch('REDIS_GATEKEEPER_URL', 'redis://localhost:6379'), network_timeout: 5 },
              gator: { queue: ENV.fetch('SIDEKIQ_GATEKEEPER_QUEUE', 'build_requests') },
              sync: { queue: ENV.fetch('SIDEKIQ_SYNC_QUEUE', 'sync.gh_apps') },
              sentry: {},
@@ -37,7 +36,9 @@ module Travis
           end
         end
 
-        Travis::Metrics.setup if ENV.fetch('RACK_ENV', nil) == 'production'
+        return unless ENV.fetch('RACK_ENV', nil) == 'production'
+
+        Travis::Metrics.setup(Travis.config.metrics, Travis::Logger.new($stdout))
       end
 
       def disconnect

@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'redis'
 require 'sidekiq'
 
 module Travis
@@ -8,7 +7,7 @@ module Travis
     class Gatekeeper
       def self.client
         @@client ||= ::Sidekiq::Client.new(
-          ::Sidekiq::RedisConnection.create(Travis.config.redis_gatekeeper.to_h)
+          pool: ::Sidekiq::RedisConnection.create(Travis.config.redis_gatekeeper.to_h)
         )
       end
 
@@ -16,7 +15,7 @@ module Travis
         client.push(
           'queue' => queue,
           'class' => 'Travis::Gatekeeper::Worker',
-          'args' => args
+          'args' => args.map! { |arg| arg.to_json }
         )
       end
     end
@@ -42,7 +41,7 @@ module Travis
 
       def self.client
         @@client ||= ::Sidekiq::Client.new(
-          ::Sidekiq::RedisConnection.create(Travis.config.redis.to_h)
+          pool: ::Sidekiq::RedisConnection.create(Travis.config.redis.to_h)
         )
       end
 
@@ -50,7 +49,7 @@ module Travis
         client.push(
           'queue' => queue,
           'class' => 'Travis::GithubSync::Worker',
-          'args' => args
+          'args' => args.map! { |arg| arg.to_json }
         )
       end
     end
