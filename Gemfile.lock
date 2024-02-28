@@ -7,8 +7,7 @@ GIT
 
 GIT
   remote: https://github.com/travis-ci/metriks-librato_metrics.git
-  revision: 41aca2ed2ab40ecdc1dbebabf70e35a38377d101
-  branch: prd-ruby-upgrade-dev
+  revision: e876ca2f0e1abcc745260c3772118e63fb946c8a
   specs:
     metriks-librato_metrics (1.0.6)
 
@@ -25,26 +24,23 @@ GIT
 
 GIT
   remote: https://github.com/travis-ci/travis-config.git
-  revision: d6b678fb17b242508fa4e061ff7b01cae3b08996
-  branch: prd-ruby-upgrade-dev
+  revision: 601e9a6dcb799dc14944c40153c60aaf935629ee
   specs:
-    travis-config (1.1.5)
+    travis-config (2.0.0)
       hashr (~> 2.0)
 
 GIT
   remote: https://github.com/travis-ci/travis-metrics.git
-  revision: c776366d7182829da5abf9e48b42c416249a0043
-  branch: prd-ruby-upgrade-dev
+  revision: 0b6a8accc70685a1cb65f1ec5305bceab41ad777
   specs:
-    travis-metrics (2.0.0)
+    travis-metrics (3.0.0)
       metriks-librato_metrics (~> 1.0)
 
 GIT
   remote: https://github.com/travis-ci/travis-support.git
-  revision: 1c6764e4387d0a33c64dda66f9d3b15e6a05c7d2
-  branch: prd-ruby-upgrade-dev-o
+  revision: 8b566a94502267b3115c901f8409dc2165b6539b
   specs:
-    travis-support (0.0.1)
+    travis-support (0.1.0)
 
 GEM
   remote: https://rubygems.org/
