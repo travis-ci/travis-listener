@@ -15,7 +15,7 @@ module Travis
         client.push(
           'queue' => queue,
           'class' => 'Travis::Gatekeeper::Worker',
-          'args' => args
+          'args' => args.map! { |arg| arg.to_json }
         )
       end
     end
@@ -49,7 +49,7 @@ module Travis
         client.push(
           'queue' => queue,
           'class' => 'Travis::GithubSync::Worker',
-          'args' => args
+          'args' => args.map! { |arg| arg.to_json }
         )
       end
     end
