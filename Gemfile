@@ -10,16 +10,16 @@ gem 'sinatra',         '~> 3'
 gem 'rake',            '~> 13'
 gem 'puma'
 
-gem 'travis-support',  github: 'travis-ci/travis-support', branch: 'prd-ruby-upgrade-dev-o'
-gem 'travis-config',   github: 'travis-ci/travis-config', branch: 'prd-ruby-upgrade-dev'
-gem 'travis-metrics',  github: 'travis-ci/travis-metrics', branch: 'prd-ruby-upgrade-dev'
+gem 'travis-support',  github: 'travis-ci/travis-support'
+gem 'travis-config',   github: 'travis-ci/travis-config'
+gem 'travis-metrics',  github: 'travis-ci/travis-metrics'
 
 gem 'sidekiq',         '~> 7'
 
 gem 'sentry-ruby'
 
 gem 'metriks', github: 'travis-ci/metriks', branch: 'prd-ruby-upgrade-dev'
-gem 'metriks-librato_metrics', github: 'travis-ci/metriks-librato_metrics', branch: 'prd-ruby-upgrade-dev'
+gem 'metriks-librato_metrics', github: 'travis-ci/metriks-librato_metrics'
 
 gem 'yajl-ruby',        '~> 1.4'
 
