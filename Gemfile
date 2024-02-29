@@ -22,7 +22,7 @@ gem 'metriks-librato_metrics'
 
 gem 'yajl-ruby',       '~> 1.4.1'
 
-gem 'jemalloc', github: 'travis-ci/jemalloc-rb', branch: 'jemalloc-5.0'
+gem 'jemalloc', github: 'travis-ci/jemalloc-rb', branch: 'jemalloc-4.5'
 
 group :development, :test do
   gem 'pry'
