@@ -242,6 +242,8 @@ module Travis
 
       def payload
         if !params[:payload].blank?
+          puts params[:payload].class
+          puts "Let's see the payload: #{JSON.parse(params[:payload])}"
           params[:payload]
         elsif !request_body.blank?
           request_body
