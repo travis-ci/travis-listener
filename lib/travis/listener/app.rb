@@ -241,7 +241,7 @@ module Travis
       end
 
       def payload
-        Puts "Value of params[:payload]: #{params[:payload]}"
+        puts "Value of params[:payload]: #{params[:payload]}"
         if !params[:payload].blank?
           puts params[:payload].class
           puts "Let's see the payload: #{JSON.parse(params[:payload])}"
