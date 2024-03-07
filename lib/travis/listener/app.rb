@@ -112,11 +112,17 @@ module Travis
         Metriks.meter("listener.event.#{event_type}").mark
         Metriks.meter("listener.integration.#{integration_type}").mark
 
+        logger.info "[DEBUG] Event payload for #{uuid}: #{payload.inspect}"
+
         return unless handle_event?
+
+        logger.info "[DEBUG] After event check"
 
         # According to GitHub every webhook payload should have this
         # If it is not present, assume payload is malformed
         return unless payload['sender']
+
+        logger.info "[DEBUG] After sender check"
 
         debug "Event payload for #{uuid}: #{payload.inspect}"
 
