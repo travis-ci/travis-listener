@@ -169,8 +169,8 @@ describe Travis::Listener::App do
   end
 
   describe 'an organization member removed' do
-    let(:type)  { 'organization' }
-    let(:event) { 'member_removed' }
+    let(:type)  { 'member_removed' }
+    let(:event) { 'organization' }
 
     it {
       expect(gh_sync_queue)
