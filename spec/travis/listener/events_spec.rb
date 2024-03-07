@@ -167,4 +167,11 @@ describe Travis::Listener::App do
 
     include_examples 'queues gatekeeper event'
   end
+
+  describe 'an organization member removed' do
+    let(:type)  { 'organization' }
+    let(:event) { 'member_removed' }
+
+    include_examples 'queues gatekeeper event'
+  end
 end
