@@ -172,6 +172,10 @@ describe Travis::Listener::App do
     let(:type)  { 'organization' }
     let(:event) { 'member_removed' }
 
-    include_examples 'queues gatekeeper event'
+    it {
+      expect(gh_sync_queue)
+        .to have_received(:push)
+        .with('sync', :organization, hash_including(type: event))
+    }
   end
 end
