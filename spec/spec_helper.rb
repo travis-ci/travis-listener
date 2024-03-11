@@ -46,9 +46,9 @@ module Payloads
 end
 
 QUEUE_PAYLOAD = {
-  type: 'push',
-  uuid: Travis.uuid,
-  github_guid: 'abc123',
-  github_event: 'push',
-  received_at: Time.now
-}.freeze
+  :type => 'push',
+  :uuid => Travis.uuid,
+  :github_guid => 'abc123',
+  :github_event => 'push',
+  :received_at => Time.now
+}

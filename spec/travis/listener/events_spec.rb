@@ -167,4 +167,10 @@ describe Travis::Listener::App do
 
     include_examples 'queues gatekeeper event'
   end
+
+  describe 'a bot push' do
+    let(:type)  { 'bot_push' }
+    let(:event) { 'push' }
+    include_examples 'queues gatekeeper event'
+  end
 end
