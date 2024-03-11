@@ -9,6 +9,8 @@
 vendor/bundle
 
 config/travis.yml
+log
+.history
 
 # Ignore all logfiles.
 /log/*

@@ -8,21 +8,23 @@ ruby '3.2.2'
 gem 'activesupport',   '~> 7'
 gem 'sinatra',         '~> 3'
 gem 'rake',            '~> 13'
-gem 'puma'
 
+gem 'redis-namespace'
 gem 'travis-support',  github: 'travis-ci/travis-support'
 gem 'travis-config',   github: 'travis-ci/travis-config'
 gem 'travis-metrics',  github: 'travis-ci/travis-metrics'
 
 gem 'sidekiq',         '~> 7'
+gem 'puma',            '~> 4'
 
 gem 'sentry-ruby'
 
 gem 'metriks', github: 'travis-ci/metriks', branch: 'prd-ruby-upgrade-dev'
 gem 'metriks-librato_metrics', github: 'travis-ci/metriks-librato_metrics'
 
-gem 'yajl-ruby',        '~> 1.4'
+gem 'json'
 
+gem 'yajl-ruby',       '~> 1.4.1'
 gem 'jemalloc', github: 'travis-ci/jemalloc-rb', branch: 'jemalloc-5.0'
 
 group :development, :test do
