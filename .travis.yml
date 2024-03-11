@@ -1,6 +1,5 @@
 language: ruby
 dist: bionic
-group: edge
 
 rvm: 3.2.2
 
@@ -22,6 +21,3 @@ jobs:
   include:
     - stage: "rspec"
       script: bundle exec rspec spec
-    - stage: ":ship: it"
-      script: make ship
-      if: (branch = master and type = push ) OR commit_message =~ /ship:docker/ OR env(SHIP_DOCKER) = true

@@ -88,19 +88,6 @@ module Travis
         params[:payload] = JSON.dump(payload_data)
       end
 
-      def replace_bot_sender
-        return unless payload && decoded_payload.dig('sender', 'type')&.downcase == 'bot'
-
-        payload_data = JSON.parse(payload)
-        payload_data['sender']= {
-          type: 'User',
-          github_id: 0,
-          vcs_id: '0',
-          login: 'bot'
-        }
-        params[:payload] = JSON.dump(payload_data)
-      end
-
       def report_ip_validity
         if valid_ip?
           Metriks.meter('listener.ip.valid').mark
@@ -192,12 +179,12 @@ module Travis
 
       def data
         {
-          :type         => event_type,
-          :payload      => payload,
-          :uuid         => uuid,
-          :github_guid  => delivery_guid,
-          :github_event => event_type,
-          :received_at  => Time.now,
+          type: event_type,
+          payload:,
+          uuid:,
+          github_guid: delivery_guid,
+          github_event: event_type,
+          received_at: Time.now
         }
       end
 

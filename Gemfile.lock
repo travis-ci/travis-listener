@@ -177,9 +177,8 @@ DEPENDENCIES
   jemalloc!
   metriks!
   metriks-librato_metrics!
-  json
   pry
-  puma (~> 4)
+  puma
   rack-test
   rake (~> 13)
   rspec (~> 3)
@@ -196,7 +195,7 @@ DEPENDENCIES
   travis-config!
   travis-metrics!
   travis-support!
-  yajl-ruby (~> 1.4.1)
+  yajl-ruby (~> 1.4)
 
 RUBY VERSION
    ruby 3.2.2p53
