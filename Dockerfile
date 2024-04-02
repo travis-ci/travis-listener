@@ -5,6 +5,7 @@ LABEL maintainer Travis CI GmbH <support+travis-listener-docker-images@travis-ci
 # packages required for bundle install
 RUN ( \
    apt-get update ; \
+   apt-get upgrade -y ; \
    apt-get install -y --no-install-recommends git make gcc \
    && rm -rf /var/lib/apt/lists/* \
 )
