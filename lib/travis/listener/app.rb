@@ -26,6 +26,7 @@ module Travis
         installation
         installation_repositories
         member
+        organization
         pull_request
         push
         repository
@@ -128,6 +129,8 @@ module Travis
           Travis::Sidekiq::GithubSync.gh_app_repos(data)
         when 'member'
           Travis::Sidekiq::GithubSync.gh_app_member(data)
+        when 'organization'
+          Travis::Sidekiq::GithubSync.organization(data)
         else
           Travis::Sidekiq::Gatekeeper.push(Travis.config.gator.queue, data)
         end
