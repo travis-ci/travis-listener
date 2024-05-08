@@ -21,3 +21,8 @@ jobs:
   include:
     - stage: "rspec"
       script: bundle exec rspec spec
+    - stage: ":ship: it"
+      install: skip
+      before_install: skip
+      script: make ship
+      if: (branch = master and type = push ) OR commit_message =~ /ship:docker/ OR env(SHIP_DOCKER) = true
