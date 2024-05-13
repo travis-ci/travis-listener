@@ -127,6 +127,28 @@ module Travis
         },
       }
 
+      RELEASE = {
+        'action' => nil,
+        'release' => {
+          'tag_name' => nil,
+          'target_commitish' => nil
+        },
+        'repository' => {
+          'id' => nil,
+          'name' => nil,
+          'full_name' => nil,
+          'owner' => {
+            'login' => nil
+          },
+          'private' => nil
+        },
+        'sender' => {
+          'id' => nil,
+          'login' => nil,
+          'type' => nil
+        }
+      }.freeze
+
       FALLBACK = {
         "sender" => {
           "id" => nil,
@@ -175,6 +197,16 @@ module Travis
             action:       payload['action'],
             installation: payload["installation"]["account"]["login"],
             sender:       payload['sender'].fetch('login', '')
+          }
+        when 'release'
+          {
+            name: payload['release']['name'],
+            repository: payload['repository']['full_name'],
+            action: payload['action'],
+            tag: payload['release']['tag_name'],
+            target_commitish: payload['release']['target_commitish'],
+            sender: payload['sender'].fetch('login', ''),
+            sender_type: payload['sender'].fetch('type', '')
           }
         else
           { }
