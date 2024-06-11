@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.5.8'
 
@@ -22,7 +23,7 @@ gem 'metriks-librato_metrics'
 
 gem 'yajl-ruby',       '~> 1.4.1'
 
-gem 'jemalloc',        github: 'travis-ci/jemalloc-rb', branch: 'jemalloc-4.5'
+gem 'jemalloc', github: 'travis-ci/jemalloc-rb', branch: 'jemalloc-4.5'
 
 group :development, :test do
   gem 'pry'
