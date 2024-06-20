@@ -26,9 +26,11 @@ module Travis
         installation
         installation_repositories
         member
+        organization
         pull_request
         push
         repository
+        release
       ]
 
       before do
@@ -113,6 +115,8 @@ module Travis
 
         return unless handle_event?
 
+        return if release_event_skip_action?
+
         # According to GitHub every webhook payload should have this
         # If it is not present, assume payload is malformed
         return unless payload['sender']
@@ -128,6 +132,8 @@ module Travis
           Travis::Sidekiq::GithubSync.gh_app_repos(data)
         when 'member'
           Travis::Sidekiq::GithubSync.gh_app_member(data)
+        when 'organization'
+          Travis::Sidekiq::GithubSync.organization(data)
         else
           Travis::Sidekiq::Gatekeeper.push(Travis.config.gator.queue, data)
         end
@@ -165,6 +171,11 @@ module Travis
       def tag_created_check_suite?
         event_type == 'check_suite' &&
           decoded_payload['check_suite']['ref_type'] == 'tag'
+      end
+
+      def release_event_skip_action?
+        event_type == 'release' &&
+          decoded_payload['action'] != 'released'
       end
 
       def log_event
@@ -233,6 +244,8 @@ module Travis
               Schemas::REPOSITORY
             when 'member'
               Schemas::MEMBER
+            when 'release'
+              Schemas::RELEASE
             else
               Schemas::FALLBACK
             end
