@@ -1,6 +1,7 @@
 GIT
-  remote: https://github.com/joshk/jemalloc-rb
+  remote: https://github.com/travis-ci/jemalloc-rb.git
   revision: 8c9dbef98f6bd4f96b371ec336b7e0c4fdc02d49
+  branch: jemalloc-4.5
   specs:
     jemalloc (1.4.5)
 

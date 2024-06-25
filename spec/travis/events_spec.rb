@@ -147,4 +147,18 @@ describe Travis::Listener::App do
     let(:event) { 'push' }
     include_examples 'queues gatekeeper event'
   end
+
+  describe 'a release event' do
+    let(:type)  { 'release' }
+    let(:event) { 'release' }
+
+    include_examples 'queues gatekeeper event'
+  end
+
+  describe 'a release event that is not a released action' do
+    let(:type)  { 'release_created' }
+    let(:event) { 'release' }
+
+    include_examples 'does not queue gatekeeper event'
+  end
 end
