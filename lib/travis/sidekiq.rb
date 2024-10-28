@@ -4,11 +4,33 @@ require 'sidekiq'
 
 module Travis
   module Sidekiq
+
+    def redis_get_ssl_params(is_gatekeeper)
+      gk_string = is_gatekeeper ? '_GATEKEEPER' : ''
+      ssl = is_gatekeeper ? Travis.config.redis_gatekeeper.ssl : Travis.config.redis.ssl
+      return nil unless ssl
+
+      value = {}
+      value[:ca_path] = ENV["REDIS#{gk_string}_SSL_CA_PATH"] if ENV["REDIS#{gk_string}_SSL_CA_PATH"]
+      value[:cert] = OpenSSL::X509::Certificate.new(File.read(ENV["REDIS#{gk_string}_SSL_CERT_FILE"])) if ENV["REDIS#{gk_string}_SSL_CERT_FILE"]
+      value[:key] = OpenSSL::PKEY::RSA.new(File.read(ENV["REDIS#{gk_string}_SSL_KEY_FILE"])) if ENV["REDIS#{gk_string}_SSL_KEY_FILE"]
+      value[:verify_mode] = OpenSSL::SSL::VERIFY_NONE if Travis.config.ssl_verify == false
+      value
+    end
+
     class Gatekeeper
       def self.client
+        config = Travis.config.redis_gatekeeper.to_h
+        config = config.merge(ssl_params: redis_ssl_params) if config.ssl
         @@client ||= ::Sidekiq::Client.new(
-          pool: ::Sidekiq::RedisConnection.create(Travis.config.redis_gatekeeper.to_h)
+          pool: ::Sidekiq::RedisConnection.create(
+            config
+          )
         )
+      end
+
+      def self.redis_ssl_params
+        @redis_ssl_param ||= Travis::Sidekiq::redis_get_ssl_params(true)
       end
 
       def self.push(queue, *args)
@@ -46,9 +68,15 @@ module Travis
       end
 
       def self.client
+        config = Travis.config.redis.to_h
+        config = config.merge(ssl_params: redis_ssl_params) if config.ssl
         @@client ||= ::Sidekiq::Client.new(
-          pool: ::Sidekiq::RedisConnection.create(Travis.config.redis.to_h)
+          pool: ::Sidekiq::RedisConnection.create(config)
         )
+      end
+
+      def self.redis_ssl_params
+        @redis_ssl_param ||= Travis::Sidekiq::redis_get_ssl_params(false)
       end
 
       def self.push(queue, *args)
