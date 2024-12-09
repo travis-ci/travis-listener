@@ -5,7 +5,7 @@ require 'sidekiq'
 module Travis
   module Sidekiq
 
-    def redis_get_ssl_params(is_gatekeeper)
+    def self.redis_get_ssl_params(is_gatekeeper)
       gk_string = is_gatekeeper ? '_GATEKEEPER' : ''
       ssl = is_gatekeeper ? Travis.config.redis_gatekeeper.ssl : Travis.config.redis.ssl
       return nil unless ssl
@@ -21,7 +21,7 @@ module Travis
     class Gatekeeper
       def self.client
         config = Travis.config.redis_gatekeeper.to_h
-        config = config.merge(ssl_params: redis_ssl_params) if config.ssl
+        config = config.merge(ssl_params: redis_ssl_params) if config[:ssl]
         @@client ||= ::Sidekiq::Client.new(
           pool: ::Sidekiq::RedisConnection.create(
             config
@@ -69,7 +69,7 @@ module Travis
 
       def self.client
         config = Travis.config.redis.to_h
-        config = config.merge(ssl_params: redis_ssl_params) if config.ssl
+        config = config.merge(ssl_params: redis_ssl_params) if config[:ssl]
         @@client ||= ::Sidekiq::Client.new(
           pool: ::Sidekiq::RedisConnection.create(config)
         )
