@@ -6,15 +6,15 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '3.2.2'
 
 gem 'activesupport',   '~> 7'
-gem 'sinatra',         '~> 3'
+gem 'sinatra',         '~> 4.2'
 gem 'rake',            '~> 13'
-gem 'puma'
+gem 'puma',            '~> 6.4', '>= 6.4.3'
 
 gem 'travis-support',  github: 'travis-ci/travis-support'
 gem 'travis-config',   github: 'travis-ci/travis-config'
 gem 'travis-metrics',  github: 'travis-ci/travis-metrics'
 
-gem 'sidekiq',         '~> 7'
+gem 'sidekiq',         '~> 7', '>= 7.1.3'
 
 gem 'sentry-ruby'
 
@@ -22,6 +22,10 @@ gem 'metriks', github: 'travis-ci/metriks', branch: 'prd-ruby-upgrade-dev'
 gem 'metriks-librato_metrics', github: 'travis-ci/metriks-librato_metrics'
 
 gem 'yajl-ruby',        '~> 1.4'
+
+# Security: constrain transitive deps to patched versions
+gem 'rack',             '>= 2.2.20'
+gem 'rexml',            '>= 3.3.9'
 
 gem 'jemalloc', github: 'travis-ci/jemalloc-rb', branch: 'jemalloc-5.0'
 
